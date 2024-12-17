@@ -1,13 +1,15 @@
-﻿using HRMS.Entities.Models;
+﻿using HRMS.Entities.User.UserRequestEntities;
+using HRMS.Entities.User.UserRequestModels;
+using HRMS.Entities.User.UserResponseEntities;
 
 namespace HRMS.PersistenceLayer.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<Users>> GetUsers();
-        Task<IEnumerable<Users>> GetUser(int? userId);
-        Task<Users> CreateUser(Users user);
-        Task<Users> UpdateUser(Users user);
-        Task DeleteUser(Users user);
+        Task<IEnumerable<UserReadResponseEntity>> GetUsers();
+        Task<UserReadResponseEntity> GetUser(int? userId);
+        Task<UserCreateResponseEntity> CreateUser(UserCreateRequestEntity user);
+        Task<UserUpdateResponseEntity> UpdateUser(UserUpdateRequestEntity user);
+        Task DeleteUser(UserDeleteRequestEntity user);
     }
 }

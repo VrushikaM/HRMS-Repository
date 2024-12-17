@@ -1,62 +1,67 @@
 ﻿using AutoMapper;
 using HRMS.BusinessLayer.Interfaces;
-using HRMS.Dtos.User;
+using HRMS.Dtos.User.UserRequestModels;
+using HRMS.Dtos.User.UserResponseModels;
+using HRMS.Entities.User.UserRequestEntities;
+using HRMS.Entities.User.UserRequestModels;
+using HRMS.Entities.User.UserResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
-using HRMS.Entities.Models;
 
-namespace HRMS.BusinessLayer.Services
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
+
+    public UserService(IUserRepository userRepository, IMapper mapper)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
+        _userRepository = userRepository;
+        _mapper = mapper;
+    }
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+    public async Task<IEnumerable<UserReadResponseDto>> GetUsers()
+    {
+        var users = await _userRepository.GetUsers();
+        foreach (var user in users)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         }
+        var response = _mapper.Map<IEnumerable<UserReadResponseDto>>(users);
+        return response;
+    }
 
-        public async Task<IEnumerable<UserReadDto>> GetUsers()
+    public async Task<UserReadResponseDto> GetUser(int? userId)
+    {
+        var user = await _userRepository.GetUser(userId);
+        if (user != null)
         {
-            var users = await _userRepository.GetUsers();
-            foreach (var user in users)
-            {
-                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            }
-            var getUsers = _mapper.Map<IEnumerable<UserReadDto>>(users);
-            return getUsers;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         }
+        var response = _mapper.Map<UserReadResponseDto>(user);
+        return response;
+    }
 
-        public async Task<IEnumerable<UserReadDto>> GetUser(int? userId)
-        {
-            var user = await _userRepository.GetUser(userId);
-            foreach (var u in user)
-            {
-                u.Password = BCrypt.Net.BCrypt.HashPassword(u.Password);
-            }
-            var getUser = _mapper.Map<IEnumerable<UserReadDto>>(user);
-            return getUser;
-        }
+    public async Task<UserCreateResponseDto> CreateUser(UserCreateRequestDto userDto)
+    {
+        var userEntity = _mapper.Map<UserCreateRequestEntity>(userDto);
+        var addedUser = await _userRepository.CreateUser(userEntity);
+        var response = _mapper.Map<UserCreateResponseDto>(addedUser);
+        return response;
+    }
 
-        public async Task<Users> CreateUser(UserCreateDto userDto)
-        {
-            var addedUser = _mapper.Map<Users>(userDto);
-            Users newUser = await _userRepository.CreateUser(addedUser);
-            return newUser;
-        }
+    public async Task<UserUpdateResponseDto> UpdateUser(UserUpdateRequestDto userDto)
+    {
+        var userEntity = _mapper.Map<UserUpdateRequestEntity>(userDto);
+        var updatedUser = await _userRepository.UpdateUser(userEntity);
+        var response = _mapper.Map<UserUpdateResponseDto>(updatedUser);
+        return response;
+    }
 
-        public async Task<Users> UpdateUser(UserUpdateDto userDto)
-        {
-            var updatedUser = _mapper.Map<Users>(userDto);
-            Users updatedNewUser = await _userRepository.UpdateUser(updatedUser);
-            return updatedNewUser;
-        }
-
-        public async Task DeleteUser(UserDeleteDto userDto)
-        {
-            var deletedUser = _mapper.Map<Users>(userDto);
-            await _userRepository.DeleteUser(deletedUser);
-        }
+    public async Task<UserDeleteResponseDto> DeleteUser(UserDeleteRequestDto userDto)
+    {
+        var userEntity = _mapper.Map<UserDeleteRequestEntity>(userDto);
+        await _userRepository.DeleteUser(userEntity);
+        var responseEntity = new UserDeleteResponseEntity { UserId = userEntity.UserId };
+        var response = _mapper.Map<UserDeleteResponseDto>(responseEntity);
+        return response;
     }
 }
