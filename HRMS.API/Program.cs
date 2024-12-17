@@ -1,8 +1,6 @@
-
 using HRMS.API.Modules.User;
+using HRMS.BusinessLayer.AutoMapperProfiles.UserMapping;
 using HRMS.BusinessLayer.Interfaces;
-using HRMS.BusinessLayer.Services;
-using HRMS.BusinessLayer.User;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.PersistenceLayer.Repositories;
 using Microsoft.Data.SqlClient;
