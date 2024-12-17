@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace HRMS.Utility.Helper
+﻿namespace HRMS.Utility.Helper
 {
     public class ResponseHandler
     {
