@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HRMS.Entities\HRMS.Entities.csproj" />
+    <ProjectReference Include="..\HRMS.Utility\HRMS.Utility.csproj" />
   </ItemGroup>
 
 </Project>

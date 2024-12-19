@@ -29,13 +29,16 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<UserReadResponseDto> GetUser(int? userId)
+    public async Task<UserReadResponseDto?> GetUser(int? userId)
     {
         var user = await _userRepository.GetUser(userId);
-        if (user != null)
+        if (user == null || user.UserId == -1)
         {
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            return null;
         }
+
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
         var response = _mapper.Map<UserReadResponseDto>(user);
         return response;
     }

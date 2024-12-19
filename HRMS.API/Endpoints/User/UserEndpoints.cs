@@ -1,6 +1,7 @@
 ﻿using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.User.UserRequestModels;
 using HRMS.Utility.Helper;
+using HRMS.Utility.Validators.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS.API.Modules.User
@@ -21,15 +22,23 @@ namespace HRMS.API.Modules.User
 
             app.MapGet("/HRMS/User/{id}", async (IUserService service, int id) =>
             {
-                if (id <= 0)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid User ID"));
+                var validator = new UserReadRequestValidator();
+                var userRequestDto = new UserReadRequestDto { UserId = id };
+
+                var validationResult = validator.Validate(userRequestDto);
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                }
 
                 var user = await service.GetUser(id);
-                if (user != null)
+                if (user == null)
                 {
-                    return Results.Ok(ResponseHandler.Success("User Retrieved Successfully", user).ToDictionary());
+                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("User Not Found"));
+
+                return Results.Ok(ResponseHandler.Success("User Retrieved Successfully", user).ToDictionary());
             });
 
             app.MapPost("/HRMS/CreateUser", async (IUserService service, [FromBody] UserCreateRequestDto dto) =>

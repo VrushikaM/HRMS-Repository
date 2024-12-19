@@ -3,8 +3,11 @@ using HRMS.BusinessLayer.AutoMapperProfiles.UserMapping;
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.PersistenceLayer.Repositories;
+using HRMS.Utility.Validators.User;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace HRMS.API
 {
@@ -34,6 +37,7 @@ namespace HRMS.API
                 options.SerializerOptions.PropertyNamingPolicy = null;
             });
 
+            builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
