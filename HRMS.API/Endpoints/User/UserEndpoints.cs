@@ -41,17 +41,19 @@ namespace HRMS.API.Modules.User
                 return Results.Ok(ResponseHandler.Success("User Retrieved Successfully", user).ToDictionary());
             });
 
-            app.MapPost("/HRMS/CreateUser", async (IUserService service, [FromBody] UserCreateRequestDto dto) =>
+            app.MapPost("/CreateUser", async (UserCreateRequestDto dto, IUserService _userService) =>
             {
-                if (dto == null)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid Request Payload"));
+                var validator = new UserCreateRequestValidator();
+                var validationResult = validator.Validate(dto);
 
-                var newUser = await service.CreateUser(dto);
-                if (newUser != null)
+                if (!validationResult.IsValid)
                 {
-                    return Results.Ok(ResponseHandler.Success("User Created Successfully", newUser).ToDictionary());
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("Failed to Create User").ToDictionary());
+
+                var newUser = await _userService.CreateUser(dto);
+                return Results.Ok(ResponseHandler.Success("User Created Successfully", newUser).ToDictionary());
             });
 
             app.MapPut("/HRMS/UpdateUser", async (IUserService service, [FromBody] UserUpdateRequestDto dto) =>

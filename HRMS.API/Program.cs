@@ -37,6 +37,8 @@ namespace HRMS.API
                 options.SerializerOptions.PropertyNamingPolicy = null;
             });
 
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
             var app = builder.Build();
 
