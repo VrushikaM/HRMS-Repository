@@ -59,12 +59,17 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<UserDeleteResponseDto> DeleteUser(UserDeleteRequestDto userDto)
+    public async Task<UserDeleteResponseDto?> DeleteUser(UserDeleteRequestDto userDto)
     {
         var userEntity = _mapper.Map<UserDeleteRequestEntity>(userDto);
-        await _userRepository.DeleteUser(userEntity);
+        var result = await _userRepository.DeleteUser(userEntity);
+        if (result == -1)
+        {
+            return null;
+        }
         var responseEntity = new UserDeleteResponseEntity { UserId = userEntity.UserId };
-        var response = _mapper.Map<UserDeleteResponseDto>(responseEntity);
-        return response;
+        var responseDto = _mapper.Map<UserDeleteResponseDto>(responseEntity);
+
+        return responseDto;
     }
 }

@@ -9,6 +9,6 @@ namespace HRMS.BusinessLayer.Interfaces
         Task<UserReadResponseDto?> GetUser(int? userId);
         Task<UserCreateResponseDto> CreateUser(UserCreateRequestDto userDto);
         Task<UserUpdateResponseDto> UpdateUser(UserUpdateRequestDto userDto);
-        Task<UserDeleteResponseDto> DeleteUser(UserDeleteRequestDto userDto);
+        Task<UserDeleteResponseDto?> DeleteUser(UserDeleteRequestDto userDto);
     }
 }

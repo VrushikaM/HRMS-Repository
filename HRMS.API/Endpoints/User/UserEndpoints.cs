@@ -78,10 +78,21 @@ namespace HRMS.API.Modules.User
 
             app.MapDelete("/HRMS/DeleteUser", async (IUserService service, [FromBody] UserDeleteRequestDto dto) =>
             {
-                if (dto == null || dto.UserId <= 0)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid Request Payload or User ID"));
+                var validator = new UserDeleteRequestValidator();
+                var validationResult = validator.Validate(dto);
 
-                await service.DeleteUser(dto);
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                }
+
+                var result = await service.DeleteUser(dto);
+                if (result == null)
+                {
+                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
+                }
+
                 return Results.Ok(ResponseHandler.Success("User Deleted Successfully").ToDictionary());
             });
         }

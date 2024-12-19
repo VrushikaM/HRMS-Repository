@@ -10,6 +10,6 @@ namespace HRMS.PersistenceLayer.Interfaces
         Task<UserReadResponseEntity?> GetUser(int? userId);
         Task<UserCreateResponseEntity> CreateUser(UserCreateRequestEntity user);
         Task<UserUpdateResponseEntity?> UpdateUser(UserUpdateRequestEntity user);
-        Task DeleteUser(UserDeleteRequestEntity user);
+        Task<int> DeleteUser(UserDeleteRequestEntity user);
     }
 }

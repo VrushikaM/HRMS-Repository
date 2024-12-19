@@ -41,6 +41,8 @@ namespace HRMS.API
             builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
