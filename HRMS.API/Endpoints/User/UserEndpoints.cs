@@ -58,15 +58,22 @@ namespace HRMS.API.Modules.User
 
             app.MapPut("/HRMS/UpdateUser", async (IUserService service, [FromBody] UserUpdateRequestDto dto) =>
             {
-                if (dto == null || dto.UserId <= 0)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid Request Payload or User ID"));
+                var validator = new UserUpdateRequestValidator();
+                var validationResult = validator.Validate(dto);
+
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                }
 
                 var updatedUser = await service.UpdateUser(dto);
-                if (updatedUser != null)
+                if (updatedUser == null)
                 {
-                    return Results.Ok(ResponseHandler.Success("User Updated Successfully", updatedUser).ToDictionary());
+                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("Failed to Update User").ToDictionary());
+
+                return Results.Ok(ResponseHandler.Success("User Updated Successfully", updatedUser).ToDictionary());
             });
 
             app.MapDelete("/HRMS/DeleteUser", async (IUserService service, [FromBody] UserDeleteRequestDto dto) =>

@@ -60,7 +60,7 @@ namespace HRMS.PersistenceLayer.Repositories
             return createdUser;
         }
 
-        public async Task<UserUpdateResponseEntity> UpdateUser(UserUpdateRequestEntity user)
+        public async Task<UserUpdateResponseEntity?> UpdateUser(UserUpdateRequestEntity user)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", user.UserId);
@@ -70,7 +70,12 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@Password", user.Password);
             parameters.Add("@IsActive", user.IsActive);
 
-            await _dbConnection.ExecuteAsync("spUserUpdate", parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.ExecuteAsync("spUserUpdate", parameters, commandType: CommandType.StoredProcedure);
+
+            if (result == -1)
+            {
+                return null;
+            }
 
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
 

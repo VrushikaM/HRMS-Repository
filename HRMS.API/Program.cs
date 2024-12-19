@@ -39,6 +39,7 @@ namespace HRMS.API
 
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
             var app = builder.Build();
 
