@@ -1,8 +1,8 @@
 using HRMS.API.Modules.User;
-using HRMS.BusinessLayer.AutoMapperProfiles.UserMapping;
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.PersistenceLayer.Repositories;
+using HRMS.Utility.AutoMapperProfiles.UserMapping;
 using HRMS.Utility.Validators.User;
 using Microsoft.Data.SqlClient;
 using System.Data;
