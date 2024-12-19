@@ -7,9 +7,9 @@ namespace HRMS.PersistenceLayer.Interfaces
     public interface IUserRepository
     {
         Task<IEnumerable<UserReadResponseEntity>> GetUsers();
-        Task<UserReadResponseEntity> GetUser(int? userId);
+        Task<UserReadResponseEntity?> GetUser(int? userId);
         Task<UserCreateResponseEntity> CreateUser(UserCreateRequestEntity user);
-        Task<UserUpdateResponseEntity> UpdateUser(UserUpdateRequestEntity user);
-        Task DeleteUser(UserDeleteRequestEntity user);
+        Task<UserUpdateResponseEntity?> UpdateUser(UserUpdateRequestEntity user);
+        Task<int> DeleteUser(UserDeleteRequestEntity user);
     }
 }

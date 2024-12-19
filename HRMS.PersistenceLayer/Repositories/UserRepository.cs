@@ -22,12 +22,13 @@ namespace HRMS.PersistenceLayer.Repositories
             return users;
         }
 
-        public async Task<UserReadResponseEntity> GetUser(int? userId)
+        public async Task<UserReadResponseEntity?> GetUser(int? userId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userId);
+
             var user = await _dbConnection.QueryFirstOrDefaultAsync<UserReadResponseEntity>("spUserGet", parameters, commandType: CommandType.StoredProcedure);
-            return user!;
+            return user;
         }
 
         public async Task<UserCreateResponseEntity> CreateUser(UserCreateRequestEntity user)
@@ -41,7 +42,6 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@IsActive", user.IsActive);
 
             await _dbConnection.ExecuteAsync("spUserAdd", parameters, commandType: CommandType.StoredProcedure);
-
 
             var userId = parameters.Get<int>("@UserId");
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
@@ -59,7 +59,7 @@ namespace HRMS.PersistenceLayer.Repositories
             return createdUser;
         }
 
-        public async Task<UserUpdateResponseEntity> UpdateUser(UserUpdateRequestEntity user)
+        public async Task<UserUpdateResponseEntity?> UpdateUser(UserUpdateRequestEntity user)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", user.UserId);
@@ -69,10 +69,14 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@Password", user.Password);
             parameters.Add("@IsActive", user.IsActive);
 
-            await _dbConnection.ExecuteAsync("spUserUpdate", parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.ExecuteAsync("spUserUpdate", parameters, commandType: CommandType.StoredProcedure);
+
+            if (result == -1)
+            {
+                return null;
+            }
 
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
             var updatedUser = new UserUpdateResponseEntity
             {
                 UserId = user.UserId,
@@ -86,12 +90,13 @@ namespace HRMS.PersistenceLayer.Repositories
             return updatedUser;
         }
 
-        public async Task DeleteUser(UserDeleteRequestEntity user)
+        public async Task<int> DeleteUser(UserDeleteRequestEntity user)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", user.UserId);
 
-            await _dbConnection.ExecuteAsync("spUserDelete", parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.ExecuteScalarAsync<int>("spUserDelete", parameters, commandType: CommandType.StoredProcedure);
+            return result;
         }
     }
 }

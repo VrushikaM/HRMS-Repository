@@ -5,7 +5,7 @@ using HRMS.Entities.User.UserRequestEntities;
 using HRMS.Entities.User.UserRequestModels;
 using HRMS.Entities.User.UserResponseEntities;
 
-namespace HRMS.BusinessLayer.AutoMapperProfiles.UserMapping
+namespace HRMS.Utility.AutoMapperProfiles.UserMapping
 {
     public class UserMappingProfile : Profile
     {

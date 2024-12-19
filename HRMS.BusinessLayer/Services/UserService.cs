@@ -29,13 +29,16 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<UserReadResponseDto> GetUser(int? userId)
+    public async Task<UserReadResponseDto?> GetUser(int? userId)
     {
         var user = await _userRepository.GetUser(userId);
-        if (user != null)
+        if (user == null || user.UserId == -1)
         {
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            return null;
         }
+
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
         var response = _mapper.Map<UserReadResponseDto>(user);
         return response;
     }
@@ -56,12 +59,17 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<UserDeleteResponseDto> DeleteUser(UserDeleteRequestDto userDto)
+    public async Task<UserDeleteResponseDto?> DeleteUser(UserDeleteRequestDto userDto)
     {
         var userEntity = _mapper.Map<UserDeleteRequestEntity>(userDto);
-        await _userRepository.DeleteUser(userEntity);
+        var result = await _userRepository.DeleteUser(userEntity);
+        if (result == -1)
+        {
+            return null;
+        }
         var responseEntity = new UserDeleteResponseEntity { UserId = userEntity.UserId };
-        var response = _mapper.Map<UserDeleteResponseDto>(responseEntity);
-        return response;
+        var responseDto = _mapper.Map<UserDeleteResponseDto>(responseEntity);
+
+        return responseDto;
     }
 }

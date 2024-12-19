@@ -1,6 +1,7 @@
 ﻿using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.User.UserRequestModels;
 using HRMS.Utility.Helper;
+using HRMS.Utility.Validators.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS.API.Modules.User
@@ -21,49 +22,77 @@ namespace HRMS.API.Modules.User
 
             app.MapGet("/HRMS/User/{id}", async (IUserService service, int id) =>
             {
-                if (id <= 0)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid User ID"));
+                var validator = new UserReadRequestValidator();
+                var userRequestDto = new UserReadRequestDto { UserId = id };
+
+                var validationResult = validator.Validate(userRequestDto);
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                }
 
                 var user = await service.GetUser(id);
-                if (user != null)
+                if (user == null)
                 {
-                    return Results.Ok(ResponseHandler.Success("User Retrieved Successfully", user).ToDictionary());
+                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("User Not Found"));
+
+                return Results.Ok(ResponseHandler.Success("User Retrieved Successfully", user).ToDictionary());
             });
 
-            app.MapPost("/HRMS/CreateUser", async (IUserService service, [FromBody] UserCreateRequestDto dto) =>
+            app.MapPost("/CreateUser", async (UserCreateRequestDto dto, IUserService _userService) =>
             {
-                if (dto == null)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid Request Payload"));
+                var validator = new UserCreateRequestValidator();
+                var validationResult = validator.Validate(dto);
 
-                var newUser = await service.CreateUser(dto);
-                if (newUser != null)
+                if (!validationResult.IsValid)
                 {
-                    return Results.Ok(ResponseHandler.Success("User Created Successfully", newUser).ToDictionary());
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("Failed to Create User").ToDictionary());
+
+                var newUser = await _userService.CreateUser(dto);
+                return Results.Ok(ResponseHandler.Success("User Created Successfully", newUser).ToDictionary());
             });
 
             app.MapPut("/HRMS/UpdateUser", async (IUserService service, [FromBody] UserUpdateRequestDto dto) =>
             {
-                if (dto == null || dto.UserId <= 0)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid Request Payload or User ID"));
+                var validator = new UserUpdateRequestValidator();
+                var validationResult = validator.Validate(dto);
+
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                }
 
                 var updatedUser = await service.UpdateUser(dto);
-                if (updatedUser != null)
+                if (updatedUser == null)
                 {
-                    return Results.Ok(ResponseHandler.Success("User Updated Successfully", updatedUser).ToDictionary());
+                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("Failed to Update User").ToDictionary());
+
+                return Results.Ok(ResponseHandler.Success("User Updated Successfully", updatedUser).ToDictionary());
             });
 
             app.MapDelete("/HRMS/DeleteUser", async (IUserService service, [FromBody] UserDeleteRequestDto dto) =>
             {
-                if (dto == null || dto.UserId <= 0)
-                    return Results.BadRequest(ResponseHandler.Error("Invalid Request Payload or User ID"));
+                var validator = new UserDeleteRequestValidator();
+                var validationResult = validator.Validate(dto);
 
-                await service.DeleteUser(dto);
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                }
+
+                var result = await service.DeleteUser(dto);
+                if (result == null)
+                {
+                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
+                }
+
                 return Results.Ok(ResponseHandler.Success("User Deleted Successfully").ToDictionary());
             });
         }
