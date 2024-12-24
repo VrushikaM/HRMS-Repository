@@ -83,11 +83,37 @@ namespace HRMS.API.Modules.User
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                    return Results.BadRequest(
+                        ResponseHelper<List<string>>.Error(
+                            message: "Validation Failed",
+                            errors: errorMessages,
+                            statusCode: StatusCodeEnum.BAD_REQUEST
+                        ).ToDictionary()
+                    );
                 }
 
+                try
+                {
                 var newUser = await _userService.CreateUser(dto);
-                return Results.Ok(ResponseHandler.Success("User Created Successfully", newUser).ToDictionary());
+                    return Results.Ok(
+                        ResponseHelper<UserCreateResponseDto>.Success(
+                            message: "User Created Successfully",
+                            data: newUser
+                        ).ToDictionary()
+                    );
+                }
+
+                catch (Exception ex)
+                {
+                    return Results.Json(
+                        ResponseHelper<string>.Error(
+                            message: "An Unexpected Error occurred while Creating the User.",
+                            exception: ex,
+                            isWarning: false,
+                            statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
+                        ).ToDictionary()
+                    );
+                }
             });
 
             app.MapPut("/HRMS/UpdateUser", async (IUserService service, [FromBody] UserUpdateRequestDto dto) =>
