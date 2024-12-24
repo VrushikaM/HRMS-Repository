@@ -34,16 +34,45 @@ namespace HRMS.API.Modules.User
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+                    return Results.BadRequest(
+                        ResponseHelper<List<string>>.Error(
+                            message: "Validation Failed",
+                            errors: errorMessages,
+                            statusCode: StatusCodeEnum.BAD_REQUEST
+                        ).ToDictionary()
+                    );
                 }
-
+                try
+                {
                 var user = await service.GetUser(id);
                 if (user == null)
                 {
-                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
+                        return Results.NotFound(
+                            ResponseHelper<string>.Error(
+                                message: "User Not Found",
+                                statusCode: StatusCodeEnum.NOT_FOUND
+                            ).ToDictionary()
+                        );
                 }
 
-                return Results.Ok(ResponseHandler.Success("User Retrieved Successfully", user).ToDictionary());
+                    return Results.Ok(
+                        ResponseHelper<UserReadResponseDto>.Success(
+                            message: "User Retrieved Successfully",
+                            data: user
+                        ).ToDictionary()
+                    );
+                }
+                catch (Exception ex)
+                {
+                    return Results.Json(
+                        ResponseHelper<string>.Error(
+                            message: "An Unexpected Error occurred.",
+                            exception: ex,
+                            isWarning: false,
+                            statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
+                        ).ToDictionary()
+                    );
+                }
             });
 
             app.MapPost("/CreateUser", async (UserCreateRequestDto dto, IUserService _userService) =>
