@@ -124,16 +124,48 @@ namespace HRMS.API.Modules.User
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    return Results.BadRequest(ResponseHandler.Error("Validation Failed", errorMessages).ToDictionary());
+
+                    return Results.BadRequest(
+                       ResponseHelper<List<string>>.Error(
+                           message: "Validation Failed",
+                           errors: errorMessages,
+                           statusCode: StatusCodeEnum.BAD_REQUEST
+                       ).ToDictionary()
+                   );
                 }
 
+                try
+                {
                 var updatedUser = await service.UpdateUser(dto);
                 if (updatedUser == null)
                 {
-                    return Results.NotFound(ResponseHandler.Error("User Not Found", new List<string>()).ToDictionary());
+                        return Results.NotFound(
+                           ResponseHelper<string>.Error(
+                               message: "User Not Found",
+                               statusCode: StatusCodeEnum.NOT_FOUND
+                           ).ToDictionary()
+                       );
                 }
 
-                return Results.Ok(ResponseHandler.Success("User Updated Successfully", updatedUser).ToDictionary());
+                    return Results.Ok(
+                        ResponseHelper<UserUpdateResponseDto>.Success(
+                            message: "User Updated Successfully",
+                            data: updatedUser
+                        ).ToDictionary()
+                    );
+                }
+
+                catch (Exception ex)
+                {
+                    return Results.Json(
+                        ResponseHelper<string>.Error(
+                            message: "An Unexpected Error occurred while Updating the User.",
+                            exception: ex,
+                            isWarning: false,
+                            statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
+                        ).ToDictionary()
+                    );
+                }
             });
 
             app.MapDelete("/HRMS/DeleteUser", async (IUserService service, [FromBody] UserDeleteRequestDto dto) =>
