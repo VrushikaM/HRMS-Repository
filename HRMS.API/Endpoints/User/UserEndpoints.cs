@@ -1,6 +1,8 @@
 ﻿using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.User.UserRequestModels;
-using HRMS.Utility.Helper;
+using HRMS.Dtos.User.UserResponseModels;
+using HRMS.Utility.Helpers.Enums;
+using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Validators.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +17,12 @@ namespace HRMS.API.Modules.User
                 var users = await service.GetUsers();
                 if (users != null && users.Any())
                 {
-                    return Results.Ok(ResponseHandler.Success("Users Retrieved Successfully", users).ToDictionary());
+                    var response = ResponseHelper<List<UserReadResponseDto>>.Success("Users Retrieved Successfully", users.ToList());
+                    return Results.Ok(response.ToDictionary());
                 }
-                return Results.NotFound(ResponseHandler.Error("No Users Found"));
+
+                var errorResponse = ResponseHelper<List<UserReadResponseDto>>.Error("No Users Found");
+                return Results.NotFound(errorResponse.ToDictionary());
             });
 
             app.MapGet("/HRMS/User/{id}", async (IUserService service, int id) =>
