@@ -5,11 +5,25 @@ CREATE PROCEDURE [dbo].[spUserAdd]
 @LastName NVARCHAR(50) = NULL,
 @Email NVARCHAR(50) = NULL,
 @Password NVARCHAR(50) = NULL,
-@IsActive BIT = NULL
+@Gender NVARCHAR(50) = NULL,
+@DateOfBirth DATE = NULL,
+@IsActive BIT = NULL,
+@CreatedBy INT = NULL,
+@UpdatedBy INT = NULL
 AS
 BEGIN
-	INSERT INTO [dbo].[tblUser] (FirstName, LastName, Email, Password, IsActive)
-    VALUES (@FirstName, @LastName, @Email, @Password, @IsActive);
+
+    IF @CreatedBy IS NULL
+
+        BEGIN
+            RAISERROR ('CreatedBy cannot be NULL.', 16, 1);
+            RETURN;
+        END;
+    
+     SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
+
+	INSERT INTO [dbo].[tblUser] (FirstName, LastName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
+    VALUES (@FirstName, @LastName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, SYSDATETIME(), SYSDATETIME());
 
 	SET @UserId = SCOPE_IDENTITY();
 END;
