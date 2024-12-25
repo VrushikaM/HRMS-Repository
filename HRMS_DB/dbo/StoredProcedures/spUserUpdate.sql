@@ -4,7 +4,10 @@ CREATE PROCEDURE [dbo].[spUserUpdate]
 @LastName NVARCHAR(50) = NULL,
 @Email NVARCHAR(50) = NULL,
 @Password NVARCHAR(50) = NULL,
-@IsActive BIT = NULL
+@Gender NVARCHAR(50) = NULL,
+@DateOfBirth DATE = NULL,
+@IsActive BIT = NULL,
+@UpdatedBy INT = NULL
 AS
 BEGIN
 
@@ -19,7 +22,11 @@ BEGIN
 	    LastName = @LastName,
 	    Email = @Email,
 	    Password = @Password,
-	    IsActive = @IsActive
+        Gender = @Gender,
+        DateOfBirth = @DateOfBirth,
+	    IsActive = @IsActive,
+        UpdatedBy = @UpdatedBy,
+        UpdatedAt = SYSDATETIME()
 	WHERE UserId = @UserId;
 
 	SELECT * FROM [dbo].[tblUser] WHERE (@UserId IS NULL OR UserId = @UserId);
