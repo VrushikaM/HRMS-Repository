@@ -1,9 +1,9 @@
 ﻿using HRMS.BusinessLayer.Interfaces;
-using HRMS.Dtos.User.UserRequestModels;
-using HRMS.Dtos.User.UserResponseModels;
+using HRMS.Dtos.User.User.UserRequestDtos;
+using HRMS.Dtos.User.User.UserResponseDtos;
 using HRMS.Utility.Helpers.Enums;
 using HRMS.Utility.Helpers.Handlers;
-using HRMS.Utility.Validators.User;
+using HRMS.Utility.Validators.User.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS.API.Modules.User

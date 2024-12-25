@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using HRMS.Dtos.User.UserRequestModels;
+using HRMS.Dtos.User.User.UserRequestDtos;
 
-namespace HRMS.Utility.Validators.User
+namespace HRMS.Utility.Validators.User.User
 {
-    public class UserDeleteRequestValidator : AbstractValidator<UserDeleteRequestDto>
+    public class UserReadRequestValidator : AbstractValidator<UserReadRequestDto>
     {
-        public UserDeleteRequestValidator()
+        public UserReadRequestValidator()
         {
             RuleFor(x => x.UserId)
                 .NotNull().WithMessage("User ID is Required.")

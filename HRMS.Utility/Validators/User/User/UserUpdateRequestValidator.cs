@@ -1,12 +1,16 @@
 ﻿using FluentValidation;
-using HRMS.Dtos.User.UserRequestModels;
+using HRMS.Dtos.User.User.UserRequestDtos;
 
-namespace HRMS.Utility.Validators.User
+namespace HRMS.Utility.Validators.User.User
 {
-    public class UserCreateRequestValidator : AbstractValidator<UserCreateRequestDto>
+    public class UserUpdateRequestValidator : AbstractValidator<UserUpdateRequestDto>
     {
-        public UserCreateRequestValidator()
+        public UserUpdateRequestValidator()
         {
+            RuleFor(x => x.UserId)
+               .NotNull().WithMessage("User ID is Required.")
+               .GreaterThan(0).WithMessage("User ID must be greater than Zero.");
+
             RuleFor(user => user.FirstName)
                 .NotEmpty().WithMessage("First Name is Required.")
                 .Length(2, 50).WithMessage("First Name must be between 2 and 50 characters.");

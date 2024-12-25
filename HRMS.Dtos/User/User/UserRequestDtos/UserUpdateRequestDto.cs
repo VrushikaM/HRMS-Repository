@@ -1,6 +1,6 @@
-﻿namespace HRMS.Entities.User.UserResponseEntities
+﻿namespace HRMS.Dtos.User.User.UserRequestDtos
 {
-    public class UserCreateResponseEntity
+    public class UserUpdateRequestDto
     {
         public int UserId { get; set; }
         public string FirstName { get; set; } = string.Empty;

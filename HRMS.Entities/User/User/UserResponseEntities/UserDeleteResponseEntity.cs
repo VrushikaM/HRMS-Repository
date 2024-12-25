@@ -1,4 +1,4 @@
-﻿namespace HRMS.Entities.User.UserResponseEntities
+﻿namespace HRMS.Entities.User.User.UserResponseEntities
 {
     public class UserDeleteResponseEntity
     {
