@@ -6,6 +6,7 @@ using HRMS.Entities.User.UserRequestEntities;
 using HRMS.Entities.User.UserRequestModels;
 using HRMS.Entities.User.UserResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
+using HRMS.Utility.Helpers.Passwords;
 
 public class UserService : IUserService
 {
@@ -23,7 +24,7 @@ public class UserService : IUserService
         var users = await _userRepository.GetUsers();
         foreach (var user in users)
         {
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Password = PasswordHashingUtility.HashPassword(user.Password);
         }
         var response = _mapper.Map<IEnumerable<UserReadResponseDto>>(users);
         return response;
@@ -37,7 +38,7 @@ public class UserService : IUserService
             return null;
         }
 
-        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+        user.Password = PasswordHashingUtility.HashPassword(user.Password);
 
         var response = _mapper.Map<UserReadResponseDto>(user);
         return response;

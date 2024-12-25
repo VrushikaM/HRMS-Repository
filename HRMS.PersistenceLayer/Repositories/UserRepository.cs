@@ -3,6 +3,7 @@ using HRMS.Entities.User.UserRequestEntities;
 using HRMS.Entities.User.UserRequestModels;
 using HRMS.Entities.User.UserResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
+using HRMS.Utility.Helpers.Passwords;
 using System.Data;
 
 namespace HRMS.PersistenceLayer.Repositories
@@ -44,7 +45,7 @@ namespace HRMS.PersistenceLayer.Repositories
             await _dbConnection.ExecuteAsync("spUserAdd", parameters, commandType: CommandType.StoredProcedure);
 
             var userId = parameters.Get<int>("@UserId");
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
 
             var createdUser = new UserCreateResponseEntity
             {
@@ -76,7 +77,8 @@ namespace HRMS.PersistenceLayer.Repositories
                 return null;
             }
 
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
+
             var updatedUser = new UserUpdateResponseEntity
             {
                 UserId = user.UserId,
