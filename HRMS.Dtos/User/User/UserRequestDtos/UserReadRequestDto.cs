@@ -1,4 +1,4 @@
-﻿namespace HRMS.Dtos.User.UserRequestModels
+﻿namespace HRMS.Dtos.User.User.UserRequestDtos
 {
     public class UserReadRequestDto
     {

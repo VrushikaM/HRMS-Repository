@@ -1,5 +1,5 @@
-﻿using HRMS.Dtos.User.UserRequestModels;
-using HRMS.Dtos.User.UserResponseModels;
+﻿using HRMS.Dtos.User.User.UserRequestDtos;
+using HRMS.Dtos.User.User.UserResponseDtos;
 
 namespace HRMS.BusinessLayer.Interfaces
 {

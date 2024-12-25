@@ -1,4 +1,4 @@
-﻿namespace HRMS.Dtos.User.UserResponseModels
+﻿namespace HRMS.Dtos.User.User.UserResponseDtos
 {
     public class UserDeleteResponseDto
     {

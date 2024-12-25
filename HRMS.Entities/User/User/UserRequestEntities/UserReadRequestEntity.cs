@@ -1,4 +1,4 @@
-﻿namespace HRMS.Entities.User.UserRequestEntities
+﻿namespace HRMS.Entities.User.User.UserRequestEntities
 {
     public class UserReadRequestEntity
     {

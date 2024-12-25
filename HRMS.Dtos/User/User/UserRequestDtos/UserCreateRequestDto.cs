@@ -1,8 +1,7 @@
-﻿namespace HRMS.Entities.User.UserResponseEntities
+﻿namespace HRMS.Dtos.User.User.UserRequestDtos
 {
-    public class UserReadResponseEntity
+    public class UserCreateRequestDto
     {
-        public int UserId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

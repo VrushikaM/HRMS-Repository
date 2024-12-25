@@ -1,6 +1,5 @@
-﻿using HRMS.Entities.User.UserRequestEntities;
-using HRMS.Entities.User.UserRequestModels;
-using HRMS.Entities.User.UserResponseEntities;
+﻿using HRMS.Entities.User.User.UserRequestEntities;
+using HRMS.Entities.User.User.UserResponseEntities;
 
 namespace HRMS.PersistenceLayer.Interfaces
 {

@@ -2,12 +2,12 @@ using HRMS.API.Modules.User;
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.PersistenceLayer.Repositories;
-using HRMS.Utility.AutoMapperProfiles.UserMapping;
-using HRMS.Utility.Validators.User;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
+using HRMS.Utility.Validators.User.User;
 
 namespace HRMS.API
 {
