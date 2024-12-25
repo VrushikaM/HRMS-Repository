@@ -9,7 +9,10 @@ CREATE TABLE [dbo].[tblUser] (
     [CreatedAt]   DATETIME2 (3) DEFAULT (sysdatetime()) NOT NULL,
     [UpdatedAt]   DATETIME2 (3) DEFAULT (sysdatetime()) NOT NULL,
     [IsActive]    BIT           NOT NULL,
+    [CreatedBy]   INT           CONSTRAINT [DF_tblUser_CreatedBy] DEFAULT ((1)) NOT NULL,
+    [UpdatedBy]   INT           NULL,
     PRIMARY KEY CLUSTERED ([UserId] ASC)
 );
 GO
+
 
