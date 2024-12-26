@@ -11,6 +11,10 @@ namespace HRMS.Utility.Validators.User.User
                 .NotEmpty().WithMessage("First Name is Required.")
                 .Length(2, 50).WithMessage("First Name must be between 2 and 50 characters.");
 
+            RuleFor(user => user.MiddleName)
+              .NotEmpty().WithMessage("Middle Name is Required.")
+              .Length(0, 100).WithMessage("Middle Name must be between 0 and 100 characters.");
+
             RuleFor(user => user.LastName)
                 .NotEmpty().WithMessage("Last Name is Required.")
                 .Length(2, 50).WithMessage("Last Name must be between 2 and 50 characters.");
@@ -38,6 +42,12 @@ namespace HRMS.Utility.Validators.User.User
 
             RuleFor(user => user.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
+
+            RuleFor(user => user.IsDelete)
+              .NotNull().WithMessage("IsDelete must be true or false.");
+
+            RuleFor(user => user.TenantID)
+               .NotNull().WithMessage("Tenant ID is Required.");
         }
     }
 }
