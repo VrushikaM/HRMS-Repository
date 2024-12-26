@@ -47,6 +47,8 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@CreatedBy", user.CreatedBy);
             parameters.Add("@TenantID", user.TenantID);
+            parameters.Add("@RoleID", user.RoleID);
+            parameters.Add("@TenancyRoleID", user.TenancyRoleID);
 
             await _dbConnection.ExecuteAsync(UserStoredProcedures.CreateUSer, parameters, commandType: CommandType.StoredProcedure);
 
@@ -65,7 +67,9 @@ namespace HRMS.PersistenceLayer.Repositories
                 DateOfBirth = user.DateOfBirth,
                 IsActive = user.IsActive,
                 IsDelete = user.IsDelete,
-                TenantID = user.TenantID
+                TenantID = user.TenantID,
+                RoleID = user.RoleID,
+                TenancyRoleID = user.TenancyRoleID
             };
 
             return createdUser;
@@ -86,6 +90,8 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@UpdatedBy", user.UpdatedBy);
             parameters.Add("@TenantID", user.TenantID);
+            parameters.Add("@RoleID", user.RoleID);
+            parameters.Add("@TenancyRoleID", user.TenancyRoleID);
 
             var result = await _dbConnection.ExecuteAsync(UserStoredProcedures.UpdateUSer, parameters, commandType: CommandType.StoredProcedure);
 
@@ -108,7 +114,9 @@ namespace HRMS.PersistenceLayer.Repositories
                 DateOfBirth = user.DateOfBirth,
                 IsActive = user.IsActive,
                 IsDelete = user.IsDelete,
-                TenantID = user.TenantID
+                TenantID = user.TenantID,
+                RoleID = user.RoleID,
+                TenancyRoleID = user.TenancyRoleID
             };
 
             return updatedUser;

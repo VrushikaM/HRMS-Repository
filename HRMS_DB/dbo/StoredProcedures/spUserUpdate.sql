@@ -10,7 +10,10 @@ CREATE PROCEDURE [dbo].[spUserUpdate]
 @IsActive BIT = NULL,
 @IsDelete BIT = NULL,
 @UpdatedBy INT = NULL,
-@TenantID BIGINT = NULL
+@TenantID INT = NULL,
+@RoleID INT = NULL,
+@TenancyRoleID INT = NULL
+
 AS
 BEGIN
 
@@ -32,7 +35,9 @@ BEGIN
         IsDelete = @IsDelete,
         UpdatedBy = @UpdatedBy,
         UpdatedAt = SYSDATETIME(),
-        TenantID = @TenantID
+        TenantID = @TenantID,
+        RoleID = @RoleID,
+        TenancyRoleID = @TenancyRoleID
 	WHERE UserId = @UserId;
 
 	SELECT * FROM [dbo].[tblUser] WHERE (@UserId IS NULL OR UserId = @UserId);

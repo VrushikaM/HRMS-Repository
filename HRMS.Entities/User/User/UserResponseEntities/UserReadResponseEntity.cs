@@ -14,6 +14,8 @@
         public bool IsDelete { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public long TenantID { get; set; }
+        public int TenantID { get; set; }
+        public int RoleID { get; set; }
+        public int TenancyRoleID { get; set; }
     }
 }
