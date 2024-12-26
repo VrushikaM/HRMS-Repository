@@ -40,7 +40,10 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
+            parameters.Add("@Gender", user.Gender);
+            parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
+            parameters.Add("@CreatedBy", user.CreatedBy);
 
             await _dbConnection.ExecuteAsync(UserStoredProcedures.CreateUSer, parameters, commandType: CommandType.StoredProcedure);
 
@@ -54,6 +57,8 @@ namespace HRMS.PersistenceLayer.Repositories
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = hashedPassword,
+                Gender = user.Gender,
+                DateOfBirth = user.DateOfBirth,
                 IsActive = user.IsActive
             };
 
@@ -68,7 +73,10 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
+            parameters.Add("@Gender", user.Gender);
+            parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
+            parameters.Add("@UpdatedBy", user.UpdatedBy);
 
             var result = await _dbConnection.ExecuteAsync(UserStoredProcedures.UpdateUSer, parameters, commandType: CommandType.StoredProcedure);
 
@@ -86,6 +94,8 @@ namespace HRMS.PersistenceLayer.Repositories
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = hashedPassword,
+                Gender = user.Gender,
+                DateOfBirth = user.DateOfBirth,
                 IsActive = user.IsActive
             };
 

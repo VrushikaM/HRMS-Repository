@@ -31,6 +31,15 @@ namespace HRMS.Utility.Validators.User.User
                 .Matches("[0-9]").WithMessage("Password must contain at least one number.")
                 .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
 
+            RuleFor(user => user.Gender)
+                .NotEmpty().WithMessage("Gender is Required.")
+                .Must(gender => new[] { "Male", "Female", "Other" }.Contains(gender))
+                .WithMessage("Gender must be either 'Male', 'Female', or 'Other'.");
+
+            RuleFor(user => user.DateOfBirth)
+                .NotEmpty().WithMessage("Date of Birth is Required.")
+                .LessThan(DateTime.Now.Date).WithMessage("Date of Birth must be in the past.");
+
             RuleFor(user => user.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
         }
