@@ -12,7 +12,9 @@ CREATE PROCEDURE [dbo].[spUserAdd]
 @IsDelete BIT = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
-@TenantID BIGINT = NULL
+@TenantID INT = NULL,
+@RoleID INT = NULL,
+@TenancyRoleID INT = NULL
 AS
 BEGIN
 
@@ -25,8 +27,8 @@ BEGIN
     
      SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
-	INSERT INTO [dbo].[tblUser] (FirstName, MiddleName, LastName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, IsDelete, CreatedAt, UpdatedAt, TenantID)
-    VALUES (@FirstName, @MiddleName, @LastName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, @IsDelete, SYSDATETIME(), SYSDATETIME(), @TenantID);
+	INSERT INTO [dbo].[tblUser] (FirstName, MiddleName, LastName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, IsDelete, CreatedAt, UpdatedAt, TenantID, RoleID, TenancyRoleID)
+    VALUES (@FirstName, @MiddleName, @LastName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, @IsDelete, SYSDATETIME(), SYSDATETIME(), @TenantID, @RoleID, @TenancyRoleID);
 
 	SET @UserId = SCOPE_IDENTITY();
 END;

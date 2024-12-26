@@ -12,6 +12,8 @@
         public DateTime DateOfBirth { get; set; }
         public bool IsActive { get; set; }
         public bool IsDelete { get; set; }
-        public long TenantID { get; set; }
+        public int TenantID { get; set; }
+        public int RoleID { get; set; }
+        public int TenancyRoleID { get; set; }
     }
 }
