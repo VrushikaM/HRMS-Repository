@@ -37,13 +37,16 @@ namespace HRMS.PersistenceLayer.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             parameters.Add("@FirstName", user.FirstName);
+            parameters.Add("@MiddleName", user.MiddleName);
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Gender", user.Gender);
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
+            parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@CreatedBy", user.CreatedBy);
+            parameters.Add("@TenantID", user.TenantID);
 
             await _dbConnection.ExecuteAsync(UserStoredProcedures.CreateUSer, parameters, commandType: CommandType.StoredProcedure);
 
@@ -54,12 +57,15 @@ namespace HRMS.PersistenceLayer.Repositories
             {
                 UserId = userId,
                 FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = hashedPassword,
                 Gender = user.Gender,
                 DateOfBirth = user.DateOfBirth,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                IsDelete = user.IsDelete,
+                TenantID = user.TenantID
             };
 
             return createdUser;
@@ -70,13 +76,16 @@ namespace HRMS.PersistenceLayer.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", user.UserId);
             parameters.Add("@FirstName", user.FirstName);
+            parameters.Add("@MiddleName", user.MiddleName);
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Gender", user.Gender);
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
+            parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@UpdatedBy", user.UpdatedBy);
+            parameters.Add("@TenantID", user.TenantID);
 
             var result = await _dbConnection.ExecuteAsync(UserStoredProcedures.UpdateUSer, parameters, commandType: CommandType.StoredProcedure);
 
@@ -91,12 +100,15 @@ namespace HRMS.PersistenceLayer.Repositories
             {
                 UserId = user.UserId,
                 FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = hashedPassword,
                 Gender = user.Gender,
                 DateOfBirth = user.DateOfBirth,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                IsDelete = user.IsDelete,
+                TenantID = user.TenantID
             };
 
             return updatedUser;
