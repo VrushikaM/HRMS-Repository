@@ -1,5 +1,5 @@
-﻿using HRMS.Entities.Tenant3.TenancyRole.TenancyRoleRequestEntities;
-using HRMS.Entities.Tenant3.TenancyRole.TenancyRoleResponseEntities;
+﻿using HRMS.Entities.Tenant.TenancyRole.TenancyRoleRequestEntities;
+using HRMS.Entities.Tenant.TenancyRole.TenancyRoleResponseEntities;
 
 namespace HRMS.PersistenceLayer.Interfaces
 {

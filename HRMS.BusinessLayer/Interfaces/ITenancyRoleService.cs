@@ -1,5 +1,5 @@
-﻿using HRMS.Dtos.Tenant3.TenancyRole.TenancyRoleRequestDtos;
-using HRMS.Dtos.Tenant3.TenancyRole.TenancyRoleResponseDtos;
+﻿using HRMS.Dtos.Tenant.TenancyRole.TenancyRoleRequestDtos;
+using HRMS.Dtos.Tenant.TenancyRole.TenancyRoleResponseDtos;
 
 namespace HRMS.BusinessLayer.Interfaces
 {

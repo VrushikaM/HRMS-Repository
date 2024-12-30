@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using HRMS.Dtos.Tenant3.TenancyRole.TenancyRoleRequestDtos;
-using HRMS.Dtos.Tenant3.TenancyRole.TenancyRoleResponseDtos;
-using HRMS.Entities.Tenant3.TenancyRole.TenancyRoleRequestEntities;
-using HRMS.Entities.Tenant3.TenancyRole.TenancyRoleResponseEntities;
+using HRMS.Dtos.Tenant.TenancyRole.TenancyRoleRequestDtos;
+using HRMS.Dtos.Tenant.TenancyRole.TenancyRoleResponseDtos;
+using HRMS.Entities.Tenant.TenancyRole.TenancyRoleRequestEntities;
+using HRMS.Entities.Tenant.TenancyRole.TenancyRoleResponseEntities;
 
 namespace HRMS.Utility.AutoMapperProfiles.Tenant.TenancyRoleMapping
 {
