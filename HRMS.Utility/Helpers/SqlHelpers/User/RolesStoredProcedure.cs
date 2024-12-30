@@ -8,15 +8,15 @@ namespace HRMS.Utility.Helpers.SqlHelpers.User
 {
     public static class RolesStoredProcedure
     {
-        public const string GetRoles = "spRolesGetAll";
+        public const string GetUserRoles = "spUserRolesGetAll";
 
-        public const string GetRoleById = "spRolesGet";
+        public const string GetUserRoleById = "spUserRolesGet";
 
-        public const string CreateRoles = "spRolesAdd";
+        public const string CreateUserRoles = "spUserRolesAdd";
 
-        public const string UpdateRoles = "spRolesUpdate";
+        public const string UpdateUserRoles = "spUserRolesUpdate";
 
-        public const string DeleteRoles = "spRolesDelete";
+        public const string DeleteUserRoles = "spUserRolesDelete";
 
     }
 }
