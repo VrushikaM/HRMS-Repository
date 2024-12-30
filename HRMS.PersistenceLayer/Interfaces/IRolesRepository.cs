@@ -11,15 +11,15 @@ namespace HRMS.PersistenceLayer.Interfaces
 {
     public interface IRolesRepository
     {
-        Task<IEnumerable<RolesReadResponseEntity>> GetRoles();
+        Task<IEnumerable<RolesReadResponseEntity>> GetAllUserRoles();
 
-        Task<RolesReadResponseEntity?> GetRolesById(int? roleId);
+        Task<RolesReadResponseEntity?> GetUserRolesById(int? roleId);
 
-        Task<RolesCreateResponseEntity> CreateRole(RolesCreateRequestEntity roles);
+        Task<RolesCreateResponseEntity> CreateUserRole(RolesCreateRequestEntity roles);
 
-        Task<RolesUpdateResponseEntity?> UpdateRoles(RolesUpdateRequestEntity roles);
+        Task<RolesUpdateResponseEntity?> UpdateUserRoles(RolesUpdateRequestEntity roles);
 
-        Task<int> DeleteRoles(RolesDeleteRequestEntity roles);
+        Task<int> DeleteUserRoles(RolesDeleteRequestEntity roles);
 
     }
 }

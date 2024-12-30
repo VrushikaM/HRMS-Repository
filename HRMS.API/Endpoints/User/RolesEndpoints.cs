@@ -20,7 +20,7 @@ namespace HRMS.API.Endpoints.User
             {
 
 
-                var roles = await _rolesService.GetRoles();
+                var roles = await _rolesService.GetAllUserRoles();
                 if (roles != null && roles.Any())
                 {
                     var response = ResponseHelper<List<RolesReadResponseDto>>.Success("Roles Retrieved Successfully ", roles.ToList());
@@ -50,7 +50,7 @@ namespace HRMS.API.Endpoints.User
                 }
                 try
                 {
-                    var role = await _rolesService.GetRolesById(id);
+                    var role = await _rolesService.GetUserRolesById(id);
                     if (role == null)
                     {
                         return Results.NotFound(
@@ -101,7 +101,7 @@ namespace HRMS.API.Endpoints.User
 
                 try
                 {
-                    var newRole = await _rolesService.CreateRole(dto);
+                    var newRole = await _rolesService.CreateUserRole(dto);
                     return Results.Ok(
                         ResponseHelper<RolesCreateResponseDto>.Success(
                             message: "Role Created Successfully",
@@ -143,7 +143,7 @@ namespace HRMS.API.Endpoints.User
 
                 try
                 {
-                    var updatedRoles = await _rolesService.UpdateRoles(dto);
+                    var updatedRoles = await _rolesService.UpdateUserRoles(dto);
                     if (updatedRoles == null)
                     {
                         return Results.NotFound(
@@ -196,7 +196,7 @@ namespace HRMS.API.Endpoints.User
 
                 try
                 {
-                    var result = await _rolesService.DeleteRoles(dto);
+                    var result = await _rolesService.DeleteUserRoles(dto);
                 if (result == null)
                     {
                         return Results.NotFound(

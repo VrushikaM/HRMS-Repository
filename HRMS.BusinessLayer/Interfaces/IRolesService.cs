@@ -8,14 +8,14 @@ namespace HRMS.BusinessLayer.Interfaces
 {
     public interface IRolesService
     {
-        Task<IEnumerable<RolesReadResponseDto>> GetRoles();
+        Task<IEnumerable<RolesReadResponseDto>> GetAllUserRoles();
 
-        Task<RolesReadResponseDto?> GetRolesById(int? rolesId);
+        Task<RolesReadResponseDto?> GetUserRolesById(int? rolesId);
 
-        Task<RolesCreateResponseDto> CreateRole(RolesCreateRequestDto rolesDto);
+        Task<RolesCreateResponseDto> CreateUserRole(RolesCreateRequestDto rolesDto);
 
-        Task<RolesUpdateResponseDto> UpdateRoles(RolesUpdateRequestDto rolesDTo);
+        Task<RolesUpdateResponseDto> UpdateUserRoles(RolesUpdateRequestDto rolesDTo);
 
-        Task<RolesDeleteResponseDto?> DeleteRoles(RolesDeleteRequestDto rolesDto);
+        Task<RolesDeleteResponseDto?> DeleteUserRoles(RolesDeleteRequestDto rolesDto);
     }
 }
