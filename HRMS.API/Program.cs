@@ -8,6 +8,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
 using HRMS.Utility.Validators.User.User;
+using HRMS.API.Endpoints.User;
+using HRMS.Utility.AutoMapperProfiles.User.RolesMapping;
+using HRMS.BusinessLayer.Services;
 
 namespace HRMS.API
 {
@@ -20,9 +23,16 @@ namespace HRMS.API
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            //Roles Repository And Service
+            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
+            builder.Services.AddScoped<IRolesService,RolesService>();
+
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
             builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+
+            //Roles AutoMapper Profile
+            builder.Services.AddAutoMapper(typeof(RolesMappingProfile));
 
             builder.Services.AddAuthorization();
 
@@ -56,6 +66,8 @@ namespace HRMS.API
             app.UseAuthorization();
 
             app.MapUserEndpoints();
+
+            app.MapRolesEndpoints();
 
             app.Run();
         }
