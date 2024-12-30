@@ -4,6 +4,7 @@ using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntites;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.Utility.Helpers.SqlHelpers.Subdomain;
+using HRMS.Utility.Helpers.SqlHelpers.User;
 using System.Data;
 
 namespace HRMS.PersistenceLayer.Repositories
@@ -22,7 +23,7 @@ namespace HRMS.PersistenceLayer.Repositories
             return subdomains;
         }
 
-        public async Task<SubdomainReadResponseEntity?> GetSubdomain(int? subdomainId)
+        public async Task<SubdomainReadResponseEntity?> GetSubdomainById(int? subdomainId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@SubdomainId", subdomainId);
@@ -60,9 +61,13 @@ namespace HRMS.PersistenceLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteSubdomain(SubdomainDeleteRequestEntity subdomain)
+        public async Task<int> DeleteSubdomain(SubdomainDeleteRequestEntity subdomain)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+            parameters.Add("@SubdomainID", subdomain.SubdomainID);
+
+            var result = await _dbConnection.ExecuteScalarAsync<int>(SubdomainStoredProcedures.DeleteSubdomain, parameters, commandType: CommandType.StoredProcedure);
+            return result;
         }
     }
 }

@@ -1,9 +1,14 @@
-﻿using HRMS.BusinessLayer.Interfaces;
+﻿using FluentValidation;
+using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainResponseDto;
+using HRMS.Dtos.User.User.UserRequestDtos;
+using HRMS.Dtos.User.User.UserResponseDtos;
 using HRMS.Utility.Helpers.Enums;
 using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Validators.Subdomain.Subdomain;
+using HRMS.Utility.Validators.User.User;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS.API.Endpoints.Subdomain
 {
@@ -65,6 +70,97 @@ namespace HRMS.API.Endpoints.Subdomain
                     return Results.Json(
                         ResponseHelper<string>.Error(
                             message: "An Unexpected Error occurred.",
+                            exception: ex,
+                            isWarning: false,
+                            statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
+                        ).ToDictionary()
+                    );
+                }
+            });
+            app.MapPost("/CreateSubdomain", async (SubdomainCreateRequestDto dto, ISubdomainService _subdomainservice) =>
+            {
+                var validator = new SubdomainCreateRequestValidator();
+                var validationResult = validator.Validate(dto);
+
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(
+                        ResponseHelper<List<string>>.Error(
+                            message: "Validation Failed",
+                            errors: errorMessages,
+                            statusCode: StatusCodeEnum.BAD_REQUEST
+                        ).ToDictionary()
+                    );
+                }
+
+                try
+                {
+                    var newUser = await _subdomainservice.CreateSubdomain(dto);
+                    return Results.Ok(
+                        ResponseHelper<SubdomainCreateResponseDto>.Success(
+                            message: "Subdomain Created Successfully",
+                            data: newUser
+                        ).ToDictionary()
+                    );
+                }
+
+                catch (Exception ex)
+                {
+                    return Results.Json(
+                        ResponseHelper<string>.Error(
+                            message: "An Unexpected Error occurred while Creating the Subdomain.",
+                            exception: ex,
+                            isWarning: false,
+                            statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
+                        ).ToDictionary()
+                    );
+                }
+            });
+            app.MapDelete("/HRMS/DeleteSubdomain", async (ISubdomainService service, [FromBody] SubdomainDeleteRequestDto dto) =>
+            {
+                var validator = new SubdomainDeleteRequestValidator();
+                var validationResult = validator.Validate(dto);
+
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+
+                    return Results.BadRequest(
+                      ResponseHelper<List<string>>.Error(
+                          message: "Validation Failed",
+                          errors: errorMessages,
+                          statusCode: StatusCodeEnum.BAD_REQUEST
+                      ).ToDictionary()
+                  );
+                }
+
+                try
+                {
+                    var result = await service.DeleteSubdomain(dto);
+                    if (result == null)
+                    {
+                        return Results.NotFound(
+                           ResponseHelper<string>.Error(
+                               message: "Subdomain Not Found",
+                               statusCode: StatusCodeEnum.NOT_FOUND
+                           ).ToDictionary()
+                       );
+                    }
+
+                    return Results.Ok(
+                       ResponseHelper<SubdomainDeleteResponseDto>.Success(
+                           message: "Subdomain Deleted Successfully",
+                           data: result
+                       ).ToDictionary()
+                   );
+                }
+
+                catch (Exception ex)
+                {
+                    return Results.Json(
+                        ResponseHelper<string>.Error(
+                            message: "An Unexpected Error occurred while Deleting the Subdomain.",
                             exception: ex,
                             isWarning: false,
                             statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR

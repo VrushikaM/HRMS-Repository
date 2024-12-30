@@ -2,7 +2,13 @@
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainResponseDto;
+using HRMS.Dtos.User.User.UserResponseDtos;
+using HRMS.Entities.Subdomain.Subdomain.SubdomainRequestEntites;
+using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities;
+using HRMS.Entities.User.User.UserRequestEntities;
+using HRMS.Entities.User.User.UserResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
+using HRMS.PersistenceLayer.Repositories;
 
 namespace HRMS.BusinessLayer.Services
 {
@@ -33,17 +39,29 @@ namespace HRMS.BusinessLayer.Services
             var response = _mapper.Map<SubdomainReadResponseDto>(subdomain);
             return response;
         }
-        public Task<SubdomainCreateResponseDto> CreateSubdomain(SubdomainCreateRequestDto subdomainDto)
+        public async Task<SubdomainCreateResponseDto> CreateSubdomain(SubdomainCreateRequestDto subdomainDto)
         {
-            throw new NotImplementedException();
+            var subdomainEntity = _mapper.Map<SubdomainCreateRequestEntity>(subdomainDto);
+            var addedSubdomain = await _subdomainRepository.CreateSubdomain(subdomainEntity);
+            var response = _mapper.Map<SubdomainCreateResponseDto>(addedSubdomain);
+            return response;
         }
         public Task<SubdomainUpdateResponseDto> UpdateSubdomain(SubdomainUpdateRequestDto subdomainDto)
         {
             throw new NotImplementedException();
         }
-        public Task<SubdomainDeleteResponseDto?> DeleteSubdomain(SubdomainDeleteRequestDto subdomainDto)
+        public async Task<SubdomainDeleteResponseDto?> DeleteSubdomain(SubdomainDeleteRequestDto subdomainDto)
         {
-            throw new NotImplementedException();
+            var subdomainEntity = _mapper.Map<SubdomainDeleteRequestEntity>(subdomainDto);
+            var result = await _subdomainRepository.DeleteSubdomain(subdomainEntity);
+            if (result == -1)
+            {
+                return null;
+            }
+            var responseEntity = new SubdomainDeleteResponseEntity { SubdomainID = subdomainEntity.SubdomainID };
+            var responseDto = _mapper.Map<SubdomainDeleteResponseDto>(responseEntity);
+
+            return responseDto;
         }
 
 
