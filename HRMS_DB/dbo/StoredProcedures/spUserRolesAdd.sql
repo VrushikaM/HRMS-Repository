@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE [dbo].[spRolesAdd]
+CREATE PROCEDURE [dbo].[spUserRolesAdd]
     @RoleId INT OUTPUT,
     @RoleName NVARCHAR(255) = NULL,
     @PermissionGroupId INT = NULL,

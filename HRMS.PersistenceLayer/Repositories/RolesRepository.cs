@@ -20,7 +20,7 @@ namespace HRMS.PersistenceLayer.Repositories
 
         public async Task<IEnumerable<RolesReadResponseEntity>> GetAllUserRoles()
         {
-            var roles = await _dbConnection.QueryAsync<RolesReadResponseEntity>(RolesStoredProcedure.GetRoles, commandType: CommandType.StoredProcedure);
+            var roles = await _dbConnection.QueryAsync<RolesReadResponseEntity>(RolesStoredProcedure.GetUserRoles, commandType: CommandType.StoredProcedure);
             return roles;
         }
 
@@ -29,7 +29,7 @@ namespace HRMS.PersistenceLayer.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@RoleId", rolesId);
 
-            var roles = await _dbConnection.QueryFirstOrDefaultAsync<RolesReadResponseEntity>(RolesStoredProcedure.GetRoleById, parameters, commandType: CommandType.StoredProcedure);
+            var roles = await _dbConnection.QueryFirstOrDefaultAsync<RolesReadResponseEntity>(RolesStoredProcedure.GetUserRoles, parameters, commandType: CommandType.StoredProcedure);
 
             return roles;
         }
@@ -45,7 +45,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@IsActive", roles.IsActive);
            
 
-            var role =   await _dbConnection.ExecuteScalarAsync<int>(RolesStoredProcedure.CreateRoles, parameters,commandType:CommandType.StoredProcedure);
+            var role =   await _dbConnection.ExecuteScalarAsync<int>(RolesStoredProcedure.CreateUserRoles, parameters,commandType:CommandType.StoredProcedure);
 
 
             var roleId = parameters.Get<int>("@RoleId");
@@ -74,7 +74,7 @@ namespace HRMS.PersistenceLayer.Repositories
             paramters.Add("@IsActive", roles.IsActive);
             paramters.Add("@IsDelete", roles.IsDelete);
 
-            var result = await _dbConnection.ExecuteAsync(RolesStoredProcedure.UpdateRoles, paramters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.ExecuteAsync(RolesStoredProcedure.UpdateUserRoles, paramters, commandType: CommandType.StoredProcedure);
 
             if (result == -1)
             {
@@ -98,7 +98,7 @@ namespace HRMS.PersistenceLayer.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@RoleId", roles.RoleId);
 
-            var result = await _dbConnection.ExecuteScalarAsync<int>(RolesStoredProcedure.DeleteRoles, parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.ExecuteScalarAsync<int>(RolesStoredProcedure.DeleteUserRoles, parameters, commandType: CommandType.StoredProcedure);
 
             return result;
         }

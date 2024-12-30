@@ -1,5 +1,5 @@
 
-create   PROCEDURE [dbo].[spRolesGet]
+create   PROCEDURE [dbo].[spUserRolesGet]
 @RoleId INT = NULL
 AS
 BEGIN
