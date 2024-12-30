@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
+﻿namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
 {
     public class SubdomainCreateResponseEntity
-    {    
+    {
         public int SubdomainID
         {
             get; set;
-        }   
+        }
         public int DomainID
         {
             get; set;
         }
         public string SubdomainName { get; set; } = string.Empty;
 
-      
+
 
 
         public bool IsActive
@@ -31,4 +25,4 @@ namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
         }
     }
 }
-}
+

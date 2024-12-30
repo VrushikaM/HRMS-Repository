@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HRMS.Entities.Subdomain.Subdomain.SubdomainRequestEntites;
+using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntites;
+using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities;
 
 namespace HRMS.PersistenceLayer.Interfaces
 {
     public interface ISubdomainRepository
     {
         Task<IEnumerable<SubdomainReadResponseEntity>> GetSubdomains();
-        Task<SubdomainReadResponseEntity?> GetSubdomain(int? subdomainId);
+        Task<SubdomainReadResponseEntity?> GetSubdomainById(int? subdomainId);
         Task<SubdomainCreateResponseEntity> CreateSubdomain(SubdomainCreateRequestEntity subdomain);
+        Task<SubdomainUpdateResponseEntity?> UpdateSubdomain(SubdomainUpdateRequestEntity subdomain);
+        Task<int> DeleteSubdomain(SubdomainDeleteRequestEntity subdomain);
 
     }
 }

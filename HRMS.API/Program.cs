@@ -8,6 +8,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
 using HRMS.Utility.Validators.User.User;
+using HRMS.API.Endpoints.Subdomain;
+using HRMS.Utility.AutoMapperProfiles.Subdomain.SubdomainMapping;
+using HRMS.BusinessLayer.Services;
 
 namespace HRMS.API
 {
@@ -19,10 +22,12 @@ namespace HRMS.API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ISubdomainRepository, SubdomainRepository>();
+            builder.Services.AddScoped<ISubdomainService, SubdomainService>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
-            builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+            builder.Services.AddAutoMapper(typeof(UserMappingProfile),typeof(SubdomainMappingProfile));
 
             builder.Services.AddAuthorization();
 
@@ -56,6 +61,7 @@ namespace HRMS.API
             app.UseAuthorization();
 
             app.MapUserEndpoints();
+            app.MapSubdomainEndpoints();
 
             app.Run();
         }

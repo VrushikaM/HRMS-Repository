@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
+﻿namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntites
 {
-    public  class SubdomainReadResponseEntity
+    public class SubdomainReadResponseEntity
     {
         public int SubdomainID
         {
@@ -37,5 +31,4 @@ namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
             get; set;
         }
     }
-}
 }

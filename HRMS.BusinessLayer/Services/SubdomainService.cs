@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using HRMS.BusinessLayer.Interfaces;
+using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
+using HRMS.Dtos.Subdomain.Subdomain.SubdomainResponseDto;
+using HRMS.PersistenceLayer.Interfaces;
 
 namespace HRMS.BusinessLayer.Services
 {
@@ -22,5 +22,33 @@ namespace HRMS.BusinessLayer.Services
             var response = _mapper.Map<IEnumerable<SubdomainReadResponseDto>>(subdomains);
             return response;
         }
+
+        public async Task<SubdomainReadResponseDto?> GetSubdomainById(int? subdomainId)
+        {
+            var subdomain = await _subdomainRepository.GetSubdomainById(subdomainId);
+            if (subdomain == null || subdomain.SubdomainID == -1)
+            {
+                return null;
+            }
+            var response = _mapper.Map<SubdomainReadResponseDto>(subdomain);
+            return response;
+        }
+        public Task<SubdomainCreateResponseDto> CreateSubdomain(SubdomainCreateRequestDto subdomainDto)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<SubdomainUpdateResponseDto> UpdateSubdomain(SubdomainUpdateRequestDto subdomainDto)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<SubdomainDeleteResponseDto?> DeleteSubdomain(SubdomainDeleteRequestDto subdomainDto)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+
     }
 }

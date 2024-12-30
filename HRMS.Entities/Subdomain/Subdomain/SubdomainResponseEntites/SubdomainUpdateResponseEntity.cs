@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
+﻿namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
 {
     public class SubdomainUpdateResponseEntity
     {
@@ -22,7 +16,7 @@ namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
         {
             get; set;
         }
-       
+
 
 
         public bool IsActive
@@ -35,4 +29,4 @@ namespace HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities
         }
     }
 }
-}
+

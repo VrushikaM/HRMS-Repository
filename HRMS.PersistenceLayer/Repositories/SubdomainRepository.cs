@@ -1,17 +1,14 @@
 ﻿using Dapper;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainRequestEntites;
+using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntites;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities;
+using HRMS.PersistenceLayer.Interfaces;
 using HRMS.Utility.Helpers.SqlHelpers.Subdomain;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRMS.PersistenceLayer.Repositories
 {
-    public class SubdomainRepository: ISubdomainRepository
+    public class SubdomainRepository : ISubdomainRepository
     {
         private readonly IDbConnection _dbConnection;
         public SubdomainRepository(IDbConnection dbConnection)
@@ -21,7 +18,7 @@ namespace HRMS.PersistenceLayer.Repositories
 
         public async Task<IEnumerable<SubdomainReadResponseEntity>> GetSubdomains()
         {
-            var subdomains = await _dbConnection.QueryAsync<SubdomainReadResponseEntity>(SubdomainStoredProcedures.GetSubdomain,  commandType: CommandType.StoredProcedure);
+            var subdomains = await _dbConnection.QueryAsync<SubdomainReadResponseEntity>(SubdomainStoredProcedures.GetSubdomain, commandType: CommandType.StoredProcedure);
             return subdomains;
         }
 
@@ -33,7 +30,7 @@ namespace HRMS.PersistenceLayer.Repositories
             return subdomain;
         }
 
-        public async Task<SubdomainCreateResponseEntity>CreateSubdomain(SubdomainCreateRequestEntity subdomain)
+        public async Task<SubdomainCreateResponseEntity> CreateSubdomain(SubdomainCreateRequestEntity subdomain)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@SubdomainId", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -44,7 +41,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@IsDelete", subdomain.IsDelete);
 
             await _dbConnection.ExecuteAsync(SubdomainStoredProcedures.CreateSubdomain, parameters, commandType: CommandType.StoredProcedure);
-            
+
             var subdomainId = parameters.Get<int>("@SubdomainId");
 
             var CreatedSubdomain = new SubdomainCreateResponseEntity
@@ -58,6 +55,14 @@ namespace HRMS.PersistenceLayer.Repositories
             return CreatedSubdomain;
         }
 
+        public Task<SubdomainUpdateResponseEntity?> UpdateSubdomain(SubdomainUpdateRequestEntity subdomain)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<int> DeleteSubdomain(SubdomainDeleteRequestEntity subdomain)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

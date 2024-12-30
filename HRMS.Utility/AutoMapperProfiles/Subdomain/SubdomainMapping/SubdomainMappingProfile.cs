@@ -2,6 +2,7 @@
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainResponseDto;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainRequestEntites;
+using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntites;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities;
 
 namespace HRMS.Utility.AutoMapperProfiles.Subdomain.SubdomainMapping
