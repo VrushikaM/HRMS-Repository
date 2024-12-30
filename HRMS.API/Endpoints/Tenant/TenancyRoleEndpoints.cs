@@ -1,36 +1,36 @@
 ﻿using HRMS.BusinessLayer.Interfaces;
-using HRMS.Dtos.User.User.UserRequestDtos;
-using HRMS.Dtos.User.User.UserResponseDtos;
+using HRMS.Dtos.Tenant.TenancyRole.TenancyRoleRequestDtos;
+using HRMS.Dtos.Tenant.TenancyRole.TenancyRoleResponseDtos;
 using HRMS.Utility.Helpers.Enums;
 using HRMS.Utility.Helpers.Handlers;
-using HRMS.Utility.Validators.User.User;
+using HRMS.Utility.Validators.Tenant.TenancyRole;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HRMS.API.Modules.User
+namespace HRMS.API.Endpoints.Tenant
 {
-    public static class UserEndpoints
+    public static class TenancyRoleEndpoints
     {
-        public static void MapUserEndpoints(this IEndpointRouteBuilder app)
+        public static void MapTenancyRoleEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/HRMS/GetUsers", async (IUserService service) =>
+            app.MapGet("/HRMS/GetTenancyRoles", async (ITenancyRoleService service) =>
             {
-                var users = await service.GetUsers();
-                if (users != null && users.Any())
+                var roles = await service.GetTenancyRoles();
+                if (roles != null && roles.Any())
                 {
-                    var response = ResponseHelper<List<UserReadResponseDto>>.Success("Users Retrieved Successfully", users.ToList());
+                    var response = ResponseHelper<List<TenancyRoleReadResponseDto>>.Success("Tenancy Roles Retrieved Successfully", roles.ToList());
                     return Results.Ok(response.ToDictionary());
                 }
 
-                var errorResponse = ResponseHelper<List<UserReadResponseDto>>.Error("No Users Found");
+                var errorResponse = ResponseHelper<List<TenancyRoleReadResponseDto>>.Error("No Tenancy Roles Found");
                 return Results.NotFound(errorResponse.ToDictionary());
             });
 
-            app.MapGet("/HRMS/User/{id}", async (IUserService service, int id) =>
+            app.MapGet("/HRMS/TenancyRole/{id}", async (ITenancyRoleService service, int id) =>
             {
-                var validator = new UserReadRequestValidator();
-                var userRequestDto = new UserReadRequestDto { UserId = id };
+                var validator = new TenancyRoleReadRequestValidator();
+                var roleRequestDto = new TenancyRoleReadRequestDto { TenancyRoleID = id };
 
-                var validationResult = validator.Validate(userRequestDto);
+                var validationResult = validator.Validate(roleRequestDto);
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
@@ -44,21 +44,20 @@ namespace HRMS.API.Modules.User
                 }
                 try
                 {
-                    var user = await service.GetUserById(id);
-                    if (user == null)
+                    var role = await service.GetTenancyRoleById(id);
+                    if (role == null)
                     {
                         return Results.NotFound(
                             ResponseHelper<string>.Error(
-                                message: "User Not Found",
+                                message: "Tenancy Role Not Found",
                                 statusCode: StatusCodeEnum.NOT_FOUND
                             ).ToDictionary()
                         );
                     }
-
                     return Results.Ok(
-                        ResponseHelper<UserReadResponseDto>.Success(
-                            message: "User Retrieved Successfully",
-                            data: user
+                        ResponseHelper<TenancyRoleReadResponseDto>.Success(
+                            message: "Tenancy Role Retrieved Successfully",
+                            data: role
                         ).ToDictionary()
                     );
                 }
@@ -73,11 +72,12 @@ namespace HRMS.API.Modules.User
                         ).ToDictionary()
                     );
                 }
+
             });
 
-            app.MapPost("/CreateUser", async (UserCreateRequestDto dto, IUserService _userService) =>
+            app.MapPost("/HRMS/CreateTenancyRole", async (TenancyRoleCreateRequestDto dto, ITenancyRoleService _tenancyroleService) =>
             {
-                var validator = new UserCreateRequestValidator();
+                var validator = new TenancyRoleCreateRequestValidator();
                 var validationResult = validator.Validate(dto);
 
                 if (!validationResult.IsValid)
@@ -93,11 +93,11 @@ namespace HRMS.API.Modules.User
                 }
                 try
                 {
-                    var newUser = await _userService.CreateUser(dto);
+                    var newRole = await _tenancyroleService.CreateTenancyRole(dto);
                     return Results.Ok(
-                        ResponseHelper<UserCreateResponseDto>.Success(
-                            message: "User Created Successfully",
-                            data: newUser
+                        ResponseHelper<TenancyRoleCreateResponseDto>.Success(
+                            message: "Tenancy Role Created Successfully",
+                            data: newRole
                         ).ToDictionary()
                     );
                 }
@@ -105,7 +105,7 @@ namespace HRMS.API.Modules.User
                 {
                     return Results.Json(
                         ResponseHelper<string>.Error(
-                            message: "An Unexpected Error occurred while Creating the User.",
+                            message: "An Unexpected Error occurred while Creating the Tenancy Role.",
                             exception: ex,
                             isWarning: false,
                             statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -114,9 +114,9 @@ namespace HRMS.API.Modules.User
                 }
             });
 
-            app.MapPut("/HRMS/UpdateUser", async (IUserService service, [FromBody] UserUpdateRequestDto dto) =>
+            app.MapPut("/HRMS/UpdateTenancyRole", async (ITenancyRoleService service, [FromBody] TenancyRoleUpdateRequestDto dto) =>
             {
-                var validator = new UserUpdateRequestValidator();
+                var validator = new TenancyRoleUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
 
                 if (!validationResult.IsValid)
@@ -133,21 +133,21 @@ namespace HRMS.API.Modules.User
                 }
                 try
                 {
-                    var updatedUser = await service.UpdateUser(dto);
-                    if (updatedUser == null)
+                    var updatedTenancyRole = await service.UpdateTenancyRole(dto);
+                    if (updatedTenancyRole == null)
                     {
                         return Results.NotFound(
                            ResponseHelper<string>.Error(
-                               message: "User Not Found",
+                               message: "Tenancy Role Not Found",
                                statusCode: StatusCodeEnum.NOT_FOUND
                            ).ToDictionary()
                        );
                     }
 
                     return Results.Ok(
-                        ResponseHelper<UserUpdateResponseDto>.Success(
-                            message: "User Updated Successfully",
-                            data: updatedUser
+                        ResponseHelper<TenancyRoleUpdateResponseDto>.Success(
+                            message: "Tenancy Role Updated Successfully",
+                            data: updatedTenancyRole
                         ).ToDictionary()
                     );
                 }
@@ -155,7 +155,7 @@ namespace HRMS.API.Modules.User
                 {
                     return Results.Json(
                         ResponseHelper<string>.Error(
-                            message: "An Unexpected Error occurred while Updating the User.",
+                            message: "An Unexpected Error occurred while Updating the Tenancy Role.",
                             exception: ex,
                             isWarning: false,
                             statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -164,9 +164,9 @@ namespace HRMS.API.Modules.User
                 }
             });
 
-            app.MapDelete("/HRMS/DeleteUser", async (IUserService service, [FromBody] UserDeleteRequestDto dto) =>
+            app.MapDelete("/HRMS/DeleteTenancyRole", async (ITenancyRoleService service, [FromBody] TenancyRoleDeleteRequestDto dto) =>
             {
-                var validator = new UserDeleteRequestValidator();
+                var validator = new TenancyRoleDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);
 
                 if (!validationResult.IsValid)
@@ -183,20 +183,20 @@ namespace HRMS.API.Modules.User
                 }
                 try
                 {
-                    var result = await service.DeleteUser(dto);
+                    var result = await service.DeleteTenancyRole(dto);
                     if (result == null)
                     {
                         return Results.NotFound(
                            ResponseHelper<string>.Error(
-                               message: "User Not Found",
+                               message: "Tenancy Role Not Found",
                                statusCode: StatusCodeEnum.NOT_FOUND
                            ).ToDictionary()
                        );
                     }
 
                     return Results.Ok(
-                       ResponseHelper<UserDeleteResponseDto>.Success(
-                           message: "User Deleted Successfully",
+                       ResponseHelper<TenancyRoleDeleteResponseDto>.Success(
+                           message: "Tenancy Role Deleted Successfully",
                            data: result
                        ).ToDictionary()
                    );
@@ -205,7 +205,7 @@ namespace HRMS.API.Modules.User
                 {
                     return Results.Json(
                         ResponseHelper<string>.Error(
-                            message: "An Unexpected Error occurred while Deleting the User.",
+                            message: "An Unexpected Error occurred while Deleting the Tenancy Role.",
                             exception: ex,
                             isWarning: false,
                             statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR

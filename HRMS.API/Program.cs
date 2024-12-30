@@ -1,13 +1,16 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using HRMS.API.Endpoints.Tenant;
 using HRMS.API.Modules.User;
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.PersistenceLayer.Repositories;
+using HRMS.Utility.AutoMapperProfiles.Tenant.TenancyRoleMapping;
+using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
+using HRMS.Utility.Validators.Tenant.TenancyRole;
+using HRMS.Utility.Validators.User.User;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
-using HRMS.Utility.Validators.User.User;
 
 namespace HRMS.API
 {
@@ -19,10 +22,12 @@ namespace HRMS.API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITenancyRoleService, TenancyRoleService>();
+            builder.Services.AddScoped<ITenancyRoleRepository, TenancyRoleRepository>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
-            builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+            builder.Services.AddAutoMapper(typeof(UserMappingProfile), typeof(TenancyRoleMappingProfile));
 
             builder.Services.AddAuthorization();
 
@@ -42,6 +47,10 @@ namespace HRMS.API
             builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleCreateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleUpdateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleReadRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleDeleteRequestValidator>();
 
             var app = builder.Build();
 
@@ -56,6 +65,7 @@ namespace HRMS.API
             app.UseAuthorization();
 
             app.MapUserEndpoints();
+            app.MapTenancyRoleEndpoints();
 
             app.Run();
         }

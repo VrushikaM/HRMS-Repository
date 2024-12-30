@@ -23,12 +23,12 @@ namespace HRMS.PersistenceLayer.Repositories
             return users;
         }
 
-        public async Task<UserReadResponseEntity?> GetUser(int? userId)
+        public async Task<UserReadResponseEntity?> GetUserById(int? userId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userId);
 
-            var user = await _dbConnection.QueryFirstOrDefaultAsync<UserReadResponseEntity>(UserStoredProcedures.GetUser, parameters, commandType: CommandType.StoredProcedure);
+            var user = await _dbConnection.QueryFirstOrDefaultAsync<UserReadResponseEntity>(UserStoredProcedures.GetUserById, parameters, commandType: CommandType.StoredProcedure);
             return user;
         }
 
