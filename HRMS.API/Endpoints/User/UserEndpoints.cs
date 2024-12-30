@@ -44,7 +44,7 @@ namespace HRMS.API.Modules.User
                 }
                 try
                 {
-                    var user = await service.GetUser(id);
+                    var user = await service.GetUserById(id);
                     if (user == null)
                     {
                         return Results.NotFound(

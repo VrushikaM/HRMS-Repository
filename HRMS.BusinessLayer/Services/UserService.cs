@@ -29,9 +29,9 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<UserReadResponseDto?> GetUser(int? userId)
+    public async Task<UserReadResponseDto?> GetUserById(int? userId)
     {
-        var user = await _userRepository.GetUser(userId);
+        var user = await _userRepository.GetUserById(userId);
         if (user == null || user.UserId == -1)
         {
             return null;
