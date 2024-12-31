@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HRMS.Entities.Tenant.TenantRegistration.TenantRegistrationRequestEntities;
+using HRMS.Entities.Tenant.TenantRegistration.TenantRegistrationResponseEntities;
 
 namespace HRMS.PersistenceLayer.Interfaces
 {
     public interface ITenantRegistrationRepository
     {
+        Task<TenantRegistrationCreateResponseEntity> CreateTenancyRole(TenantRegistrationCreateRequestEntity tenancyrole);
     }
 }
