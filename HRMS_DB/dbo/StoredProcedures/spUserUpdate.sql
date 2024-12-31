@@ -1,7 +1,6 @@
 CREATE PROCEDURE [dbo].[spUserUpdate]
 @UserId INT = NULL,
 @FirstName NVARCHAR(50) = NULL,
-@MiddleName NVARCHAR(100) = NULL,
 @LastName NVARCHAR(50) = NULL,
 @UserName NVARCHAR(50) = NULL,
 @Email NVARCHAR(50) = NULL,
@@ -9,12 +8,7 @@ CREATE PROCEDURE [dbo].[spUserUpdate]
 @Gender NVARCHAR(50) = NULL,
 @DateOfBirth DATE = NULL,
 @IsActive BIT = NULL,
-@IsDelete BIT = NULL,
-@UpdatedBy INT = NULL,
-@TenantID INT = NULL,
-@RoleID INT = NULL,
-@TenancyRoleID INT = NULL
-
+@UpdatedBy INT = NULL
 AS
 BEGIN
 SET NOCOUNT ON;
