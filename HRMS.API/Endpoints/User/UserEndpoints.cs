@@ -44,7 +44,7 @@ namespace HRMS.API.Modules.User
                 }
                 try
                 {
-                    var user = await service.GetUser(id);
+                    var user = await service.GetUserById(id);
                     if (user == null)
                     {
                         return Results.NotFound(
@@ -91,7 +91,6 @@ namespace HRMS.API.Modules.User
                         ).ToDictionary()
                     );
                 }
-
                 try
                 {
                     var newUser = await _userService.CreateUser(dto);
@@ -102,7 +101,6 @@ namespace HRMS.API.Modules.User
                         ).ToDictionary()
                     );
                 }
-
                 catch (Exception ex)
                 {
                     return Results.Json(
@@ -133,7 +131,6 @@ namespace HRMS.API.Modules.User
                        ).ToDictionary()
                    );
                 }
-
                 try
                 {
                     var updatedUser = await service.UpdateUser(dto);
@@ -154,7 +151,6 @@ namespace HRMS.API.Modules.User
                         ).ToDictionary()
                     );
                 }
-
                 catch (Exception ex)
                 {
                     return Results.Json(
@@ -185,7 +181,6 @@ namespace HRMS.API.Modules.User
                       ).ToDictionary()
                   );
                 }
-
                 try
                 {
                     var result = await service.DeleteUser(dto);
@@ -206,7 +201,6 @@ namespace HRMS.API.Modules.User
                        ).ToDictionary()
                    );
                 }
-
                 catch (Exception ex)
                 {
                     return Results.Json(
