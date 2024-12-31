@@ -2,6 +2,7 @@
 CREATE PROCEDURE [dbo].[spUserAdd]
 @UserId INT OUTPUT,
 @FirstName NVARCHAR(50) = NULL,
+@MiddleName NVARCHAR(100) = NULL,
 @LastName NVARCHAR(50) = NULL,
 @UserName NVARCHAR(50) = NULL,
 @Email NVARCHAR(50) = NULL,
@@ -9,8 +10,12 @@ CREATE PROCEDURE [dbo].[spUserAdd]
 @Gender NVARCHAR(50) = NULL,
 @DateOfBirth DATE = NULL,
 @IsActive BIT = NULL,
+@IsDelete BIT = NULL,
 @CreatedBy INT = NULL,
-@UpdatedBy INT = NULL
+@UpdatedBy INT = NULL,
+@TenantID INT = NULL,
+@RoleID INT = NULL,
+@TenancyRoleID INT = NULL
 AS
 BEGIN
 SET NOCOUNT ON;

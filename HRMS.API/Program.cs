@@ -2,24 +2,22 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using HRMS.API.Endpoints.Tenant;
 using HRMS.API.Endpoints.User;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using HRMS.API.Endpoints.Tenant;
 using HRMS.API.Modules.User;
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.BusinessLayer.Services;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.PersistenceLayer.Repositories;
 using HRMS.Utility.AutoMapperProfiles.Tenant.OrganizationMapping;
+using HRMS.Utility.AutoMapperProfiles.Tenant.SubdomainMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.TenancyRoleMapping;
+using HRMS.Utility.AutoMapperProfiles.Tenant.TenantMapping;
 using HRMS.Utility.AutoMapperProfiles.User.RolesMapping;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
 using HRMS.Utility.Validators.Tenant.Organization;
+using HRMS.Utility.Validators.Tenant.Subdomain;
 using HRMS.Utility.Validators.Tenant.TenancyRole;
-using HRMS.Utility.Validators.User.User;
-using HRMS.Utility.Validators.User.UserRoles;
-using HRMS.Utility.AutoMapperProfiles.Tenant.TenantMapping;
 using HRMS.Utility.Validators.Tenant.Tenant;
+using HRMS.Utility.Validators.User.UserRoles;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -36,6 +34,9 @@ namespace HRMS.API
             builder.Services.AddScoped<ITenantRepository, TenantRepository>();
             builder.Services.AddScoped<ITenantService, TenantService>();
 
+            builder.Services.AddScoped<ISubdomainRepository, SubdomainRepository>();
+            builder.Services.AddScoped<ISubdomainService, SubdomainService>();
+
             builder.Services.AddScoped<ITenancyRoleService, TenancyRoleService>();
             builder.Services.AddScoped<ITenancyRoleRepository, TenancyRoleRepository>();
 
@@ -50,8 +51,10 @@ namespace HRMS.API
             builder.Services.AddAutoMapper(typeof(UserMappingProfile),
                                            typeof(TenancyRoleMappingProfile),
                                            typeof(UserRolesMappingProfile),
-                                           typeof(OrganizationMappingProfile));
-            builder.Services.AddAutoMapper(typeof(TenantMappingProfile));
+                                           typeof(OrganizationMappingProfile),
+                                           typeof(SubdomainMappingProfile),
+                                           typeof(OrganizationMappingProfile),
+                                           typeof(TenantMappingProfile));
 
             builder.Services.AddAuthorization();
             builder.Services.AddCors();
@@ -69,7 +72,7 @@ namespace HRMS.API
             });
 
             builder.Services.AddFluentValidationAutoValidation();
-           
+
             builder.Services.AddValidatorsFromAssemblyContaining<TenantCreateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<TenantUpdateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<TenantReadRequestValidator>();
@@ -90,6 +93,11 @@ namespace HRMS.API
             builder.Services.AddValidatorsFromAssemblyContaining<OrganizationUpdateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<OrganizationDeleteRequestValidator>();
 
+            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainCreateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainReadRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainUpdateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainDeleteRequestValidator>();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -105,9 +113,10 @@ namespace HRMS.API
             app.MapOrganizationEndpoints();
             app.MapTenancyRoleEndpoints();
             app.MapUserRolesEndpoints();
+            app.MapSubdomainEndpoints();
             app.MapTenantEndpoints();
 
-            app.Run("https://192.168.1.198:7196");
+            app.Run();
         }
     }
 }

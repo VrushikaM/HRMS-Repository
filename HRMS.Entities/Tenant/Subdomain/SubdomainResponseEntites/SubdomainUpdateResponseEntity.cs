@@ -1,10 +1,10 @@
-﻿namespace HRMS.Dtos.User.UserRoles.UserRolesResponseDtos
+﻿namespace HRMS.Entities.Tenant.Subdomain.SubdomainResponseEntites
 {
-    public class UserRolesCreateResponseDto
+    public class SubdomainUpdateResponseEntity
     {
-        public int RoleId { get; set; }
-        public string RoleName { get; set; } = string.Empty;
-        public int PermissionGroupId { get; set; }
+        public int SubdomainID { get; set; }
+        public int DomainID { get; set; }
+        public string SubdomainName { get; set; } = string.Empty;
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -13,3 +13,4 @@
         public bool IsDelete { get; set; }
     }
 }
+
