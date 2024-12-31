@@ -29,6 +29,3 @@ ehthumbs.db
 
 # Ignore Visual Studio files
 .vs/
-
-# Ignore appsettings.json
-appsettings.json

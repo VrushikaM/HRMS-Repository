@@ -1,13 +1,15 @@
-using HRMS.API.Modules.User;
-using HRMS.BusinessLayer.Interfaces;
-using HRMS.PersistenceLayer.Interfaces;
-using HRMS.PersistenceLayer.Repositories;
-using Microsoft.Data.SqlClient;
-using System.Data;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
-using HRMS.Utility.Validators.User.User;
+using HRMS.API.Endpoints.Tenant;
+using HRMS.API.Modules.User;
+using HRMS.BusinessLayer.Interfaces;
+using HRMS.BusinessLayer.Services;
+using HRMS.PersistenceLayer.Interfaces;
+using HRMS.PersistenceLayer.Repositories;
+using HRMS.Utility.AutoMapperProfiles.Tenant.TenantMapping;
+using HRMS.Utility.Validators.Tenant.Tenant;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace HRMS.API
 {
@@ -19,17 +21,21 @@ namespace HRMS.API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITenantRepository, TenantRepository>();
+            builder.Services.AddScoped<ITenantService, TenantService>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
-            builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+            builder.Services.AddAutoMapper(typeof(TenantMappingProfile));
 
             builder.Services.AddAuthorization();
+            builder.Services.AddCors();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
                 options.DescribeAllParametersInCamelCase();
+                options.EnableAnnotations();
             });
 
             builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
@@ -38,10 +44,11 @@ namespace HRMS.API
             });
 
             builder.Services.AddFluentValidationAutoValidation();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
+           
+            builder.Services.AddValidatorsFromAssemblyContaining<TenantCreateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenantUpdateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenantReadRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<TenantDeleteRequestValidator>();
 
             var app = builder.Build();
 
@@ -50,14 +57,14 @@ namespace HRMS.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
-
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthorization();
 
             app.MapUserEndpoints();
+            app.MapTenantEndpoints();
 
-            app.Run();
+            app.Run("https://192.168.1.198:7196");
         }
     }
 }
