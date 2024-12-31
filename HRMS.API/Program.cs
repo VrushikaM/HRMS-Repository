@@ -8,6 +8,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
 using HRMS.Utility.Validators.User.User;
+using HRMS.Utility.AutoMapperProfiles.Leave.LeaveRequestMapping;
 
 namespace HRMS.API
 {
@@ -18,11 +19,11 @@ namespace HRMS.API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ILeaveService, UserService>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
-            builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+            builder.Services.AddAutoMapper(typeof(UserMappingProfile),typeof(LeaveRequestMappingProfile));
 
             builder.Services.AddAuthorization();
 
