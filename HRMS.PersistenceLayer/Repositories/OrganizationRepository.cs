@@ -56,6 +56,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 OrganizationName = organization.OrganizationName,
                 CreatedBy = organization.CreatedBy,
                 CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 IsActive = organization.IsActive
             };
 
