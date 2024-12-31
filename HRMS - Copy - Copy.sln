@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.API", "HRMS.API\HRMS.API.csproj", "{DB318D07-07A5-4EA8-819B-B2E8CF43297D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRMS.API", "HRMS.API\HRMS.API.csproj", "{DB318D07-07A5-4EA8-819B-B2E8CF43297D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.BusinessLayer", "HRMS.BusinessLayer\HRMS.BusinessLayer.csproj", "{D9B54FCE-85BF-4672-B7BE-326B4ED62DC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRMS.BusinessLayer", "HRMS.BusinessLayer\HRMS.BusinessLayer.csproj", "{D9B54FCE-85BF-4672-B7BE-326B4ED62DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.Dtos", "HRMS.Dtos\HRMS.Dtos.csproj", "{C8017072-D8B5-40CA-B24D-150AC042FACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRMS.Dtos", "HRMS.Dtos\HRMS.Dtos.csproj", "{C8017072-D8B5-40CA-B24D-150AC042FACA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.Entities", "HRMS.Entities\HRMS.Entities.csproj", "{AB798B2B-4D5F-4BC5-97F1-E1EB07F06E41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRMS.Entities", "HRMS.Entities\HRMS.Entities.csproj", "{AB798B2B-4D5F-4BC5-97F1-E1EB07F06E41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.PersistenceLayer", "HRMS.PersistenceLayer\HRMS.PersistenceLayer.csproj", "{7984C001-F386-4C01-A6B1-FC2835D04AAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRMS.PersistenceLayer", "HRMS.PersistenceLayer\HRMS.PersistenceLayer.csproj", "{7984C001-F386-4C01-A6B1-FC2835D04AAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.Utility", "HRMS.Utility\HRMS.Utility.csproj", "{DA3ACE6B-F186-4517-8BA9-078DED0A010E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRMS.Utility", "HRMS.Utility\HRMS.Utility.csproj", "{DA3ACE6B-F186-4517-8BA9-078DED0A010E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
