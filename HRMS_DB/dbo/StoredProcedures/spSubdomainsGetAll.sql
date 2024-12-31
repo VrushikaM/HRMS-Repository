@@ -1,4 +1,4 @@
-	CREATE PROCEDURE spSubdomainsGetAll
+	CREATE PROCEDURE [dbo].[spSubdomainsGetAll]
 AS
 BEGIN
     

@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE spOrganizationGet
+CREATE PROCEDURE [dbo].[spOrganizationGet]
     @OrganizationID INT
 AS
 BEGIN
