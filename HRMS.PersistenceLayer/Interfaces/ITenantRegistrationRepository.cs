@@ -5,6 +5,6 @@ namespace HRMS.PersistenceLayer.Interfaces
 {
     public interface ITenantRegistrationRepository
     {
-        Task<TenantRegistrationCreateResponseEntity> CreateTenancyRole(TenantRegistrationCreateRequestEntity tenancyrole);
+        Task<TenantRegistrationCreateResponseEntity> CreateTenantRegistration(TenantRegistrationCreateRequestEntity tenantRegistration);
     }
 }

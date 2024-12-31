@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HRMS.Dtos.Tenant.TenantRegistration.TenantRegistrationRequestDtos;
+using HRMS.Dtos.Tenant.TenantRegistration.TenantRegistrationResponseDtos;
 
 namespace HRMS.BusinessLayer.Interfaces
 {
     public interface ITenantRegistrationService
     {
+        //Task<TenantRegistrationCreateResponseDto> CreateTenantRegistration(TenantRegistrationCreateRequestDto tenantRegistrationDto);
     }
 }
