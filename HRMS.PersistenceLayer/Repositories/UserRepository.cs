@@ -78,6 +78,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 TenantID = user.TenantID,
                 RoleID = user.RoleID,
                 TenancyRoleID = user.TenancyRoleID,
+                CreatedBy = user.CreatedBy,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
@@ -129,7 +130,8 @@ namespace HRMS.PersistenceLayer.Repositories
                 TenantID = user.TenantID,
                 RoleID = user.RoleID,
                 TenancyRoleID = user.TenancyRoleID,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = user.UpdatedBy,
             };
 
             return updatedUser;

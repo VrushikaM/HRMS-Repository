@@ -10,6 +10,7 @@ namespace HRMS.PersistenceLayer.Repositories
     public class SubdomainRepository : ISubdomainRepository
     {
         private readonly IDbConnection _dbConnection;
+
         public SubdomainRepository(IDbConnection dbConnection)
         {
             _dbConnection = dbConnection;
@@ -72,13 +73,12 @@ namespace HRMS.PersistenceLayer.Repositories
                 SubdomainName = subdomain.SubdomainName,
                 IsActive = subdomain.IsActive,
                 IsDelete = subdomain.IsDelete,
-                CreatedBy = subdomain.CreatedBy,
                 UpdatedBy = subdomain.UpdatedBy,
-                CreatedAt = subdomain.CreatedAt,
                 UpdatedAt = DateTime.Now
             };
             return updatedSubdomain;
         }
+
         public async Task<int> DeleteSubdomain(SubdomainDeleteRequestEntity subdomain)
         {
             var parameters = new DynamicParameters();

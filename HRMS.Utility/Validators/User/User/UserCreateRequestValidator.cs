@@ -47,9 +47,6 @@ namespace HRMS.Utility.Validators.User.User
             RuleFor(user => user.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
 
-            RuleFor(user => user.IsDelete)
-              .NotNull().WithMessage("IsDelete must be true or false.");
-
             RuleFor(user => user.TenantID)
                .NotNull().WithMessage("Tenant ID is Required.");
 

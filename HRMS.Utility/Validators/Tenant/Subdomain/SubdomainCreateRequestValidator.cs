@@ -21,9 +21,6 @@ namespace HRMS.Utility.Validators.Tenant.Subdomain
 
             RuleFor(subdomain => subdomain.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
-
-            RuleFor(subdomain => subdomain.IsDelete)
-                .NotNull().WithMessage("IsDelete must be true or false.");
         }
     }
 }

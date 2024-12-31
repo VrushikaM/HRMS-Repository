@@ -10,6 +10,6 @@
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDelete { get; set; } = false;
+        public bool IsDelete { get; set; }
     }
 }
