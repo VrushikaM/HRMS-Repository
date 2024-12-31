@@ -11,18 +11,22 @@
             get; set;
         }
         public string SubdomainName { get; set; } = string.Empty;
-
-        public DateTime CreatedAt
+                public DateTime CreatedAt
         {
             get; set;
         }
         public DateTime UpdatedAt
         {
             get; set;
+        }        public int CreatedBy
+        {
+            get; set;
         }
-
-
-        public bool IsActive
+        public int UpdatedBy
+        {
+            get; set;
+        }
+                public bool IsActive
         {
             get; set;
         }

@@ -1,4 +1,6 @@
-﻿namespace HRMS.Utility.Helpers.Passwords
+﻿using BCrypt.Net;
+
+namespace HRMS.Utility.Helpers.Passwords
 {
     public static class PasswordHashingUtility
     {

@@ -3,10 +3,14 @@ using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
 
 namespace HRMS.Utility.Validators.Subdomain.Subdomain
 {
-    public class SubdomainCreateRequestValidator : AbstractValidator<SubdomainCreateRequestDto>
+    public class SubdomainUpdateRequestValidator : AbstractValidator<SubdomainUpdateRequestDto>
     {
-        public SubdomainCreateRequestValidator()
+        public SubdomainUpdateRequestValidator()
         {
+            RuleFor(x => x.SubdomainID)
+              .NotNull().WithMessage("Subdomain ID is Required.")
+              .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
+
             RuleFor(subdomain => subdomain.SubdomainName)
                 .NotEmpty().WithMessage("Subdomain Name is Required.")
                 .Length(3, 100).WithMessage("Subdomain Name must be between 3 and 100 characters.");
@@ -15,9 +19,9 @@ namespace HRMS.Utility.Validators.Subdomain.Subdomain
                 .NotNull().WithMessage("Domain ID is Required.")
                 .GreaterThan(0).WithMessage("Domain ID must be greater than 0.");
 
-            RuleFor(subdomain => subdomain.CreatedBy)
-                .NotNull().WithMessage("CreatedBy is Required.")
-                .GreaterThan(0).WithMessage("CreatedBy must be greater than 0.");
+            RuleFor(subdomain => subdomain.UpdatedBy)
+                .NotNull().WithMessage("UpdatedBy is Required.")
+                .GreaterThan(0).WithMessage("UpdatedBy must be greater than 0.");
 
             RuleFor(subdomain => subdomain.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");

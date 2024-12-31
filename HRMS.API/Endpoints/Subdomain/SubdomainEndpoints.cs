@@ -1,13 +1,9 @@
-﻿using FluentValidation;
-using HRMS.BusinessLayer.Interfaces;
+﻿using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainResponseDto;
-using HRMS.Dtos.User.User.UserRequestDtos;
-using HRMS.Dtos.User.User.UserResponseDtos;
 using HRMS.Utility.Helpers.Enums;
 using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Validators.Subdomain.Subdomain;
-using HRMS.Utility.Validators.User.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS.API.Endpoints.Subdomain
@@ -28,6 +24,7 @@ namespace HRMS.API.Endpoints.Subdomain
                 var errorResponse = ResponseHelper<List<SubdomainReadResponseDto>>.Error("No Subdomains Found");
                 return Results.NotFound(errorResponse.ToDictionary());
             });
+
             app.MapGet("/HRMS/Subdomain/{id}", async (ISubdomainService service, int id) =>
             {
                 var validator = new SubdomainReadRequestValidator();
@@ -77,6 +74,7 @@ namespace HRMS.API.Endpoints.Subdomain
                     );
                 }
             });
+
             app.MapPost("/CreateSubdomain", async (SubdomainCreateRequestDto dto, ISubdomainService _subdomainservice) =>
             {
                 var validator = new SubdomainCreateRequestValidator();
@@ -93,7 +91,6 @@ namespace HRMS.API.Endpoints.Subdomain
                         ).ToDictionary()
                     );
                 }
-
                 try
                 {
                     var newUser = await _subdomainservice.CreateSubdomain(dto);
@@ -104,7 +101,6 @@ namespace HRMS.API.Endpoints.Subdomain
                         ).ToDictionary()
                     );
                 }
-
                 catch (Exception ex)
                 {
                     return Results.Json(
@@ -117,6 +113,45 @@ namespace HRMS.API.Endpoints.Subdomain
                     );
                 }
             });
+
+            app.MapPut("/HRMS/UpdateSubdomain", async (SubdomainUpdateRequestDto dto, ISubdomainService _subdomainservice) =>
+            {
+                var validator = new SubdomainUpdateRequestValidator();
+                var validationResult = validator.Validate(dto);
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                    return Results.BadRequest(
+                        ResponseHelper<List<string>>.Error(
+                            message: "Validation Failed",
+                            errors: errorMessages,
+                            statusCode: StatusCodeEnum.BAD_REQUEST
+                        ).ToDictionary()
+                    );
+                }
+                try
+                {
+                    var updatedSubdomain = await _subdomainservice.UpdateSubdomain(dto);
+                    return Results.Ok(
+                        ResponseHelper<SubdomainUpdateResponseDto>.Success(
+                            message: "Subdomain Updated Successfully",
+                            data: updatedSubdomain
+                        ).ToDictionary()
+                    );
+                }
+                catch (Exception ex)
+                {
+                    return Results.Json(
+                        ResponseHelper<string>.Error(
+                            message: "An Unexpected Error occurred while Updating the Subdomain.",
+                            exception: ex,
+                            isWarning: false,
+                            statusCode: StatusCodeEnum.INTERNAL_SERVER_ERROR
+                        ).ToDictionary()
+                    );
+                }
+            });
+
             app.MapDelete("/HRMS/DeleteSubdomain", async (ISubdomainService service, [FromBody] SubdomainDeleteRequestDto dto) =>
             {
                 var validator = new SubdomainDeleteRequestValidator();
@@ -134,7 +169,6 @@ namespace HRMS.API.Endpoints.Subdomain
                       ).ToDictionary()
                   );
                 }
-
                 try
                 {
                     var result = await service.DeleteSubdomain(dto);
@@ -155,7 +189,6 @@ namespace HRMS.API.Endpoints.Subdomain
                        ).ToDictionary()
                    );
                 }
-
                 catch (Exception ex)
                 {
                     return Results.Json(
@@ -169,6 +202,5 @@ namespace HRMS.API.Endpoints.Subdomain
                 }
             });
         }
-
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto
+﻿namespace HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto
 {
     public class SubdomainReadRequestDto
     {
@@ -12,7 +6,5 @@ namespace HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto
         {
             get; set;
         }
-      
-        
     }
 }

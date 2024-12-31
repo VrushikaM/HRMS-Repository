@@ -2,13 +2,9 @@
 using HRMS.BusinessLayer.Interfaces;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainRequestDto;
 using HRMS.Dtos.Subdomain.Subdomain.SubdomainResponseDto;
-using HRMS.Dtos.User.User.UserResponseDtos;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainRequestEntites;
 using HRMS.Entities.Subdomain.Subdomain.SubdomainResponseEntities;
-using HRMS.Entities.User.User.UserRequestEntities;
-using HRMS.Entities.User.User.UserResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
-using HRMS.PersistenceLayer.Repositories;
 
 namespace HRMS.BusinessLayer.Services
 {
@@ -28,7 +24,6 @@ namespace HRMS.BusinessLayer.Services
             var response = _mapper.Map<IEnumerable<SubdomainReadResponseDto>>(subdomains);
             return response;
         }
-
         public async Task<SubdomainReadResponseDto?> GetSubdomainById(int? subdomainId)
         {
             var subdomain = await _subdomainRepository.GetSubdomainById(subdomainId);
@@ -46,9 +41,12 @@ namespace HRMS.BusinessLayer.Services
             var response = _mapper.Map<SubdomainCreateResponseDto>(addedSubdomain);
             return response;
         }
-        public Task<SubdomainUpdateResponseDto> UpdateSubdomain(SubdomainUpdateRequestDto subdomainDto)
+        public async Task<SubdomainUpdateResponseDto> UpdateSubdomain(SubdomainUpdateRequestDto subdomainDto)
         {
-            throw new NotImplementedException();
+            var sundomainEntity = _mapper.Map<SubdomainUpdateRequestEntity>(subdomainDto);
+            var updatedSubdomain = await _subdomainRepository.UpdateSubdomain(sundomainEntity);
+            var response = _mapper.Map<SubdomainUpdateResponseDto>(updatedSubdomain);
+            return response;
         }
         public async Task<SubdomainDeleteResponseDto?> DeleteSubdomain(SubdomainDeleteRequestDto subdomainDto)
         {
@@ -63,10 +61,5 @@ namespace HRMS.BusinessLayer.Services
 
             return responseDto;
         }
-
-
-
-
-
     }
 }
