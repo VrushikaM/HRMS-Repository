@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[tblRoles] (
+CREATE TABLE [dbo].[tblUserRoles] (
     [RoleId]            INT            IDENTITY (1, 1) NOT NULL,
     [RoleName]          NVARCHAR (255) NULL,
     [PermissionGroupId] INT            NULL,
