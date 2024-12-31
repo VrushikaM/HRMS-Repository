@@ -4,7 +4,9 @@ CREATE TABLE [dbo].[tblOrganization] (
     [CreatedAt]        DATETIME2 (3)  NOT NULL,
     [UpdatedAt]        DATETIME2 (3)  NOT NULL,
     [CreatedBy]        INT            NOT NULL,
-    [UpdatedBy]        INT            NULL
+    [UpdatedBy]        INT            NULL,
+    [IsActive]         BIT            DEFAULT (NULL) NULL,
+    [IsDelete]         BIT            DEFAULT (NULL) NULL
 );
 GO
 

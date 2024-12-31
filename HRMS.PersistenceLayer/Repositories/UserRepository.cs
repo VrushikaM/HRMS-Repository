@@ -20,15 +20,21 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<IEnumerable<UserReadResponseEntity>> GetUsers()
         {
             var users = await _dbConnection.QueryAsync<UserReadResponseEntity>(UserStoredProcedures.GetUsers, commandType: CommandType.StoredProcedure);
+
+            foreach (var user in users)
+            {
+                user.DateOfBirth = DateOnly.FromDateTime(user.DateOfBirth).ToDateTime(TimeOnly.MinValue);
+            }
+
             return users;
         }
 
-        public async Task<UserReadResponseEntity?> GetUser(int? userId)
+        public async Task<UserReadResponseEntity?> GetUserById(int? userId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userId);
 
-            var user = await _dbConnection.QueryFirstOrDefaultAsync<UserReadResponseEntity>(UserStoredProcedures.GetUser, parameters, commandType: CommandType.StoredProcedure);
+            var user = await _dbConnection.QueryFirstOrDefaultAsync<UserReadResponseEntity>(UserStoredProcedures.GetUserById, parameters, commandType: CommandType.StoredProcedure);
             return user;
         }
 
@@ -39,10 +45,11 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@FirstName", user.FirstName);
             parameters.Add("@MiddleName", user.MiddleName);
             parameters.Add("@LastName", user.LastName);
+            parameters.Add("@UserName", user.UserName);
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Gender", user.Gender);
-            parameters.Add("@DateOfBirth", user.DateOfBirth);
+            parameters.Add("@DateOfBirth", user.DateOfBirth.ToDateTime(new TimeOnly(0, 0)));
             parameters.Add("@IsActive", user.IsActive);
             parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@CreatedBy", user.CreatedBy);
@@ -61,6 +68,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
+                UserName = user.UserName,
                 Email = user.Email,
                 Password = hashedPassword,
                 Gender = user.Gender,
@@ -69,7 +77,10 @@ namespace HRMS.PersistenceLayer.Repositories
                 IsDelete = user.IsDelete,
                 TenantID = user.TenantID,
                 RoleID = user.RoleID,
-                TenancyRoleID = user.TenancyRoleID
+                TenancyRoleID = user.TenancyRoleID,
+                CreatedBy = user.CreatedBy,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
 
             return createdUser;
@@ -82,10 +93,11 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@FirstName", user.FirstName);
             parameters.Add("@MiddleName", user.MiddleName);
             parameters.Add("@LastName", user.LastName);
+            parameters.Add("@UserName", user.UserName);
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Gender", user.Gender);
-            parameters.Add("@DateOfBirth", user.DateOfBirth);
+            parameters.Add("@DateOfBirth", user.DateOfBirth.ToDateTime(new TimeOnly(0, 0)));
             parameters.Add("@IsActive", user.IsActive);
             parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@UpdatedBy", user.UpdatedBy);
@@ -93,7 +105,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@RoleID", user.RoleID);
             parameters.Add("@TenancyRoleID", user.TenancyRoleID);
 
-            var result = await _dbConnection.ExecuteAsync(UserStoredProcedures.UpdateUSer, parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.ExecuteAsync(UserStoredProcedures.UpdateUser, parameters, commandType: CommandType.StoredProcedure);
 
             if (result == -1)
             {
@@ -108,6 +120,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
+                UserName = user.UserName,
                 Email = user.Email,
                 Password = hashedPassword,
                 Gender = user.Gender,
@@ -116,7 +129,9 @@ namespace HRMS.PersistenceLayer.Repositories
                 IsDelete = user.IsDelete,
                 TenantID = user.TenantID,
                 RoleID = user.RoleID,
-                TenancyRoleID = user.TenancyRoleID
+                TenancyRoleID = user.TenancyRoleID,
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = user.UpdatedBy,
             };
 
             return updatedUser;

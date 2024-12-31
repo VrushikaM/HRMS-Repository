@@ -9,12 +9,12 @@ namespace HRMS.API.Endpoints.Leave
     {
         public static void MapUserEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/HRMS/GetLeaves", async (ILeaveService service) =>
+            app.MapGet("/HRMS/GetLeaves", async (ILeaveRequestService service) =>
             {
                 var leaves = await service.GetLeaves();
                 if (leaves != null && leaves.Any())
                 {
-                    var response = ResponseHelper<List<LeaveRequestReadResponseDto>>.Success("leaves Retrieved Successfully", leaves.Tolist());
+                    var response = ResponseHelper<List<LeaveRequestReadResponseDto>>.Success("leaves Retrieved Successfully", leaves.ToList());
                     return Results.Ok(response.ToDictionary());
                 }
 

@@ -23,6 +23,10 @@ namespace HRMS.Utility.Validators.User.User
                 .NotEmpty().WithMessage("Last Name is Required.")
                 .Length(2, 50).WithMessage("Last Name must be between 2 and 50 characters.");
 
+            RuleFor(user => user.UserName)
+             .NotEmpty().WithMessage("User Name is Required.")
+             .Length(2, 50).WithMessage("User Name must be between 2 and 50 characters.");
+
             RuleFor(user => user.Email)
                 .NotEmpty().WithMessage("Email is Required.")
                 .EmailAddress().WithMessage("Invalid Email format.");
@@ -42,7 +46,7 @@ namespace HRMS.Utility.Validators.User.User
 
             RuleFor(user => user.DateOfBirth)
                 .NotEmpty().WithMessage("Date of Birth is Required.")
-                .LessThan(DateTime.Now.Date).WithMessage("Date of Birth must be in the past.");
+                .LessThan(DateOnly.FromDateTime(DateTime.Today)).WithMessage("Date of Birth must be in the past.");
 
             RuleFor(user => user.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
