@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[tblUser] (
     [IsDelete]      BIT            NOT NULL,
     [RoleID]        INT            NOT NULL,
     [TenancyRoleID] INT            NOT NULL,
+    [UserName]      NVARCHAR (50)  NOT NULL,
     PRIMARY KEY CLUSTERED ([UserId] ASC)
 );
 GO
