@@ -25,7 +25,7 @@ namespace HRMS.API
 
             //Roles Repository And Service
             builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
-            builder.Services.AddScoped<IUserRolesService,RolesService>();
+            builder.Services.AddScoped<IUserRolesService,UserRolesService>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 

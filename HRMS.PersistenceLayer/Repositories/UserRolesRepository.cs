@@ -29,7 +29,7 @@ namespace HRMS.PersistenceLayer.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@RoleId", rolesId);
 
-            var roles = await _dbConnection.QueryFirstOrDefaultAsync<UserRolesReadResponseEntity>(UserRolesStoredProcedure.GetUserRoles, parameters, commandType: CommandType.StoredProcedure);
+            var roles = await _dbConnection.QueryFirstOrDefaultAsync<UserRolesReadResponseEntity>(UserRolesStoredProcedure.GetUserRoleById, parameters, commandType: CommandType.StoredProcedure);
 
             return roles;
         }
