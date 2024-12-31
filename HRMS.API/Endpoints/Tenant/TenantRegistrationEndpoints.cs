@@ -1,6 +1,6 @@
 ﻿namespace HRMS.API.Endpoints.Tenant
 {
-    public class TenantRegistrationEndpoints
+    public static class TenantRegistrationEndpoints
     {
     }
 }
