@@ -16,14 +16,14 @@ namespace HRMS.API.Endpoints.User
         public static void MapRolesEndpoints(this IEndpointRouteBuilder app)
         {
 
-            app.MapGet("/HRMS/GetAllRoles", async (IRolesService _rolesService) =>
+            app.MapGet("/HRMS/GetAllRoles", async (IUserRolesService _rolesService) =>
             {
 
 
                 var roles = await _rolesService.GetAllUserRoles();
                 if (roles != null && roles.Any())
                 {
-                    var response = ResponseHelper<List<RolesReadResponseDto>>.Success("Roles Retrieved Successfully ", roles.ToList());
+                    var response = ResponseHelper<List<UserRolesReadResponseDto>>.Success("Roles Retrieved Successfully ", roles.ToList());
                     return Results.Ok(response.ToDictionary());
                 }
 
@@ -31,10 +31,10 @@ namespace HRMS.API.Endpoints.User
                 return Results.NotFound(errorResponse.ToDictionary());
             }).WithTags("Roles");
 
-            app.MapGet("/HRMS/GetRolesById{id}", async (IRolesService _rolesService, int id) =>
+            app.MapGet("/HRMS/GetRolesById{id}", async (IUserRolesService _rolesService, int id) =>
             {
-                var validator = new RolesReadRequestValidator();
-                var rolesRequestDto = new RolesReadRequestDto { RoleId = id };
+                var validator = new UserRolesReadRequestValidator();
+                var rolesRequestDto = new UserRolesReadRequestDto { RoleId = id };
 
                 var validationResult = validator.Validate(rolesRequestDto);
                 if (!validationResult.IsValid)
@@ -62,7 +62,7 @@ namespace HRMS.API.Endpoints.User
                     }
 
                     return Results.Ok(
-                        ResponseHelper<RolesReadResponseDto>.Success(
+                        ResponseHelper<UserRolesReadResponseDto>.Success(
                             message: "Role Retrieved Successfully",
                             data: role
                             ).ToDictionary()
@@ -82,9 +82,9 @@ namespace HRMS.API.Endpoints.User
                 }
             }).WithTags("Roles");
 
-            app.MapPost("/CreateRole", async (RolesCreateRequestDto dto, IRolesService _rolesService) =>
+            app.MapPost("/CreateRole", async (UserRolesCreateRequestDto dto, IUserRolesService _rolesService) =>
             {
-                var validator = new RolesCreateRequestValidator();
+                var validator = new UserRolesCreateRequestValidator();
                 var validationResult = validator.Validate(dto);
 
                 if (!validationResult.IsValid)
@@ -103,7 +103,7 @@ namespace HRMS.API.Endpoints.User
                 {
                     var newRole = await _rolesService.CreateUserRole(dto);
                     return Results.Ok(
-                        ResponseHelper<RolesCreateResponseDto>.Success(
+                        ResponseHelper<UserRolesCreateResponseDto>.Success(
                             message: "Role Created Successfully",
                             data: newRole
                         ).ToDictionary()
@@ -123,9 +123,9 @@ namespace HRMS.API.Endpoints.User
                 }
             }).WithTags("Roles");
 
-            app.MapPut("/HRMS/UpdateRoles", async (IRolesService _rolesService, [FromBody] RolesUpdateRequestDto dto) =>
+            app.MapPut("/HRMS/UpdateRoles", async (IUserRolesService _rolesService, [FromBody] UserRolesUpdateRequestDto dto) =>
             {
-                var validator = new RolesUpdateRequestValidator();
+                var validator = new UserRolesUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
 
                 if (!validationResult.IsValid)
@@ -154,7 +154,7 @@ namespace HRMS.API.Endpoints.User
                          );
                     }
                     return Results.Ok(
-                        ResponseHelper<RolesUpdateResponseDto>.Success(
+                        ResponseHelper<UserRolesUpdateResponseDto>.Success(
                             message: "Roles Updated Succesfully ",
                             data: updatedRoles
                             ).ToDictionary()
@@ -176,9 +176,9 @@ namespace HRMS.API.Endpoints.User
 
             }).WithTags("Roles");
 
-            app.MapDelete("/HRMS/DeleteRoles", async(IRolesService _rolesService, [FromBody] RolesDeleteRequestDto dto) =>
+            app.MapDelete("/HRMS/DeleteRoles", async(IUserRolesService _rolesService, [FromBody] UserRolesDeleteRequestDto dto) =>
             {
-                var validator = new RolesDeleteRequestValidator();
+                var validator = new UserRolesDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);
 
                 if (!validationResult.IsValid)
@@ -208,7 +208,7 @@ namespace HRMS.API.Endpoints.User
                     }
 
                     return Results.Ok(
-                           ResponseHelper<RolesDeleteResponseDto>.Success(
+                           ResponseHelper<UserRolesDeleteResponseDto>.Success(
                                message: "Role Deleted Successfully",
                                data: result
                            ).ToDictionary()

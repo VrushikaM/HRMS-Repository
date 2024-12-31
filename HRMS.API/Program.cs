@@ -24,15 +24,15 @@ namespace HRMS.API
             builder.Services.AddScoped<IUserService, UserService>();
 
             //Roles Repository And Service
-            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
-            builder.Services.AddScoped<IRolesService,RolesService>();
+            builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
+            builder.Services.AddScoped<IUserRolesService,RolesService>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
             builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 
             //Roles AutoMapper Profile
-            builder.Services.AddAutoMapper(typeof(RolesMappingProfile));
+            builder.Services.AddAutoMapper(typeof(UserRolesMappingProfile));
 
             builder.Services.AddAuthorization();
 
