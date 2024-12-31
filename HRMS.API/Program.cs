@@ -10,11 +10,13 @@ using HRMS.PersistenceLayer.Repositories;
 using HRMS.Utility.AutoMapperProfiles.Tenant.OrganizationMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.SubdomainMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.TenancyRoleMapping;
+using HRMS.Utility.AutoMapperProfiles.Tenant.TenantRegistrationMapping;
 using HRMS.Utility.AutoMapperProfiles.User.RolesMapping;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
 using HRMS.Utility.Validators.Tenant.Organization;
 using HRMS.Utility.Validators.Tenant.Subdomain;
 using HRMS.Utility.Validators.Tenant.TenancyRole;
+using HRMS.Utility.Validators.Tenant.TenantRegistration;
 using HRMS.Utility.Validators.User.User;
 using HRMS.Utility.Validators.User.UserRoles;
 using Microsoft.Data.SqlClient;
@@ -43,13 +45,18 @@ namespace HRMS.API
             builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
+            builder.Services.AddScoped<ITenantRegistrationRepository, TenantRegistrationRepository>();
+            builder.Services.AddScoped<ITenantRegistrationService,TenantRegistrationService>();
+
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
             builder.Services.AddAutoMapper(typeof(UserMappingProfile),
                                            typeof(TenancyRoleMappingProfile),
                                            typeof(UserRolesMappingProfile),
                                            typeof(OrganizationMappingProfile),
-                                           typeof(SubdomainMappingProfile));
+                                           typeof(SubdomainMappingProfile),
+                                           typeof(TenantRegistrationMappingProfile));
+                                              
 
             builder.Services.AddAuthorization();
 
@@ -90,6 +97,8 @@ namespace HRMS.API
             builder.Services.AddValidatorsFromAssemblyContaining<SubdomainUpdateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<SubdomainDeleteRequestValidator>();
 
+            builder.Services.AddValidatorsFromAssemblyContaining<TenantRegistrationCreateRequestValidator>();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -107,6 +116,7 @@ namespace HRMS.API
             app.MapTenancyRoleEndpoints();
             app.MapUserRolesEndpoints();
             app.MapSubdomainEndpoints();
+            app.MapTenantRegistrationEndpoints();
 
             app.Run();
         }

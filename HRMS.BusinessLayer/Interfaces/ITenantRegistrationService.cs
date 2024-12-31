@@ -5,6 +5,6 @@ namespace HRMS.BusinessLayer.Interfaces
 {
     public interface ITenantRegistrationService
     {
-        //Task<TenantRegistrationCreateResponseDto> CreateTenantRegistration(TenantRegistrationCreateRequestDto tenantRegistrationDto);
+        Task<TenantRegistrationCreateResponseDto> CreateTenantRegistration(TenantRegistrationCreateRequestDto tenantRegistrationDto);
     }
 }

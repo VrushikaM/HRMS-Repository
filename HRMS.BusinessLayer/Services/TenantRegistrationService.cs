@@ -7,16 +7,21 @@ using HRMS.PersistenceLayer.Interfaces;
 
 namespace HRMS.BusinessLayer.Services
 {
-    //private readonly ITenantRegistrationRepository _tenantRegistrationRepository;
-    //private readonly IMapper _mapper;
     public class TenantRegistrationService : ITenantRegistrationService
     {
-        //public async Task<TenantRegistrationCreateResponseDto> CreateTenantRegistration(TenantRegistrationCreateRequestDto tenantRegistrationDto)
-        //{
-        //    var tenantRegisterationEntity = _mapper.Map<TenantRegistrationCreateRequestEntity>(tenantRegistrationDto);
-        //    var addedtenantRegisteration = await _tenantRegistrationRepository.CreateTenantRegistration(tenantRegisterEntity);
-        //    var response = _mapper.Map<TenantRegistrationCreateResponseDto>(addedtenantRegisteration);
-        //    return response;
-        //}
+        private readonly ITenantRegistrationRepository _tenantRegistrationRepository;
+        private readonly IMapper _mapper;
+        public TenantRegistrationService(ITenantRegistrationRepository tenantRegistrationRepository, IMapper mapper)
+        {
+            _tenantRegistrationRepository = tenantRegistrationRepository;
+            _mapper = mapper;
+        }
+        public async Task<TenantRegistrationCreateResponseDto> CreateTenantRegistration(TenantRegistrationCreateRequestDto tenantRegistrationDto)
+        {
+            var tenantRegisterationEntity = _mapper.Map<TenantRegistrationCreateRequestEntity>(tenantRegistrationDto);
+            var addedtenantRegisteration = await _tenantRegistrationRepository.CreateTenantRegistration(tenantRegisterationEntity);
+            var response = _mapper.Map<TenantRegistrationCreateResponseDto>(addedtenantRegisteration);
+            return response;
+        }
     }
 }
