@@ -78,7 +78,7 @@ namespace HRMS.API.Endpoints.User
                 }
             }).WithTags("UserRoles");
 
-            app.MapPost("/CreateRole", async (UserRolesCreateRequestDto dto, IUserRolesService _rolesService) =>
+            app.MapPost("/CreateUserRoles", async (UserRolesCreateRequestDto dto, IUserRolesService _rolesService) =>
             {
                 var validator = new UserRolesCreateRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -117,7 +117,7 @@ namespace HRMS.API.Endpoints.User
                 }
             }).WithTags("UserRoles");
 
-            app.MapPut("/HRMS/UpdateRoles", async (IUserRolesService _rolesService, [FromBody] UserRolesUpdateRequestDto dto) =>
+            app.MapPut("/HRMS/UpdateUserRoles", async (IUserRolesService _rolesService, [FromBody] UserRolesUpdateRequestDto dto) =>
             {
                 var validator = new UserRolesUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
