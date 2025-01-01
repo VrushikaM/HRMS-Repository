@@ -8,8 +8,8 @@ namespace HRMS.Utility.Validators.Tenant.Subdomain
         public SubdomainReadRequestValidator()
         {
             RuleFor(x => x.SubdomainID)
-                .NotNull().WithMessage("Subdomain ID is Required.")
-                .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
+                .NotNull().WithMessage("Subdomain Id is Required.")
+                .GreaterThan(0).WithMessage("Subdomain Id must be greater than Zero.");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace HRMS.Utility.Validators.Tenant.Organization
     {
         public OrganizationUpdateRequestValidator()
         {
-            
+
             RuleFor(org => org.OrganizationID)
                 .GreaterThan(0).WithMessage("OrganizationID must be greater than Zero.");
 
@@ -21,7 +21,7 @@ namespace HRMS.Utility.Validators.Tenant.Organization
                 .When(org => !string.IsNullOrEmpty(org.OrganizationName));
 
             RuleFor(org => org.UpdatedBy)
-                .GreaterThan(0).WithMessage("UpdatedBy must be a valid user ID.");
+                .GreaterThan(0).WithMessage("UpdatedBy must be a valid User Id.");
         }
     }
 }

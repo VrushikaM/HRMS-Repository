@@ -17,13 +17,13 @@ namespace HRMS.PersistenceLayer.Repositories
             _dbConnection = dbConnection;
         }
 
-        public async Task<IEnumerable<UserRolesReadResponseEntity>> GetAllUserRoles()
+        public async Task<IEnumerable<UserRolesReadResponseEntity>> GetUserRoles()
         {
             var roles = await _dbConnection.QueryAsync<UserRolesReadResponseEntity>(UserRolesStoredProcedure.GetUserRoles, commandType: CommandType.StoredProcedure);
             return roles;
         }
 
-        public async Task<UserRolesReadResponseEntity?> GetUserRolesById(int? rolesId)
+        public async Task<UserRolesReadResponseEntity?> GetUserRoleById(int? rolesId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@RoleId", rolesId);
