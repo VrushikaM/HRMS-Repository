@@ -2,8 +2,8 @@
 {
     public class SubdomainReadResponseEntity
     {
-        public int SubdomainID { get; set; }
-        public int DomainID { get; set; }
+        public int SubdomainId { get; set; }
+        public int DomainId { get; set; }
         public string SubdomainName { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

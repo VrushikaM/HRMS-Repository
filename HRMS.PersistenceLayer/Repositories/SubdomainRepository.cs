@@ -25,27 +25,27 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<SubdomainReadResponseEntity?> GetSubdomainById(int? subdomainId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@SubdomainID", subdomainId);
+            parameters.Add("@SubdomainId", subdomainId);
             var subdomain = await _dbConnection.QueryFirstOrDefaultAsync<SubdomainReadResponseEntity>(SubdomainStoredProcedures.GetSubdomainById, parameters, commandType: CommandType.StoredProcedure);
             return subdomain;
         }
         public async Task<SubdomainCreateResponseEntity> CreateSubdomain(SubdomainCreateRequestEntity subdomain)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@SubdomainID", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            parameters.Add("@DomainID", subdomain.DomainID);
+            parameters.Add("@SubdomainId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@DomainId", subdomain.DomainId);
             parameters.Add("@SubdomainName", subdomain.SubdomainName);
             parameters.Add("@CreatedBy", subdomain.CreatedBy);
             parameters.Add("@IsActive", subdomain.IsActive);
 
             await _dbConnection.ExecuteAsync(SubdomainStoredProcedures.CreateSubdomain, parameters, commandType: CommandType.StoredProcedure);
 
-            var subdomainId = parameters.Get<int>("@SubdomainID");
+            var subdomainId = parameters.Get<int>("@SubdomainId");
 
             var CreatedSubdomain = new SubdomainCreateResponseEntity
             {
-                SubdomainID = subdomainId,
-                DomainID = subdomain.DomainID,
+                SubdomainId = subdomainId,
+                DomainId = subdomain.DomainId,
                 SubdomainName = subdomain.SubdomainName,
                 IsActive = subdomain.IsActive,
                 CreatedBy = subdomain.CreatedBy,
@@ -57,8 +57,8 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<SubdomainUpdateResponseEntity?> UpdateSubdomain(SubdomainUpdateRequestEntity subdomain)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@SubdomainId", subdomain.SubdomainID);
-            parameters.Add("@DomainID", subdomain.DomainID);
+            parameters.Add("@SubdomainId", subdomain.SubdomainId);
+            parameters.Add("@DomainId", subdomain.DomainId);
             parameters.Add("@SubdomainName", subdomain.SubdomainName);
             parameters.Add("@UpdatedBy", subdomain.UpdatedBy);
             parameters.Add("@IsActive", subdomain.IsActive);
@@ -68,8 +68,8 @@ namespace HRMS.PersistenceLayer.Repositories
 
             var updatedSubdomain = new SubdomainUpdateResponseEntity
             {
-                SubdomainID = subdomain.SubdomainID,
-                DomainID = subdomain.DomainID,
+                SubdomainId = subdomain.SubdomainId,
+                DomainId = subdomain.DomainId,
                 SubdomainName = subdomain.SubdomainName,
                 IsActive = subdomain.IsActive,
                 IsDelete = subdomain.IsDelete,
@@ -82,7 +82,7 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<int> DeleteSubdomain(SubdomainDeleteRequestEntity subdomain)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@SubdomainID", subdomain.SubdomainID);
+            parameters.Add("@SubdomainId", subdomain.SubdomainId);
 
             var result = await _dbConnection.ExecuteScalarAsync<int>(SubdomainStoredProcedures.DeleteSubdomain, parameters, commandType: CommandType.StoredProcedure);
             return result;

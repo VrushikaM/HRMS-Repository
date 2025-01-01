@@ -7,7 +7,7 @@ namespace HRMS.Utility.Validators.Tenant.TenancyRole
     {
         public TenancyRoleReadRequestValidator()
         {
-            RuleFor(x => x.TenancyRoleID)
+            RuleFor(x => x.TenancyRoleId)
                 .NotNull().WithMessage("Tenancy Role ID is Required.")
                 .GreaterThan(0).WithMessage("Tenancy Role ID must be greater than Zero.");
         }

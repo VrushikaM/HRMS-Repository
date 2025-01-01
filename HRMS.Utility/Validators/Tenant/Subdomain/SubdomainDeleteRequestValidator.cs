@@ -7,7 +7,7 @@ namespace HRMS.Utility.Validators.Tenant.Subdomain
     {
         public SubdomainDeleteRequestValidator()
         {
-            RuleFor(x => x.SubdomainID)
+            RuleFor(x => x.SubdomainId)
                 .NotNull().WithMessage("Subdomain ID is Required.")
                 .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
         }

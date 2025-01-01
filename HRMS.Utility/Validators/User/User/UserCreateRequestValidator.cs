@@ -47,13 +47,13 @@ namespace HRMS.Utility.Validators.User.User
             RuleFor(user => user.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
 
-            RuleFor(user => user.TenantID)
+            RuleFor(user => user.TenantId)
                .NotNull().WithMessage("Tenant ID is Required.");
 
-            RuleFor(user => user.RoleID)
+            RuleFor(user => user.RoleId)
                .NotNull().WithMessage("Role ID is Required.");
 
-            RuleFor(user => user.TenancyRoleID)
+            RuleFor(user => user.TenancyRoleId)
                .NotNull().WithMessage("Tenancy Role ID is Required.");
         }
     }

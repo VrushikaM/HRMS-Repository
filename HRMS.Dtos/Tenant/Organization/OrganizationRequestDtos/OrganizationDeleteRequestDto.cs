@@ -2,6 +2,6 @@
 {
     public class OrganizationDeleteRequestDto
     {
-        public int OrganizationID { get; set; }
+        public int OrganizationId { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace HRMS.API.Endpoints.Tenant
             app.MapGet("/HRMS/Organization/{id}", async (IOrganizationService service, int id) =>
             {
                 var validator = new OrganizationReadRequestValidator();
-                var organizationRequestDto = new OrganizationReadRequestDto { OrganizationID = id };
+                var organizationRequestDto = new OrganizationReadRequestDto { OrganizationId = id };
 
                 var validationResult = validator.Validate(organizationRequestDto);
                 if (!validationResult.IsValid)

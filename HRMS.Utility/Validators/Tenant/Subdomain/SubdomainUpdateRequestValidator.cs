@@ -7,7 +7,7 @@ namespace HRMS.Utility.Validators.Tenant.Subdomain
     {
         public SubdomainUpdateRequestValidator()
         {
-            RuleFor(x => x.SubdomainID)
+            RuleFor(x => x.SubdomainId)
               .NotNull().WithMessage("Subdomain ID is Required.")
               .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
 
@@ -15,7 +15,7 @@ namespace HRMS.Utility.Validators.Tenant.Subdomain
                 .NotEmpty().WithMessage("Subdomain Name is Required.")
                 .Length(3, 100).WithMessage("Subdomain Name must be between 3 and 100 characters.");
 
-            RuleFor(subdomain => subdomain.DomainID)
+            RuleFor(subdomain => subdomain.DomainId)
                 .NotNull().WithMessage("Domain ID is Required.")
                 .GreaterThan(0).WithMessage("Domain ID must be greater than 0.");
 

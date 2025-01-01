@@ -29,7 +29,7 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<OrganizationReadResponseEntity?> GetOrganizationById(int? id)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@OrganizationID", id);
+            parameters.Add("@OrganizationId", id);
 
             var organization = await _dbConnection.QueryFirstOrDefaultAsync<OrganizationReadResponseEntity>(
                 OrganizationStoreProcedures.GetOrganizationById,
@@ -44,15 +44,15 @@ namespace HRMS.PersistenceLayer.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("@OrganizationName", organization.OrganizationName);
             parameters.Add("@CreatedBy", organization.CreatedBy);
-            parameters.Add("@OrganizationID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@OrganizationId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             parameters.Add("@IsActive", organization.IsActive);
 
             await _dbConnection.ExecuteAsync(OrganizationStoreProcedures.CreateOrganization, parameters, commandType: CommandType.StoredProcedure);
 
-            var organizationID = parameters.Get<int>("@OrganizationID");
+            var organizationId = parameters.Get<int>("@OrganizationId");
             var createdOrganization = new OrganizationCreateResponseEntity
             {
-                OrganizationID = organizationID,
+                OrganizationId = organizationId,
                 OrganizationName = organization.OrganizationName,
                 CreatedBy = organization.CreatedBy,
                 CreatedAt = DateTime.Now,
@@ -66,7 +66,7 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<OrganizationUpdateResponseEntity> UpdateOrganization(OrganizationUpdateRequestEntity organization)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@OrganizationID", organization.OrganizationID);
+            parameters.Add("@OrganizationId", organization.OrganizationId);
             parameters.Add("@OrganizationName", organization.OrganizationName);
             parameters.Add("@UpdatedBy", organization.UpdatedBy);
             parameters.Add("@IsActive", organization.IsActive);
@@ -75,7 +75,7 @@ namespace HRMS.PersistenceLayer.Repositories
 
             var UpdateOrganization = new OrganizationUpdateResponseEntity
             {
-                OrganizationID = organization.OrganizationID,
+                OrganizationId = organization.OrganizationId,
                 OrganizationName = organization.OrganizationName,
                 UpdatedBy = organization.UpdatedBy,
                 IsActive = organization.IsActive,
@@ -87,7 +87,7 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<int> DeleteOrganization(OrganizationDeleteRequestEntity organization)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@OrganizationID", organization.OrganizationID);
+            parameters.Add("@OrganizationId", organization.OrganizationId);
             var response = await _dbConnection.ExecuteScalarAsync<int>(OrganizationStoreProcedures.DeleteOrganization, parameters, commandType: CommandType.StoredProcedure);
             return response;
         }

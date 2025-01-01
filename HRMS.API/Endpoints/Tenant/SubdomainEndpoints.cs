@@ -28,7 +28,7 @@ namespace HRMS.API.Endpoints.Tenant
             app.MapGet("/HRMS/Subdomain/{id}", async (ISubdomainService service, int id) =>
             {
                 var validator = new SubdomainReadRequestValidator();
-                var subdomainRequestDto = new SubdomainReadRequestDto { SubdomainID = id };
+                var subdomainRequestDto = new SubdomainReadRequestDto { SubdomainId = id };
 
                 var validationResult = validator.Validate(subdomainRequestDto);
                 if (!validationResult.IsValid)
