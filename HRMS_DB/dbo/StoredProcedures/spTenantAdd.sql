@@ -1,28 +1,61 @@
 CREATE PROCEDURE [dbo].[spTenantAdd]
-@TenantID BigInt OUTPUT,
+@TenantID INT OUTPUT,
 @OrganizationID INT = NULL,
 @DomainID INT = NULL,
 @SubdomainID INT = NULL,
 @TenantName NVARCHAR(55) = NULL,
 @CreatedBy INT = NULL,
-@IsActive BIT = 0,
-@IsDelete BIT = 0
+@UpdatedBy INT = NULL,
+@IsActive BIT = NULL
+
 AS
 BEGIN
+SET NOCOUNT ON;
 
-    IF @CreatedBy IS NULL
+    BEGIN TRY
+        -- Start transaction
+        BEGIN TRANSACTION;
+
+        -- Check if CreatedBy is provided
+        IF @CreatedBy IS NULL
 
         BEGIN
             RAISERROR ('CreatedBy cannot be NULL.', 16, 1);
+            ROLLBACK TRANSACTION;
             RETURN;
         END;
-    
-     --SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
+     
+        -- Set UpdatedBy to CreatedBy if not provided
+        SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
-	INSERT INTO [dbo].[tblTenants] (OrganizationID,DomainID,SubdomainID,TenantName,CreatedBy,IsActive,IsDelete, CreatedAt, UpdatedAt)
-    VALUES (@OrganizationID,@DomainID,@SubdomainID,@TenantName,@CreatedBy,@IsActive,@IsDelete, SYSDATETIME(), SYSDATETIME());
+        -- Insert the tenant record into tblTenant
+        INSERT INTO [dbo].[tblTenants] (OrganizationID,DomainID,SubdomainID,TenantName,CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
+        VALUES (@OrganizationID,@DomainID,@SubdomainID,@TenantName,@CreatedBy, @UpdatedBy,@IsActive, SYSDATETIME(), SYSDATETIME());
+        
+        -- Capture the TenantID of the inserted record
+        SET @TenantID = SCOPE_IDENTITY();
+        
+        SELECT * FROM [dbo].[tblTenants] WHERE TenantID = @TenantID;
+        
+        -- Commit the transaction
+        COMMIT TRANSACTION;
 
-	SET @TenantID = SCOPE_IDENTITY();
+    END TRY
+    BEGIN CATCH
+        -- Handle errors and roll back the transaction if needed
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(4000), @ErrorSeverity INT, @ErrorState INT;
+        SELECT 
+            @ErrorMessage = ERROR_MESSAGE(), 
+            @ErrorSeverity = ERROR_SEVERITY(), 
+            @ErrorState = ERROR_STATE();
+        
+        PRINT 'Error: ' + @ErrorMessage;
+
+        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH
 END;
 GO
 

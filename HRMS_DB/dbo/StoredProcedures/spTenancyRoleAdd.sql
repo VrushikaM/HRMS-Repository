@@ -4,28 +4,54 @@ CREATE PROCEDURE [dbo].[spTenancyRoleAdd]
 @RoleName VARCHAR(255) = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
-@CreatedAt DATETIME = NULL,
-@IsActive BIT = NULL,
-@IsDelete BIT = NULL
+@IsActive BIT = NULL
+
 AS
 BEGIN
-    SET NOCOUNT ON;
+SET NOCOUNT ON;
 
-    IF @CreatedBy IS NULL
-    BEGIN
-        RAISERROR ('CreatedBy cannot be NULL.', 16, 1);
-        RETURN;
-    END;
+    BEGIN TRY
+        -- Start transaction
+        BEGIN TRANSACTION;
 
-    SET @IsActive = ISNULL(@IsActive, 0);
-    SET @IsDelete = ISNULL(@IsDelete, 0);
-    SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
-    SET @CreatedAt = ISNULL(@CreatedAt, SYSDATETIME());
+        -- Check if CreatedBy is provided
+        IF @CreatedBy IS NULL
 
-    INSERT INTO [dbo].[tblTenancyRoles] (RoleName, CreatedBy, UpdatedBy, IsActive, IsDelete, CreatedAt, UpdatedAt)
-    VALUES (@RoleName, @CreatedBy, @UpdatedBy, @IsActive, @IsDelete, @CreatedAt, SYSDATETIME());
+        BEGIN
+            RAISERROR ('CreatedBy cannot be NULL.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END;
+     
+        -- Set UpdatedBy to CreatedBy if not provided
+        SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
-    SET @TenancyRoleID = SCOPE_IDENTITY();
+        INSERT INTO [dbo].[tblTenancyRoles] (RoleName, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
+        VALUES (@RoleName, @CreatedBy, @UpdatedBy, @IsActive, SYSDATETIME(), SYSDATETIME());
+
+        SET @TenancyRoleID = SCOPE_IDENTITY();
+
+        SELECT * FROM [dbo].[tblTenancyRoles] WHERE TenancyRoleID = @TenancyRoleID;
+
+        -- Commit the transaction
+        COMMIT TRANSACTION;
+
+    END TRY
+        BEGIN CATCH
+            -- Handle errors and roll back the transaction if needed
+            IF @@TRANCOUNT > 0
+                ROLLBACK TRANSACTION;
+
+            DECLARE @ErrorMessage NVARCHAR(4000), @ErrorSeverity INT, @ErrorState INT;
+            SELECT 
+                @ErrorMessage = ERROR_MESSAGE(), 
+                @ErrorSeverity = ERROR_SEVERITY(), 
+                @ErrorState = ERROR_STATE();
+            
+            PRINT 'Error: ' + @ErrorMessage;
+
+            RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH
 END;
 GO
 

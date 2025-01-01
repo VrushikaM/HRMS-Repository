@@ -6,10 +6,10 @@ CREATE TABLE [dbo].[tblTenants] (
     [UpdatedBy]      INT           NULL,
     [CreatedAt]      DATETIME      DEFAULT (getdate()) NULL,
     [UpdatedAt]      DATETIME      DEFAULT (getdate()) NULL,
-    [IsActive]       BIT           DEFAULT (NULL) NULL,
-    [IsDelete]       BIT           DEFAULT (NULL) NULL,
-    [DomainID]       BIGINT        DEFAULT ((2)) NULL,
-    [SubdomainID]    BIGINT        DEFAULT ((2)) NULL,
+    [IsActive]       BIT           DEFAULT ((0)) NULL,
+    [IsDelete]       BIT           DEFAULT ((0)) NULL,
+    [DomainID]       BIGINT        DEFAULT ((1)) NULL,
+    [SubdomainID]    BIGINT        DEFAULT ((1)) NULL,
     PRIMARY KEY CLUSTERED ([TenantID] ASC)
 );
 GO

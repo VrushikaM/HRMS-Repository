@@ -10,7 +10,6 @@ CREATE PROCEDURE [dbo].[spUserAdd]
 @Gender NVARCHAR(50) = NULL,
 @DateOfBirth DATE = NULL,
 @IsActive BIT = NULL,
-@IsDelete BIT = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
 @TenantID INT = NULL,
@@ -37,12 +36,14 @@ SET NOCOUNT ON;
         SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
         -- Insert the user record into tblUser
-        INSERT INTO [dbo].[tblUser] (FirstName, MiddleName, LastName, UserName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, IsDelete, CreatedAt, UpdatedAt, TenantID, RoleID, TenancyRoleID)
-        VALUES (@FirstName, @MiddleName, @LastName, @UserName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, @IsDelete, SYSDATETIME(), SYSDATETIME(), @TenantID, @RoleID, @TenancyRoleID);
+        INSERT INTO [dbo].[tblUser] (FirstName, MiddleName, LastName, UserName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt, TenantID, RoleID, TenancyRoleID)
+        VALUES (@FirstName, @MiddleName, @LastName, @UserName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, SYSDATETIME(), SYSDATETIME(), @TenantID, @RoleID, @TenancyRoleID);
 
         -- Capture the UserId of the inserted record
         SET @UserId = SCOPE_IDENTITY();
-
+        
+        SELECT * FROM [dbo].[tblUser] WHERE UserId = @UserId;
+        
         -- Commit the transaction
         COMMIT TRANSACTION;
 
