@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using HRMS.Entities.User.User.UserResponseEntities;
 using HRMS.Entities.User.UserRoles.UserRolesRequestEntities;
 using HRMS.Entities.User.UserRoles.UserRolesResponseEntities;
 using HRMS.PersistenceLayer.Interfaces;
@@ -42,7 +43,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@CreatedBy", roles.CreatedBy);
             parameters.Add("@IsActive", roles.IsActive);
 
-            var role = await _dbConnection.ExecuteScalarAsync<int>(UserRolesStoredProcedure.CreateUserRoles, parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<dynamic>(UserRolesStoredProcedure.CreateUserRoles, parameters, commandType: CommandType.StoredProcedure);
 
             var roleId = parameters.Get<int>("@RoleId");
 
@@ -52,9 +53,11 @@ namespace HRMS.PersistenceLayer.Repositories
                 RoleName = roles.RoleName,
                 PermissionGroupId = roles.PermissionGroupId,
                 CreatedBy = roles.CreatedBy,
-                IsActive = roles.IsActive,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedBy = result?.UpdatedBy,
+                UpdatedAt = DateTime.Now,
+                IsActive = roles.IsActive,
+                IsDelete = result?.IsDelete
             };
 
             return createdRole;
@@ -70,17 +73,20 @@ namespace HRMS.PersistenceLayer.Repositories
             paramters.Add("@IsActive", roles.IsActive);
             paramters.Add("@IsDelete", roles.IsDelete);
 
-            var result = await _dbConnection.ExecuteAsync(UserRolesStoredProcedure.UpdateUserRoles, paramters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<UserRolesUpdateResponseEntity>(UserRolesStoredProcedure.UpdateUserRoles, paramters, commandType: CommandType.StoredProcedure);
 
-            if (result == -1)
+            if (result == null || result.RoleId == -1)
             {
                 return null;
             }
+
             var updateUserRoles = new UserRolesUpdateResponseEntity
             {
                 RoleId = roles.RoleId,
                 RoleName = roles.RoleName,
                 PermissionGroupId = roles.PermissionGroupId,
+                CreatedBy = result.CreatedBy,
+                CreatedAt = result.CreatedAt,
                 UpdatedBy = roles.UpdatedBy,
                 UpdatedAt = DateTime.Now,
                 IsActive = roles.IsActive,

@@ -56,7 +56,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@RoleID", user.RoleID);
             parameters.Add("@TenancyRoleID", user.TenancyRoleID);
 
-            var result = await _dbConnection.QuerySingleOrDefaultAsync<dynamic>(UserStoredProcedures.CreateUSer, parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<dynamic>(UserStoredProcedures.CreateUser, parameters, commandType: CommandType.StoredProcedure);
 
             var userId = parameters.Get<int>("@UserId");
             var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
