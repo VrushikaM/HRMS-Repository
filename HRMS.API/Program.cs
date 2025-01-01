@@ -17,6 +17,7 @@ using HRMS.Utility.Validators.Tenant.Organization;
 using HRMS.Utility.Validators.Tenant.Subdomain;
 using HRMS.Utility.Validators.Tenant.TenancyRole;
 using HRMS.Utility.Validators.Tenant.Tenant;
+using HRMS.Utility.Validators.User.User;
 using HRMS.Utility.Validators.User.UserRoles;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -31,6 +32,7 @@ namespace HRMS.API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+
             builder.Services.AddScoped<ITenantRepository, TenantRepository>();
             builder.Services.AddScoped<ITenantService, TenantService>();
 
@@ -72,6 +74,11 @@ namespace HRMS.API
             });
 
             builder.Services.AddFluentValidationAutoValidation();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
 
             builder.Services.AddValidatorsFromAssemblyContaining<TenantCreateRequestValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<TenantUpdateRequestValidator>();
