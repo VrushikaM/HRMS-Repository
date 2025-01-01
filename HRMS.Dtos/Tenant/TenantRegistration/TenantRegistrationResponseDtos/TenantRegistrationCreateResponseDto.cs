@@ -3,6 +3,7 @@
     public class TenantRegistrationCreateResponseDto
     {
         public int UserId { get; set; }
+        public int SubdomainID { get; set; }
         public string SubdomainName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
