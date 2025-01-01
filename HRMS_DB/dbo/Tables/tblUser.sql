@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[tblUser] (
     [UpdatedBy]     INT            NULL,
     [TenantID]      INT            NOT NULL,
     [MiddleName]    NVARCHAR (100) NOT NULL,
-    [IsDelete]      BIT            NOT NULL,
+    [IsDelete]      BIT            CONSTRAINT [DF_tblUser_IsDelete] DEFAULT ((0)) NULL,
     [RoleID]        INT            NOT NULL,
     [TenancyRoleID] INT            NOT NULL,
     [UserName]      NVARCHAR (50)  NOT NULL,
