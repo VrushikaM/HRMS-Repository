@@ -23,6 +23,8 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using Serilog;
 using Serilog.Extensions.Logging;
+using HRMS.Utility.Helpers.LogHelpers.Interface;
+using HRMS.Utility.Helpers.LogHelpers.Services;
 
 namespace HRMS.API
 {
@@ -32,13 +34,14 @@ namespace HRMS.API
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console() // Logs to the console
-                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // Logs to a file, rolling every day
-                //.WriteTo.Seq("http://localhost:5341")   // Send logs to Seq (replace with your Seq URL)
+                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
                 //.WriteTo.ApplicationInsights("Your-Instrumentation-Key", TelemetryConverter.Traces)  // Optional: Application Insights
                 .MinimumLevel.Information()
                 .CreateLogger();
 
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddScoped<IOrganizationLogger, OrganinizationLogger>();
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -136,7 +139,7 @@ namespace HRMS.API
             app.MapTenantEndpoints();
 
             app.Run();
-            Log.CloseAndFlush();
+            
         }
     }
 }

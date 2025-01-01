@@ -1,6 +1,7 @@
 # .NET build results
 bin/
 obj/
+logs/
 
 # User-specific files
 *.user
