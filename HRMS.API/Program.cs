@@ -16,6 +16,8 @@ using HRMS.Utility.Validators.User.User;
 using HRMS.Utility.Validators.User.UserRoles;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Serilog;
+using Serilog.Extensions.Logging;
 
 namespace HRMS.API
 {
@@ -23,6 +25,14 @@ namespace HRMS.API
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console() // Logs to the console
+                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // Logs to a file, rolling every day
+                //.WriteTo.Seq("http://localhost:5341")   // Send logs to Seq (replace with your Seq URL)
+                //.WriteTo.ApplicationInsights("Your-Instrumentation-Key", TelemetryConverter.Traces)  // Optional: Application Insights
+                .MinimumLevel.Information()
+                .CreateLogger();
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -45,6 +55,7 @@ namespace HRMS.API
                                            typeof(OrganizationMappingProfile));
 
             builder.Services.AddAuthorization();
+            builder.Host.UseSerilog();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
@@ -96,6 +107,7 @@ namespace HRMS.API
             app.MapUserRolesEndpoints();
 
             app.Run();
+            Log.CloseAndFlush();
         }
     }
 }

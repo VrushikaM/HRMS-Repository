@@ -1,0 +1,14 @@
+2024-12-31 20:05:32.049 +05:30 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2024-12-31 20:05:32.088 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44382/swagger/index.html - null null
+2024-12-31 20:05:32.490 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2024-12-31 20:05:32.502 +05:30 [INF] Hosting environment: Development
+2024-12-31 20:05:32.503 +05:30 [INF] Content root path: C:\Users\Tech brain\source\repos\HRMS\HRMS.API
+2024-12-31 20:05:33.023 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44382/swagger/index.html - 200 null text/html;charset=utf-8 947.3705ms
+2024-12-31 20:05:33.230 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44382/_vs/browserLink - null null
+2024-12-31 20:05:33.231 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44382/_framework/aspnetcore-browser-refresh.js - null null
+2024-12-31 20:05:33.298 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44382/swagger/index.js - null null
+2024-12-31 20:05:33.319 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44382/swagger/index.js - 200 null application/javascript;charset=utf-8 20.4465ms
+2024-12-31 20:05:33.524 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44382/_framework/aspnetcore-browser-refresh.js - 200 13752 application/javascript; charset=utf-8 127.2845ms
+2024-12-31 20:05:34.065 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44382/_vs/browserLink - 200 null text/javascript; charset=UTF-8 837.7059ms
+2024-12-31 20:05:34.176 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44382/swagger/v1/swagger.json - null null
+2024-12-31 20:05:34.443 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44382/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 266.2118ms
