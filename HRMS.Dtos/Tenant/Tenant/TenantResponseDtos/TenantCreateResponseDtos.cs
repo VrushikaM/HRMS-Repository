@@ -11,7 +11,7 @@ namespace HRMS.Dtos.Tenant.Tenant.TenantResponseDtos
         public int TenantID { get; set; }
         public int OrganizationID { get; set; }
         public int DomainID { get; set; }
-        public int SubdomainID { get; set; }
+        public int SubdomainId { get; set; }
         public string? TenantName { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }

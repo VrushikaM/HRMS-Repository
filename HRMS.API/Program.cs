@@ -60,7 +60,7 @@ namespace HRMS.API
                                            typeof(UserRolesMappingProfile),
                                            typeof(OrganizationMappingProfile),
                                            typeof(SubdomainMappingProfile),
-                                           typeof(TenantRegistrationMappingProfile));
+                                           typeof(TenantRegistrationMappingProfile),
                                               
                                            typeof(SubdomainMappingProfile),
                                            typeof(OrganizationMappingProfile),

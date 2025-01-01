@@ -11,7 +11,7 @@ namespace HRMS.Entities.Tenant.Tenant.TenantResponseEntities
         public int TenantID { get; set; }
         public int OrganizationID { get; set; }
         public int DomainID { get; set; }
-        public int SubdomainID { get; set; }
+        public int SubdomainId { get; set; }
         public string? TenantName { get; set; }
         public bool IsActive { get; set; }
         public bool IsDelete { get; set; } = false;

@@ -20,7 +20,7 @@ namespace HRMS.Utility.Validators.Tenant.Tenant
               .NotNull().WithMessage("Domain ID is Required.")
               .GreaterThan(0).WithMessage("Domain ID must be greater than Zero.");
 
-            RuleFor(tenant => tenant.SubdomainID)
+            RuleFor(tenant => tenant.SubdomainId)
               .NotNull().WithMessage("Subdomain ID is Required.")
             .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
 

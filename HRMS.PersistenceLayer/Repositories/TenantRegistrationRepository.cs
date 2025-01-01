@@ -20,7 +20,7 @@ namespace HRMS.PersistenceLayer.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            parameters.Add("@SubdomainID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@SubdomainId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             parameters.Add("@SubdomainName", tenantregistration.SubdomainName);
             parameters.Add("@FirstName", tenantregistration.FirstName);
             parameters.Add("@LastName", tenantregistration.LastName);
@@ -31,12 +31,12 @@ namespace HRMS.PersistenceLayer.Repositories
             await _dbConnection.ExecuteAsync(TenantRegistrationStoreProcedures.CreateTenantRegistration, parameters, commandType: CommandType.StoredProcedure);
 
             var userId = parameters.Get<int>("@UserId");
-            var subdomainId = parameters.Get<int>("@SubdomainID");
+            var subdomainId = parameters.Get<int>("@SubdomainId");
             var hashedPassword = PasswordHashingUtility.HashPassword(tenantregistration.Password);
             var createdTenantregistration = new TenantRegistrationCreateResponseEntity
             {
                 UserId= userId,
-                SubdomainID= subdomainId,
+                SubdomainId= subdomainId,
                 SubdomainName = tenantregistration.SubdomainName,
                 FirstName = tenantregistration.FirstName,
                 LastName = tenantregistration.LastName,

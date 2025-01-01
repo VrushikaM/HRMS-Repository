@@ -38,7 +38,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@OrganizationID", tenant.OrganizationID);
             parameters.Add("@TenantName", tenant.TenantName);
             parameters.Add("@DomainID", tenant.DomainID);
-            parameters.Add("@SubdomainID", tenant.SubdomainID);
+            parameters.Add("@SubdomainId", tenant.SubdomainId);
             parameters.Add("@IsActive", tenant.IsActive);
             parameters.Add("@IsDelete", tenant.IsDelete);
             parameters.Add("@CreatedBy", tenant.CreatedBy);
@@ -55,7 +55,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 TenantName = tenant.TenantName,
                 CreatedBy = tenant.CreatedBy,
                 DomainID = tenant.DomainID,
-                SubdomainID = tenant.DomainID,
+                SubdomainId = tenant.SubdomainId,
                 IsActive = tenant.IsActive,
                 IsDelete = tenant.IsDelete,
 
@@ -71,7 +71,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@OrganizationID", tenant.OrganizationID);
             parameters.Add("@TenantName", tenant.TenantName);
             parameters.Add("@DomainID", tenant.DomainID);
-            parameters.Add("@SubdomainID", tenant.SubdomainID);
+            parameters.Add("@SubdomainID", tenant.SubdomainId);
             parameters.Add("@IsActive", tenant.IsActive);
             parameters.Add("@IsDelete", tenant.IsDelete);
             parameters.Add("@UpdatedBy", tenant.UpdatedBy);
@@ -92,7 +92,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 OrganizationID = tenant.OrganizationID,
                 TenantName = tenant.TenantName,
                 DomainID = tenant.DomainID,
-                SubdomainID = tenant.DomainID,
+                SubdomainId = tenant.SubdomainId,
                 IsActive = tenant.IsActive,
                 IsDelete = tenant.IsDelete,
 

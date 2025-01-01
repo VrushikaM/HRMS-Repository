@@ -15,13 +15,13 @@ namespace HRMS.Utility.Validators.Tenant.Tenant
                   .NotNull().WithMessage("Organization ID is Required.")
                   .GreaterThan(0).WithMessage("Organization ID must be greater than Zero.");
 
-            RuleFor(tenant => tenant.DomainID)
-              .NotNull().WithMessage("Domain ID is Required.")
-              .GreaterThan(0).WithMessage("Domain ID must be greater than Zero.");
+            //RuleFor(tenant => tenant.DomainID)
+            //  .NotNull().WithMessage("Domain ID is Required.")
+            //  .GreaterThan(0).WithMessage("Domain ID must be greater than Zero.");
 
-            RuleFor(tenant => tenant.SubdomainID)
-              .NotNull().WithMessage("Subdomain ID is Required.")
-              .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
+            //RuleFor(tenant => tenant.SubdomainId)
+            //  .NotNull().WithMessage("Subdomain ID is Required.")
+            //  .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
 
             RuleFor(tenant => tenant.TenantName)
                  .NotEmpty().WithMessage("Tenant Name is Required.")

@@ -2,6 +2,6 @@
 {
     public static class TenantRegistrationStoreProcedures
     {
-        public const string CreateTenantRegistration = "";
+        public const string CreateTenantRegistration = "spTenantRegistrationAdd";
     }
 }
