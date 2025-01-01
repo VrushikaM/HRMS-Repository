@@ -1,6 +1,5 @@
 CREATE PROCEDURE [dbo].[spSubdomainAdd]
-	@SubdomainID bigint output,
-    @DomainID INT,
+	@SubdomainId bigint output,
     @SubdomainName NVARCHAR(100),
     @CreatedBy INT,
 	@IsActive bit,
@@ -8,14 +7,11 @@ CREATE PROCEDURE [dbo].[spSubdomainAdd]
 AS
 BEGIN
     SET NOCOUNT ON;
+    INSERT INTO tblSubdomains (  SubdomainName, CreatedBy, UpdatedBy, CreatedAt, UpdatedAt, isActive, isDelete)
+    VALUES ( @SubdomainName, @CreatedBy, 1,  GETDATE(), GETDATE(),1,0);
 
-    -- Insert the subdomain with timestamps
-    INSERT INTO Subdomains (DomainID,  SubdomainName, CreatedBy, UpdatedBy, CreatedAt, UpdatedAt, isActive, isDelete)
-    VALUES (@DomainID, @SubdomainName, @CreatedBy, 1,  GETDATE(), GETDATE(),1,0);
-
-    -- Return the created subdomain
    
-   set @SubdomainID = SCOPE_IDENTITY();
+   set @SubdomainId = SCOPE_IDENTITY();
 END
 GO
 

@@ -1,6 +1,5 @@
 CREATE PROCEDURE [dbo].[spSubdomainUpdate]
     @SubdomainId INT = NULL,
-    @DomainID INT = NULL,
     @SubdomainName NVARCHAR(100) = NULL,
 	@CreatedBy int = Null,
     @UpdatedBy INT = NULL,
@@ -8,25 +7,23 @@ CREATE PROCEDURE [dbo].[spSubdomainUpdate]
 	@isDelete bit =0
 AS
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM [dbo].[Subdomains] WHERE SubdomainID = @SubdomainId)
+    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblSubdomains] WHERE SubdomainId = @SubdomainId)
     BEGIN
         SELECT -1 AS SubdomainId;
         RETURN;
     END
 
-    UPDATE [dbo].[Subdomains]
+    UPDATE [dbo].[tblSubdomains]
     SET		
         SubdomainName = @SubdomainName,
-		
-        DomainID = ISNULL(@DomainID, DomainID),
        
         UpdatedBy = @UpdatedBy,
         UpdatedAt = SYSDATETIME(),
 		isActive=@isActive,
 		isDelete=@isDelete
-    WHERE @SubdomainId   = @SubdomainID;
+    WHERE @SubdomainId   = @SubdomainId;
 
-    SELECT * FROM [dbo].[Subdomains] WHERE (@SubdomainId IS NULL OR SubdomainID = @SubdomainId);
+    SELECT * FROM [dbo].[tblSubdomains] WHERE (@SubdomainId IS NULL OR SubdomainId = @SubdomainId);
 END;
 GO
 
