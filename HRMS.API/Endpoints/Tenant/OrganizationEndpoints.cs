@@ -5,6 +5,7 @@ using HRMS.Utility.Helpers.Enums;
 using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Validators.Tenant.Organization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HRMS.API.Endpoints.Tenant
 {
@@ -12,8 +13,14 @@ namespace HRMS.API.Endpoints.Tenant
     {
         public static void MapOrganizationEndpoints(this IEndpointRouteBuilder app)
         {
-
-            app.MapGet("/HRMS/GetOrganizations", async (IOrganizationService service) =>
+            /// <summary> 
+            /// Retrieves a List of Organizations. 
+            /// </summary> 
+            /// <remarks> 
+            /// This endpoint returns a List of Organizations. If no Organizations are found, a 404 status code is returned. 
+            /// </remarks> 
+            /// <returns>A List of Organizations or a 404 status code if no Organizations are found.</returns>
+            app.MapGet("/GetOrganizations", async (IOrganizationService service) =>
             {
                 var organizations = await service.GetOrganizations();
                 if (organizations != null && organizations.Any())
@@ -24,9 +31,18 @@ namespace HRMS.API.Endpoints.Tenant
 
                 var errorResponse = ResponseHelper<IEnumerable<OrganizationReadResponseDto>>.Error("No Organizations Found");
                 return Results.NotFound(errorResponse.ToDictionary());
-            });
+            }).WithTags("Organization")
+            .WithMetadata(new SwaggerOperationAttribute(summary: "Retrieves a List of Organizations", description: "This endpoint returns a List of Organizations. If no Organizations are found, a 404 status code is returned."
+            ));
 
-            app.MapGet("/HRMS/Organization/{id}", async (IOrganizationService service, int id) =>
+            /// <summary> 
+            /// Retrieve Organization by Id. 
+            /// </summary> 
+            /// <remarks> 
+            /// This endpoint return Organization by Id. If no Organization are found, a 404 status code is returned. 
+            /// </remarks> 
+            /// <returns>A Organization or a 404 status code if no Organization are found.</returns>
+            app.MapGet("/GetOrganizationById/{id}", async (IOrganizationService service, int id) =>
             {
                 var validator = new OrganizationReadRequestValidator();
                 var organizationRequestDto = new OrganizationReadRequestDto { OrganizationID = id };
@@ -74,8 +90,17 @@ namespace HRMS.API.Endpoints.Tenant
                         ).ToDictionary()
                     );
                 }
-            });
+            }).WithTags("Organization")
+            .WithMetadata(new SwaggerOperationAttribute(summary: "Retrieve Organization by Id", description: "This endpoint return Organization by Id. If no Organization are found, a 404 status code is returned."
+            ));
 
+            /// <summary> 
+            /// Creates a new Organization. 
+            /// </summary> 
+            /// <remarks> 
+            /// This endpoint allows you to create a new Organization with the provided details. 
+            /// </remarks> 
+            ///<returns> A success or error response based on the operation result.</returns >
             app.MapPost("/CreateOrganization", async (OrganizationCreateRequestDto dto, IOrganizationService _organizationService) =>
             {
                 var validator = new OrganizationCreateRequestValidator();
@@ -113,9 +138,18 @@ namespace HRMS.API.Endpoints.Tenant
                         ).ToDictionary()
                     );
                 }
-            });
+            }).WithTags("Organization")
+            .WithMetadata(new SwaggerOperationAttribute(summary: "Creates a new Organization.", description: "This endpoint allows you to create a new Organization with the provided details."
+            ));
 
-            app.MapPut("/HRMS/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto) =>
+            /// <summary> 
+            /// Updates existing Organization details. 
+            /// </summary> 
+            /// <remarks> 
+            /// This endpoint allows you to update Organization details with the provided Id. 
+            /// </remarks> 
+            ///<returns> A success or error response based on the operation result.</returns >
+            app.MapPut("/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto) =>
             {
                 var validator = new OrganizationUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -163,9 +197,16 @@ namespace HRMS.API.Endpoints.Tenant
                         ).ToDictionary()
                     );
                 }
-            });
+            }).WithTags("Organization")
+            .WithMetadata(new SwaggerOperationAttribute(summary: "Updates existing Organization details", description: "This endpoint allows you to update Organization details with the provided Id."
+            ));
 
-            app.MapDelete("/HRMS/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto) =>
+            /// <summary> 
+            /// Deletes a Organization. 
+            /// </summary> 
+            /// <remarks> 
+            /// This endpoint allows you to delete a Organization based on the provided Organization Id.</remarks>
+            app.MapDelete("/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto) =>
             {
                 var validator = new OrganizationDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -213,7 +254,9 @@ namespace HRMS.API.Endpoints.Tenant
                         ).ToDictionary()
                     );
                 }
-            });
+            }).WithTags("Organization")
+            .WithMetadata(new SwaggerOperationAttribute(summary: "Deletes a Organization. ", description: "This endpoint allows you to delete a Organization based on the provided Organization Id."
+            ));
         }
     }
 }
