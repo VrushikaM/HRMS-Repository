@@ -21,6 +21,10 @@ using HRMS.Utility.Validators.User.User;
 using HRMS.Utility.Validators.User.UserRoles;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Serilog;
+using Serilog.Extensions.Logging;
+using HRMS.Utility.Helpers.LogHelpers.Interface;
+using HRMS.Utility.Helpers.LogHelpers.Services;
 
 namespace HRMS.API
 {
@@ -28,7 +32,16 @@ namespace HRMS.API
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console() // Logs to the console
+                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+                //.WriteTo.ApplicationInsights("Your-Instrumentation-Key", TelemetryConverter.Traces)  // Optional: Application Insights
+                .MinimumLevel.Information()
+                .CreateLogger();
+
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddScoped<IOrganizationLogger, OrganinizationLogger>();
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -60,6 +73,7 @@ namespace HRMS.API
 
             builder.Services.AddAuthorization();
             builder.Services.AddCors();
+            builder.Host.UseSerilog();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
@@ -112,6 +126,7 @@ namespace HRMS.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseHttpsRedirection();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthorization();
