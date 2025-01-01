@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[tblUser] (
     [DateOfBirth]   DATE           NOT NULL,
     [CreatedAt]     DATETIME2 (3)  DEFAULT (sysdatetime()) NOT NULL,
     [UpdatedAt]     DATETIME2 (3)  DEFAULT (sysdatetime()) NOT NULL,
-    [IsActive]      BIT            NOT NULL,
+    [IsActive]      BIT            CONSTRAINT [DF_tblUser_IsActive] DEFAULT ((0)) NULL,
     [CreatedBy]     INT            CONSTRAINT [DF_tblUser_CreatedBy] DEFAULT ((1)) NOT NULL,
     [UpdatedBy]     INT            NULL,
     [TenantID]      INT            NOT NULL,
@@ -20,5 +20,6 @@ CREATE TABLE [dbo].[tblUser] (
     PRIMARY KEY CLUSTERED ([UserId] ASC)
 );
 GO
+
 
 

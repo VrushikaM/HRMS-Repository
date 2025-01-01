@@ -42,19 +42,19 @@ namespace HRMS.Utility.Validators.User.User
 
             RuleFor(user => user.DateOfBirth)
                 .NotEmpty().WithMessage("Date of Birth is Required.")
-                .LessThan(DateOnly.FromDateTime(DateTime.Today)).WithMessage("Date of Birth must be in the past.");
+                .LessThan(DateTime.Today).WithMessage("Date of Birth must be in the past.");
 
             RuleFor(user => user.IsActive)
                 .NotNull().WithMessage("IsActive must be true or false.");
 
             RuleFor(user => user.TenantID)
-               .NotNull().WithMessage("Tenant ID is Required.");
+               .NotNull().WithMessage("Tenant Id is Required.");
 
             RuleFor(user => user.RoleID)
-               .NotNull().WithMessage("Role ID is Required.");
+               .NotNull().WithMessage("Role Id is Required.");
 
             RuleFor(user => user.TenancyRoleID)
-               .NotNull().WithMessage("Tenancy Role ID is Required.");
+               .NotNull().WithMessage("Tenancy Role Id is Required.");
         }
     }
 }

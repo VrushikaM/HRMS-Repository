@@ -9,8 +9,8 @@ namespace HRMS.Utility.Validators.User.UserRoles
         {
 
             RuleFor(roles => roles.RoleId)
-               .NotNull().WithMessage("User Role ID is Required.")
-               .GreaterThan(0).WithMessage("User Role ID must be greater than Zero.");
+               .NotNull().WithMessage("User Role Id is Required.")
+               .GreaterThan(0).WithMessage("User Role Id must be greater than Zero.");
         }
     }
 }

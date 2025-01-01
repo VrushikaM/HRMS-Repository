@@ -49,15 +49,14 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Gender", user.Gender);
-            parameters.Add("@DateOfBirth", user.DateOfBirth.ToDateTime(new TimeOnly(0, 0)));
+            parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
-            parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@CreatedBy", user.CreatedBy);
             parameters.Add("@TenantID", user.TenantID);
             parameters.Add("@RoleID", user.RoleID);
             parameters.Add("@TenancyRoleID", user.TenancyRoleID);
 
-            await _dbConnection.ExecuteAsync(UserStoredProcedures.CreateUSer, parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<dynamic>(UserStoredProcedures.CreateUser, parameters, commandType: CommandType.StoredProcedure);
 
             var userId = parameters.Get<int>("@UserId");
             var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
@@ -73,14 +72,15 @@ namespace HRMS.PersistenceLayer.Repositories
                 Password = hashedPassword,
                 Gender = user.Gender,
                 DateOfBirth = user.DateOfBirth,
-                IsActive = user.IsActive,
-                IsDelete = user.IsDelete,
                 TenantID = user.TenantID,
                 RoleID = user.RoleID,
                 TenancyRoleID = user.TenancyRoleID,
                 CreatedBy = user.CreatedBy,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedBy = result?.UpdatedBy,
+                UpdatedAt = DateTime.Now,
+                IsActive = user.IsActive,
+                IsDelete = result?.IsDelete
             };
 
             return createdUser;
@@ -97,7 +97,7 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@Email", user.Email);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Gender", user.Gender);
-            parameters.Add("@DateOfBirth", user.DateOfBirth.ToDateTime(new TimeOnly(0, 0)));
+            parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
             parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@UpdatedBy", user.UpdatedBy);
@@ -105,14 +105,14 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@RoleID", user.RoleID);
             parameters.Add("@TenancyRoleID", user.TenancyRoleID);
 
-            var result = await _dbConnection.ExecuteAsync(UserStoredProcedures.UpdateUser, parameters, commandType: CommandType.StoredProcedure);
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<UserUpdateResponseEntity>(UserStoredProcedures.UpdateUser, parameters, commandType: CommandType.StoredProcedure);
 
-            if (result == -1)
+            if (result == null || result.UserId == -1)
             {
                 return null;
             }
 
-            var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
+            result.Password = PasswordHashingUtility.HashPassword(user.Password);
 
             var updatedUser = new UserUpdateResponseEntity
             {
@@ -122,16 +122,18 @@ namespace HRMS.PersistenceLayer.Repositories
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
-                Password = hashedPassword,
+                Password = user.Password,
                 Gender = user.Gender,
                 DateOfBirth = user.DateOfBirth,
-                IsActive = user.IsActive,
-                IsDelete = user.IsDelete,
                 TenantID = user.TenantID,
                 RoleID = user.RoleID,
                 TenancyRoleID = user.TenancyRoleID,
-                UpdatedAt = DateTime.Now,
+                CreatedBy = result.CreatedBy,
+                CreatedAt = result.CreatedAt,
                 UpdatedBy = user.UpdatedBy,
+                UpdatedAt = DateTime.Now,
+                IsActive = user.IsActive,
+                IsDelete = user.IsDelete
             };
 
             return updatedUser;
