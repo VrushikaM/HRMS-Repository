@@ -4,21 +4,36 @@ CREATE TABLE [dbo].[tblUser] (
     [LastName]      NVARCHAR (50)  NOT NULL,
     [Email]         NVARCHAR (50)  NOT NULL,
     [Password]      NVARCHAR (50)  NOT NULL,
-    [Gender]        NVARCHAR (50)  NOT NULL,
-    [DateOfBirth]   DATE           NOT NULL,
-    [CreatedAt]     DATETIME2 (3)  DEFAULT (sysdatetime()) NOT NULL,
-    [UpdatedAt]     DATETIME2 (3)  DEFAULT (sysdatetime()) NOT NULL,
-    [IsActive]      BIT            NOT NULL,
+    [Gender]        NVARCHAR (50)  NULL,
+    [DateOfBirth]   DATE           NULL,
+    [CreatedAt]     DATETIME2 (3)  CONSTRAINT [DF__tblUser__Created__37A5467C] DEFAULT (sysdatetime()) NOT NULL,
+    [UpdatedAt]     DATETIME2 (3)  CONSTRAINT [DF__tblUser__Updated__38996AB5] DEFAULT (sysdatetime()) NOT NULL,
+    [IsActive]      BIT            NULL,
     [CreatedBy]     INT            CONSTRAINT [DF_tblUser_CreatedBy] DEFAULT ((1)) NOT NULL,
     [UpdatedBy]     INT            NULL,
-    [TenantID]      INT            NOT NULL,
-    [MiddleName]    NVARCHAR (100) NOT NULL,
-    [IsDelete]      BIT            NOT NULL,
-    [RoleID]        INT            NOT NULL,
-    [TenancyRoleID] INT            NOT NULL,
+    [TenantId]      INT            NULL,
+    [MiddleName]    NVARCHAR (100) NULL,
+    [IsDelete]      BIT            NULL,
+    [RoleId]        INT            NULL,
+    [TenancyRoleId] INT            NULL,
     [UserName]      NVARCHAR (50)  NOT NULL,
-    PRIMARY KEY CLUSTERED ([UserId] ASC)
+    CONSTRAINT [PK__tblUser__1788CC4C5F945034] PRIMARY KEY CLUSTERED ([UserId] ASC)
 );
 GO
 
+
+
+ALTER TABLE [dbo].[tblUser]
+    ADD CONSTRAINT [DF__tblUser__Created__37A5467C] DEFAULT (sysdatetime()) FOR [CreatedAt];
+GO
+
+
+ALTER TABLE [dbo].[tblUser]
+    ADD CONSTRAINT [DF__tblUser__Updated__38996AB5] DEFAULT (sysdatetime()) FOR [UpdatedAt];
+GO
+
+
+ALTER TABLE [dbo].[tblUser]
+    ADD CONSTRAINT [PK__tblUser__1788CC4C5F945034] PRIMARY KEY CLUSTERED ([UserId] ASC);
+GO
 

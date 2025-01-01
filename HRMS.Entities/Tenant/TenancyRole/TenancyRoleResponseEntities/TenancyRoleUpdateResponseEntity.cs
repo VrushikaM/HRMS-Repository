@@ -2,7 +2,7 @@
 {
     public class TenancyRoleUpdateResponseEntity
     {
-        public int TenancyRoleID { get; set; }
+        public int TenancyRoleId { get; set; }
         public string RoleName { get; set; } = string.Empty;
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }

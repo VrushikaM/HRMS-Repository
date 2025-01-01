@@ -1,5 +1,5 @@
 
-create   PROCEDURE [dbo].[spUserRolesGet]
+CREATE PROCEDURE [dbo].[spUserRolesGet]
 @RoleId INT = NULL
 AS
 BEGIN
@@ -15,7 +15,7 @@ BEGIN
         [IsActive], 
         [IsDelete]
     FROM 
-        [dbo].[tblRoles]
+        [dbo].[tblUserRoles]
     WHERE 
         (@RoleId IS NULL OR [RoleId] = @RoleId) AND 
         [IsDelete] = 0  -- Only return records that are not deleted

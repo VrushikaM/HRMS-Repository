@@ -21,7 +21,7 @@ BEGIN
     
     
     -- Insert the new role into the table
-    INSERT INTO [dbo].[tblRoles] 
+    INSERT INTO [dbo].[tblUserRoles] 
         ([RoleName], [PermissionGroupId], [CreatedBy], [UpdatedBy], [CreatedAt], [UpdatedAt], [IsActive], [IsDelete])
     VALUES 
         (@RoleName, @PermissionGroupId, @CreatedBy, @UpdatedBy, SYSDATETIME(), SYSDATETIME(), @IsActive, @IsDelete);
