@@ -1,5 +1,5 @@
 
- CREATE    PROCEDURE [dbo].[spUserRoleMappingAdd]
+ CREATE    PROCEDURE [dbo].[spUserRolesMappingAdd]
     @UserRoleMappingId INT OUTPUT,
     @UserId INT,
     @RoleId INT,

@@ -10,6 +10,9 @@ namespace HRMS.BusinessLayer.Interfaces
 {
     public interface IUserRolesMappingService
     {
+        Task<IEnumerable<UserRolesMappingReadResponseDto>> GetAllUserRolesMapping();
+
+        Task<UserRolesMappingReadResponseDto?> GetByIdUserRolesMapping(int? roleid );
         Task<UserRolesMappingCreateResponseDto> CreateUserRoleMapping(UserRolesMappingCreateRequestDto rolesMappingDto);
     }
 }

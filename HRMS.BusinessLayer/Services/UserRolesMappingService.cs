@@ -26,10 +26,27 @@ namespace HRMS.BusinessLayer.Services
             _userRolesMappingRepository = userRolesMappingRepository;
         }
 
+        public async Task<IEnumerable<UserRolesMappingReadResponseDto>> GetAllUserRolesMapping()
+        {
+            var mappingroles = await _userRolesMappingRepository.GetAllUserRolesMapping();
+            var response = _mapper.Map<IEnumerable<UserRolesMappingReadResponseDto>>(mappingroles);
+            return response;
+        }
+
+        public async Task<UserRolesMappingReadResponseDto?> GetByIdUserRolesMapping(int? roleid)
+        {
+            var role = await _userRolesMappingRepository.GetByIdUserRolesMapping(roleid);
+            if (role == null || role.UserRoleMappingId == -1)
+            {
+                return null;
+            }
+            var response =  _mapper.Map<UserRolesMappingReadResponseDto>(role);
+            return response;
+        }
         public async Task<UserRolesMappingCreateResponseDto> CreateUserRoleMapping(UserRolesMappingCreateRequestDto rolesMappingDto)
         {
             var rolesMappingEntity = _mapper.Map<UserRolesMappingCreateRequestEntity>(rolesMappingDto);
-            var addedUserMappingRole = await _userRolesMappingRepository.CreateUserRoleMapping(rolesMappingEntity);
+            var addedUserMappingRole = await _userRolesMappingRepository.CreateUserRolesMapping(rolesMappingEntity);
             var response = _mapper.Map<UserRolesMappingCreateResponseDto>(addedUserMappingRole);
             return response;
         }

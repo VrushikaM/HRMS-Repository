@@ -2,16 +2,17 @@
 using HRMS.Entities.User.UserRoles.UserRolesResponseEntities;
 using HRMS.Entities.User.UserRolesMapping.UserRolesMappingRequestEntities;
 using HRMS.Entities.User.UserRolesMapping.UserRolesMappingResponseEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRMS.PersistenceLayer.Interfaces
 {
     public interface IUserRolesMappingRepository
     {
-        Task<UserRolesMappingCreateResponseEntity> CreateUserRoleMapping(UserRolesMappingCreateRequestEntity rolesMapping);
+        Task<IEnumerable<UserRolesMappingReadResponseEntity>> GetAllUserRolesMapping();
+        Task<UserRolesMappingReadResponseEntity?> GetByIdUserRolesMapping(int? id);
+        Task<UserRolesMappingCreateResponseEntity> CreateUserRolesMapping(UserRolesMappingCreateRequestEntity rolesMapping);
+
+        //Task<UserRolesMappingUpdateResponseEntity> UpdateUserRolesMapping(UserRolesMappingUpdateRequestEntity roleMapping);
+
+
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Dapper;
-using HRMS.Entities.User.UserRolesMapping.UserRolesMappingRequestEntities;
 using HRMS.Entities.User.UserRolesMapping.UserRolesMappingResponseEntities;
+using HRMS.Entities.User.UserRolesMapping.UserRolesMappingRequestEntities;
 using HRMS.PersistenceLayer.Interfaces;
 using HRMS.Utility.Helpers.SqlHelpers.User;
 using System.Data;
+using HRMS.Dtos.User.UserRolesMapping.UserRolesMappingRequestDtos;
 
 namespace HRMS.PersistenceLayer.Repositories
 {
@@ -15,7 +16,23 @@ namespace HRMS.PersistenceLayer.Repositories
             _dbConnection = dbConnection;
         }
 
-        public async Task<UserRolesMappingCreateResponseEntity> CreateUserRoleMapping(UserRolesMappingCreateRequestEntity rolesMapping)
+        public async Task<IEnumerable<UserRolesMappingReadResponseEntity>> GetAllUserRolesMapping()
+        {
+            var allrolesmapping = await _dbConnection.QueryAsync<UserRolesMappingReadResponseEntity>(UserRolesMappingStoredProcedure.GetAllUserRolesMapping, commandType: CommandType.StoredProcedure);
+            return allrolesmapping;
+        }
+
+
+        public async Task<UserRolesMappingReadResponseEntity?> GetByIdUserRolesMapping(int? id)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserRoleMappingId",id);
+
+            var roles = await _dbConnection.QueryFirstOrDefaultAsync<UserRolesMappingReadResponseEntity>(UserRolesMappingStoredProcedure.GetByIdUserRolesMapping,parameters,commandType:CommandType.StoredProcedure);
+            return roles;
+        }
+
+        public async Task<UserRolesMappingCreateResponseEntity> CreateUserRolesMapping(UserRolesMappingCreateRequestEntity rolesMapping)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserRoleMappingId", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -41,5 +58,18 @@ namespace HRMS.PersistenceLayer.Repositories
 
         }
 
+        //public async Task<UserRolesMappingUpdateResponseEntity> UpdateUserRolesMapping(UserRolesMappingUpdateRequestEntity rolesMapping)
+        //{
+        //    var paramters = new DynamicParameters();
+        //    paramters.Add("@UserRoleMappingId",rolesMapping.UserRoleMappingId );
+        //    paramters.Add("@UserId",rolesMapping.UserId );
+        //    paramters.Add("@RoleId",rolesMapping.RoleId);
+        //    paramters.Add("@UpdatedBy",rolesMapping.UpdatedBy );
+           
+
+        //    var result = await _dbConnection.ExecuteAsync(UserRolesMappingStoredProcedure.,)
+        //}
+
+        
     }
 }
