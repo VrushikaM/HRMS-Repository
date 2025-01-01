@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HRMS.Dtos.Tenant.Tenant.TenantResponseDtos
+﻿namespace HRMS.Dtos.Tenant.Tenant.TenantResponseDtos
 {
     public class TenantReadResponseDtos
     {
@@ -14,7 +8,7 @@ namespace HRMS.Dtos.Tenant.Tenant.TenantResponseDtos
         public int SubdomainID { get; set; }
         public string? TenantName { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDelete { get; set; } = false;
+        public bool IsDelete { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

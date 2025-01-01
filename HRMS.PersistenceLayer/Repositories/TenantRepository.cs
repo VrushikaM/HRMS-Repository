@@ -22,12 +22,12 @@ namespace HRMS.PersistenceLayer.Repositories
             return tenants;
         }
 
-        public async Task<TenantReadResponseEntity?> GetTenant(int? tenantId)
+        public async Task<TenantReadResponseEntity?> GetTenantById(int? tenantId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@TenantID", tenantId);
 
-            var tenant = await _dbConnection.QueryFirstOrDefaultAsync<TenantReadResponseEntity>(TenantStoredProcedures.GetTenant, parameters, commandType: CommandType.StoredProcedure);
+            var tenant = await _dbConnection.QueryFirstOrDefaultAsync<TenantReadResponseEntity>(TenantStoredProcedures.GetTenantById, parameters, commandType: CommandType.StoredProcedure);
             return tenant;
         }
 
@@ -40,13 +40,11 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@DomainID", tenant.DomainID);
             parameters.Add("@SubdomainID", tenant.SubdomainID);
             parameters.Add("@IsActive", tenant.IsActive);
-            parameters.Add("@IsDelete", tenant.IsDelete);
             parameters.Add("@CreatedBy", tenant.CreatedBy);
 
             await _dbConnection.ExecuteAsync(TenantStoredProcedures.CreateTenant, parameters, commandType: CommandType.StoredProcedure);
 
             var tenantId = parameters.Get<int>("@TenantID");
-            //var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
 
             var createdTenant = new TenantCreateResponseEntity
             {
@@ -56,9 +54,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 CreatedBy = tenant.CreatedBy,
                 DomainID = tenant.DomainID,
                 SubdomainID = tenant.DomainID,
-                IsActive = tenant.IsActive,
-                IsDelete = tenant.IsDelete,
-
+                IsActive = tenant.IsActive
             };
 
             return createdTenant;
@@ -84,8 +80,6 @@ namespace HRMS.PersistenceLayer.Repositories
                 return null;
             }
 
-            //var hashedPassword = PasswordHashingUtility.HashPassword(user.Password);
-
             var updateTenant = new TenantUpdateResponseEntity
             {
                 TenantID = tenant.TenantID,
@@ -94,8 +88,7 @@ namespace HRMS.PersistenceLayer.Repositories
                 DomainID = tenant.DomainID,
                 SubdomainID = tenant.DomainID,
                 IsActive = tenant.IsActive,
-                IsDelete = tenant.IsDelete,
-
+                IsDelete = tenant.IsDelete
             };
 
             return updateTenant;
