@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE spOrganizationsGetAll
+CREATE PROCEDURE [dbo].[spOrganizationsGetAll]
 AS
 BEGIN
     -- Retrieve all organizations from the Organizations table

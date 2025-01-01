@@ -25,7 +25,7 @@ namespace HRMS.API.Endpoints.User
 
                 var errorResponse = ResponseHelper<List<UserReadResponseDto>>.Error("No User Roles Found");
                 return Results.NotFound(errorResponse.ToDictionary());
-            }).WithTags("UserRoles");
+            }).WithTags("User Roles");
 
             app.MapGet("/HRMS/GetUserRolesById{id}", async (IUserRolesService _rolesService, int id) =>
             {
@@ -76,7 +76,7 @@ namespace HRMS.API.Endpoints.User
                         ).ToDictionary()
                     );
                 }
-            }).WithTags("UserRoles");
+            }).WithTags("User Roles");
 
             app.MapPost("/CreateRole", async (UserRolesCreateRequestDto dto, IUserRolesService _rolesService) =>
             {
@@ -115,7 +115,7 @@ namespace HRMS.API.Endpoints.User
                         ).ToDictionary()
                     );
                 }
-            }).WithTags("UserRoles");
+            }).WithTags("User Roles");
 
             app.MapPut("/HRMS/UpdateRoles", async (IUserRolesService _rolesService, [FromBody] UserRolesUpdateRequestDto dto) =>
             {
@@ -218,7 +218,7 @@ namespace HRMS.API.Endpoints.User
                     );
 
                 }
-            }).WithTags("UserRoles");
+            }).WithTags("User Roles");
         }
     }
 }

@@ -48,6 +48,8 @@ namespace HRMS.PersistenceLayer.Repositories
                 TenancyRoleID = roleId,
                 RoleName = tenancyrole.RoleName,
                 CreatedBy = tenancyrole.CreatedBy,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 IsActive = tenancyrole.IsActive
             };
 
@@ -76,12 +78,14 @@ namespace HRMS.PersistenceLayer.Repositories
                 RoleName = tenancyrole.RoleName,
                 UpdatedBy = tenancyrole.UpdatedBy,
                 IsActive = tenancyrole.IsActive,
-                IsDelete = tenancyrole.IsDelete
+                IsDelete = tenancyrole.IsDelete,
+                UpdatedAt = DateTime.Now,
             };
 
             return updatedTenancyRole;
 
         }
+
         public async Task<int> DeleteTenancyRole(TenancyRoleDeleteRequestEntity tenancyrole)
         {
             var parameters = new DynamicParameters();
