@@ -7,14 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Endpoints\User\uedvchqk.lnj~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HRMS.BusinessLayer\HRMS.BusinessLayer.csproj" />
     <ProjectReference Include="..\HRMS.Dtos\HRMS.Dtos.csproj" />
+    <ProjectReference Include="..\HRMS.Entities\HRMS.Entities.csproj" />
+    <ProjectReference Include="..\HRMS.PersistenceLayer\HRMS.PersistenceLayer.csproj" />
     <ProjectReference Include="..\HRMS.Utility\HRMS.Utility.csproj" />
   </ItemGroup>
 
