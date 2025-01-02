@@ -6,6 +6,7 @@ using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Helpers.LogHelpers.Interface;
 using HRMS.Utility.Validators.Tenant.Organization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -24,6 +25,9 @@ namespace HRMS.API.Endpoints.Tenant
             /// <returns>A List of Organizations or a 404 status code if no Organizations are found.</returns>
             app.MapGet("/GetOrganizations", async (IOrganizationService service, IOrganizationLogger logger) =>
             {
+                var requestJson = JsonConvert.SerializeObject(new { service });
+                logger.LogInformation("Received request: {RequestJson}", requestJson);
+
                 logger.LogInformation("Fetching all Organizations.");
 
                 var organizations = await service.GetOrganizations();
@@ -50,6 +54,9 @@ namespace HRMS.API.Endpoints.Tenant
             /// <returns>A Organization or a 404 status code if no Organization are found.</returns>
             app.MapGet("/GetOrganizationById/{id}", async (IOrganizationService service, int id, IOrganizationLogger logger) =>
             {
+                var requestJson = JsonConvert.SerializeObject(new { id });
+                logger.LogInformation("Received request: {RequestJson}", requestJson);
+
                 logger.LogInformation("Fetching Organization with Id {OrganizationId}.", id);
 
                 var validator = new OrganizationReadRequestValidator();
@@ -119,6 +126,9 @@ namespace HRMS.API.Endpoints.Tenant
             ///<returns> A success or error response based on the operation result.</returns >
             app.MapPost("/CreateOrganization", async (OrganizationCreateRequestDto dto, IOrganizationService _organizationService, IOrganizationLogger logger) =>
             {
+                var requestJson = JsonConvert.SerializeObject(dto);
+                logger.LogInformation("Received request: {RequestJson}", requestJson);
+
                 logger.LogInformation("Creating new Organization with data: {OrganizationData}", dto);
 
                 var validator = new OrganizationCreateRequestValidator();
@@ -176,7 +186,10 @@ namespace HRMS.API.Endpoints.Tenant
             ///<returns> A success or error response based on the operation result.</returns >
             app.MapPut("/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto, IOrganizationLogger logger) =>
             {
-                logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationId);
+                var requestJson = JsonConvert.SerializeObject(dto);
+                logger.LogInformation("Received request: {RequestJson}", requestJson);
+
+                logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationID);
 
                 var validator = new OrganizationUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -242,7 +255,10 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint allows you to delete a Organization based on the provided Organization Id.</remarks>
             app.MapDelete("/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto, IOrganizationLogger logger) =>
             {
-                logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationId);
+                var requestJson = JsonConvert.SerializeObject(dto);
+                logger.LogInformation("Received request: {RequestJson}", requestJson);
+
+                logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationID);
 
                 var validator = new OrganizationDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);
