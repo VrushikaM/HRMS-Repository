@@ -2,6 +2,6 @@
 {
     public class TenancyRoleReadRequestDto
     {
-        public int TenancyRoleID { get; set; }
+        public int TenancyRoleId { get; set; }
     }
 }

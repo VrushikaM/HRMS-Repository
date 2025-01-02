@@ -66,7 +66,7 @@ namespace HRMS.BusinessLayer.Services
             {
                 return null;
             }
-            var responseEntity = new OrganizationDeleteResponseEntity { OrganizationID = organizationEntity.OrganizationID };
+            var responseEntity = new OrganizationDeleteResponseEntity { OrganizationId = organizationEntity.OrganizationId };
             var responseDto = _mapper.Map<OrganizationDeleteResponseDto>(responseEntity);
             return responseDto;
         }

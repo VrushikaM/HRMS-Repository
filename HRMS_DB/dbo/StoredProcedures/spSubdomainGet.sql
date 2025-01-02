@@ -1,12 +1,11 @@
 CREATE PROCEDURE [dbo].[spSubdomainGet]
-    @SubdomainID INT
+    @SubdomainId INT
 AS
 BEGIN
    
 
     SELECT 
-        SubdomainID,
-        DomainID,
+        SubdomainId,
         
         SubdomainName,
         CreatedBy,
@@ -15,8 +14,8 @@ BEGIN
         UpdatedAt,
 		isActive,
 		isDelete
-    FROM Subdomains
-    WHERE SubdomainID = @SubdomainID;
+    FROM tblSubdomains
+    WHERE SubdomainId = @SubdomainId;
 
 END
 GO

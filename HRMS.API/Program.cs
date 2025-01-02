@@ -10,8 +10,9 @@ using HRMS.Utility.AutoMapperProfiles.Tenant.OrganizationMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.SubdomainMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.TenancyRoleMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.TenantMapping;
-using HRMS.Utility.AutoMapperProfiles.User.RolesMapping;
+using HRMS.Utility.AutoMapperProfiles.Tenant.TenantRegistrationMapping;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
+using HRMS.Utility.AutoMapperProfiles.User.UserRolesMapping;
 using HRMS.Utility.Helpers.LogHelpers.Interface;
 using HRMS.Utility.Helpers.LogHelpers.Services;
 using Microsoft.Data.SqlClient;
@@ -50,8 +51,14 @@ namespace HRMS.API
             builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
             builder.Services.AddScoped<IUserRolesService, UserRolesService>();
 
+            builder.Services.AddScoped<IUserRolesMappingRepository, UserRolesMappingRepository>();
+            builder.Services.AddScoped<IUserRolesMappingService, UserRolesMappingService>();
+
             builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+
+            builder.Services.AddScoped<ITenantRegistrationRepository, TenantRegistrationRepository>();
+            builder.Services.AddScoped<ITenantRegistrationService, TenantRegistrationService>();
 
             builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("HRMS_DB")));
 
@@ -59,6 +66,8 @@ namespace HRMS.API
                                            typeof(TenancyRoleMappingProfile),
                                            typeof(UserRolesMappingProfile),
                                            typeof(OrganizationMappingProfile),
+                                           typeof(SubdomainMappingProfile),
+                                           typeof(TenantRegistrationMappingProfile),
                                            typeof(SubdomainMappingProfile),
                                            typeof(OrganizationMappingProfile),
                                            typeof(TenantMappingProfile));
@@ -99,6 +108,8 @@ namespace HRMS.API
             app.MapUserRolesEndpoints();
             app.MapSubdomainEndpoints();
             app.MapTenantEndpoints();
+            app.MapTenantRegistrationEndpoints();
+            app.MapUserRolesMappingEndpoints();
 
             app.Run();
         }

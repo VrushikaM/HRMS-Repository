@@ -7,9 +7,9 @@ namespace HRMS.Utility.Validators.Tenant.Tenant
     {
         public TenantDeleteRequestValidator()
         {
-            RuleFor(tenant => tenant.TenantID)
-               .NotNull().WithMessage("Tenant Id is Required.")
-               .GreaterThan(0).WithMessage("Tenant Id must be greater than Zero.");
+            RuleFor(tenant => tenant.TenantId)
+               .NotNull().WithMessage("Tenant ID is Required.")
+               .GreaterThan(0).WithMessage("Tenant ID must be greater than Zero.");
         }
     }
 }

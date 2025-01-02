@@ -2,6 +2,6 @@
 {
     public class TenantReadRequestDtos
     {
-        public int TenantID { get; set; }
+        public int TenantId { get; set; }
     }
 }

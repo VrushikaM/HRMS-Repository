@@ -52,9 +52,9 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@IsActive", user.IsActive);
             parameters.Add("@CreatedBy", user.CreatedBy);
-            parameters.Add("@TenantID", user.TenantID);
-            parameters.Add("@RoleID", user.RoleID);
-            parameters.Add("@TenancyRoleID", user.TenancyRoleID);
+            parameters.Add("@TenantId", user.TenantId);
+            parameters.Add("@RoleId", user.RoleId);
+            parameters.Add("@TenancyRoleId", user.TenancyRoleId);
 
             var result = await _dbConnection.QuerySingleOrDefaultAsync<dynamic>(UserStoredProcedures.CreateUser, parameters, commandType: CommandType.StoredProcedure);
 
@@ -72,9 +72,9 @@ namespace HRMS.PersistenceLayer.Repositories
                 Password = hashedPassword,
                 Gender = user.Gender,
                 DateOfBirth = user.DateOfBirth,
-                TenantID = user.TenantID,
-                RoleID = user.RoleID,
-                TenancyRoleID = user.TenancyRoleID,
+                TenantId = user.TenantId,
+                RoleId = user.RoleId,
+                TenancyRoleId = user.TenancyRoleId,
                 CreatedBy = user.CreatedBy,
                 CreatedAt = DateTime.Now,
                 UpdatedBy = result?.UpdatedBy,
@@ -101,9 +101,9 @@ namespace HRMS.PersistenceLayer.Repositories
             parameters.Add("@IsActive", user.IsActive);
             parameters.Add("@IsDelete", user.IsDelete);
             parameters.Add("@UpdatedBy", user.UpdatedBy);
-            parameters.Add("@TenantID", user.TenantID);
-            parameters.Add("@RoleID", user.RoleID);
-            parameters.Add("@TenancyRoleID", user.TenancyRoleID);
+            parameters.Add("@TenantId", user.TenantId);
+            parameters.Add("@RoleId", user.RoleId);
+            parameters.Add("@TenancyRoleId", user.TenancyRoleId);
 
             var result = await _dbConnection.QuerySingleOrDefaultAsync<UserUpdateResponseEntity>(UserStoredProcedures.UpdateUser, parameters, commandType: CommandType.StoredProcedure);
 
@@ -125,9 +125,9 @@ namespace HRMS.PersistenceLayer.Repositories
                 Password = user.Password,
                 Gender = user.Gender,
                 DateOfBirth = user.DateOfBirth,
-                TenantID = user.TenantID,
-                RoleID = user.RoleID,
-                TenancyRoleID = user.TenancyRoleID,
+                TenantId = user.TenantId,
+                RoleId = user.RoleId,
+                TenancyRoleId = user.TenancyRoleId,
                 CreatedBy = result.CreatedBy,
                 CreatedAt = result.CreatedAt,
                 UpdatedBy = user.UpdatedBy,

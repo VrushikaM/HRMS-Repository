@@ -29,7 +29,7 @@ namespace HRMS.BusinessLayer.Services
         public async Task<UserRolesReadResponseDto?> GetUserRoleById(int? rolesId)
         {
             var role = await _rolesRepository.GetUserRoleById(rolesId);
-            if (role == null || role.RoleId == -1)
+            if (role == null || role.UserRoleId == -1)
             {
                 return null;
             }
@@ -63,7 +63,7 @@ namespace HRMS.BusinessLayer.Services
                 return null;
             }
 
-            var responseEntity = new UserRolesDeleteResponseEntity { RoleId = rolesEntity.RoleId };
+            var responseEntity = new UserRolesDeleteResponseEntity { UserRoleId = rolesEntity.UserRoleId };
             var responseDto = _mapper.Map<UserRolesDeleteResponseDto>(responseEntity);
 
             return responseDto;

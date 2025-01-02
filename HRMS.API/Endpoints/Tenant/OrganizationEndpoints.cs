@@ -60,7 +60,7 @@ namespace HRMS.API.Endpoints.Tenant
                 logger.LogInformation("Fetching Organization with Id {OrganizationId}.", id);
 
                 var validator = new OrganizationReadRequestValidator();
-                var organizationRequestDto = new OrganizationReadRequestDto { OrganizationID = id };
+                var organizationRequestDto = new OrganizationReadRequestDto { OrganizationId = id };
 
                 var validationResult = validator.Validate(organizationRequestDto);
                 if (!validationResult.IsValid)
@@ -149,7 +149,7 @@ namespace HRMS.API.Endpoints.Tenant
                 try
                 {
                     var newOrganization = await _organizationService.CreateOrganization(dto);
-                    logger.LogInformation("Successfully created Organization with Id {OrganizationId}.", newOrganization.OrganizationID);
+                    logger.LogInformation("Successfully created Organization with Id {OrganizationId}.", newOrganization.OrganizationId);
                     return Results.Ok(
                         ResponseHelper<OrganizationCreateResponseDto>.Success(
                             message: "Organization Created Successfully",
@@ -197,7 +197,7 @@ namespace HRMS.API.Endpoints.Tenant
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    logger.LogWarning("Validation failed for updating Organization with Id {OrganizationId}: {Errors}", dto.OrganizationID, string.Join(", ", errorMessages));
+                    logger.LogWarning("Validation failed for updating Organization with Id {OrganizationId}: {Errors}", dto.OrganizationId, string.Join(", ", errorMessages));
                     return Results.BadRequest(
                        ResponseHelper<List<string>>.Error(
                            message: "Validation Failed",
@@ -211,7 +211,7 @@ namespace HRMS.API.Endpoints.Tenant
                     var updatedOrganization = await service.UpdateOrganization(dto);
                     if (updatedOrganization == null)
                     {
-                        logger.LogWarning("Organization with Id {OrganizationId} not found for update.", dto.OrganizationID);
+                        logger.LogWarning("Organization with Id {OrganizationId} not found for update.", dto.OrganizationId);
                         return Results.NotFound(
                            ResponseHelper<string>.Error(
                                message: "Organization Not Found",
@@ -220,7 +220,7 @@ namespace HRMS.API.Endpoints.Tenant
                        );
                     }
 
-                    logger.LogInformation("Successfully updated Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogInformation("Successfully updated Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Ok(
                         ResponseHelper<OrganizationUpdateResponseDto>.Success(
                             message: "Organization Updated Successfully",
@@ -230,7 +230,7 @@ namespace HRMS.API.Endpoints.Tenant
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An unexpected error occurred while updating the Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogError(ex, "An unexpected error occurred while updating the Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Json(
                         ResponseHelper<string>.Error(
                             message: "An Unexpected Error occurred while Updating the Organization.",
@@ -266,7 +266,7 @@ namespace HRMS.API.Endpoints.Tenant
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    logger.LogWarning("Validation failed for deleting Organization with Id {OrganizationId}: {Errors}", dto.OrganizationID, string.Join(", ", errorMessages));
+                    logger.LogWarning("Validation failed for deleting Organization with Id {OrganizationId}: {Errors}", dto.OrganizationId, string.Join(", ", errorMessages));
                     return Results.BadRequest(
                       ResponseHelper<List<string>>.Error(
                           message: "Validation Failed",
@@ -280,7 +280,7 @@ namespace HRMS.API.Endpoints.Tenant
                     var result = await service.DeleteOrganization(dto);
                     if (result == null)
                     {
-                        logger.LogWarning("Organization with ID {OrganizationId} not found for deletion.", dto.OrganizationID);
+                        logger.LogWarning("Organization with ID {OrganizationId} not found for deletion.", dto.OrganizationId);
                         return Results.NotFound(
                            ResponseHelper<string>.Error(
                                message: "Organization Not Found",
@@ -289,7 +289,7 @@ namespace HRMS.API.Endpoints.Tenant
                        );
                     }
 
-                    logger.LogInformation("Successfully deleted Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogInformation("Successfully deleted Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Ok(
                        ResponseHelper<OrganizationDeleteResponseDto>.Success(
                            message: "Organization Deleted Successfully",
@@ -299,7 +299,7 @@ namespace HRMS.API.Endpoints.Tenant
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An unexpected error occurred while deleting the Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogError(ex, "An unexpected error occurred while deleting the Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Json(
                         ResponseHelper<string>.Error(
                             message: "An Unexpected Error occurred while Deleting the Organization.",

@@ -2,6 +2,6 @@
 {
     public class TenantDeleteResponseDtos
     {
-        public int TenantID { get; set; }
+        public int TenantId { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[tblUserRoles] (
-    [RoleId]            INT            IDENTITY (1, 1) NOT NULL,
-    [RoleName]          NVARCHAR (255) NULL,
+    [UserRoleId]        INT            IDENTITY (1, 1) NOT NULL,
+    [UserRoleName]      NVARCHAR (255) NULL,
     [PermissionGroupId] INT            NULL,
     [CreatedBy]         INT            NOT NULL,
     [UpdatedBy]         INT            NULL,

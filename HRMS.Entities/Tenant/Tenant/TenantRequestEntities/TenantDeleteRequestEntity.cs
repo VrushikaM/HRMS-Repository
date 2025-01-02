@@ -2,6 +2,6 @@
 {
     public class TenantDeleteRequestEntity
     {
-        public int TenantID { get; set; }
+        public int TenantId { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 {
     public class TenantCreateRequestEntity
     {
-        public int OrganizationID { get; set; }
-        public int DomainID { get; set; }
-        public int SubdomainID { get; set; }
+        public int OrganizationId { get; set; }
+        public int DomainId { get; set; }
+        public int SubdomainId { get; set; }
         public string? TenantName { get; set; }
         public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
