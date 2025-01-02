@@ -2,6 +2,6 @@
 {
     public class SubdomainDeleteResponseEntity
     {
-        public int SubdomainID { get; set; }
+        public int SubdomainId { get; set; }
     }
 }

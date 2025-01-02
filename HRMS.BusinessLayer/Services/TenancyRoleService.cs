@@ -30,7 +30,7 @@ namespace HRMS.BusinessLayer.Services
         public async Task<TenancyRoleReadResponseDto?> GetTenancyRoleById(int? tenancyroleId)
         {
             var role = await _tenancyroleRepository.GetTenancyRoleById(tenancyroleId);
-            if (role == null || role.TenancyRoleID == -1)
+            if (role == null || role.TenancyRoleId == -1)
             {
                 return null;
             }
@@ -63,7 +63,7 @@ namespace HRMS.BusinessLayer.Services
             {
                 return null;
             }
-            var responseEntity = new TenancyRoleDeleteResponseEntity { TenancyRoleID = tenancyRoleEntity.TenancyRoleID };
+            var responseEntity = new TenancyRoleDeleteResponseEntity { TenancyRoleId = tenancyRoleEntity.TenancyRoleId };
             var responseDto = _mapper.Map<TenancyRoleDeleteResponseDto>(responseEntity);
 
             return responseDto;

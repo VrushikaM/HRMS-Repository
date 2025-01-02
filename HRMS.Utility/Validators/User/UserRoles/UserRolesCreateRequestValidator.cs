@@ -8,7 +8,7 @@ namespace HRMS.Utility.Validators.User.UserRoles
         public UserRolesCreateRequestValidator()
         {
 
-            RuleFor(roles => roles.RoleName)
+            RuleFor(roles => roles.UserRoleName)
             .NotEmpty().WithMessage("User Role Name Is Required")
             .Length(0, 100).WithMessage("User Role Name must be between 0 and 100 characters.");
 

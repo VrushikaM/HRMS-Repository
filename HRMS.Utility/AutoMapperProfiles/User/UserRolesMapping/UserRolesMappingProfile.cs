@@ -4,7 +4,7 @@ using HRMS.Dtos.User.UserRoles.UserRolesResponseDtos;
 using HRMS.Entities.User.UserRoles.UserRolesRequestEntities;
 using HRMS.Entities.User.UserRoles.UserRolesResponseEntities;
 
-namespace HRMS.Utility.AutoMapperProfiles.User.RolesMapping
+namespace HRMS.Utility.AutoMapperProfiles.User.UserRolesMapping
 {
     public class UserRolesMappingProfile : Profile
     {

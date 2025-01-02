@@ -1,10 +1,10 @@
 CREATE PROCEDURE [dbo].[spTenantGet]
-@TenantID BigInt = NULL
+@TenantId BigInt = NULL
 AS
 BEGIN
 	SELECT TOP 1 * 
     FROM [dbo].[tblTenants] 
-    WHERE (@TenantID IS NULL OR TenantID = @TenantID);
+    WHERE (@TenantId IS NULL OR TenantId = @TenantId);
 END;
 GO
 

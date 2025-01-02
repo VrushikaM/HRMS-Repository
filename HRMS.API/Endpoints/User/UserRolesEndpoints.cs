@@ -46,7 +46,7 @@ namespace HRMS.API.Endpoints.User
             app.MapGet("/GetUserRoleById{id}", async (IUserRolesService _rolesService, int id) =>
             {
                 var validator = new UserRolesReadRequestValidator();
-                var rolesRequestDto = new UserRolesReadRequestDto { RoleId = id };
+                var rolesRequestDto = new UserRolesReadRequestDto { UserRoleId = id };
 
                 var validationResult = validator.Validate(rolesRequestDto);
                 if (!validationResult.IsValid)
@@ -151,7 +151,7 @@ namespace HRMS.API.Endpoints.User
             /// This endpoint allows you to update User Role details with the provided Id. 
             /// </remarks> 
             ///<returns> A success or error response based on the operation result.</returns >
-            app.MapPut("/UpdateRoles", async (IUserRolesService _rolesService, [FromBody] UserRolesUpdateRequestDto dto) =>
+            app.MapPut("/UpdateUserRole", async (IUserRolesService _rolesService, [FromBody] UserRolesUpdateRequestDto dto) =>
             {
                 var validator = new UserRolesUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -210,7 +210,7 @@ namespace HRMS.API.Endpoints.User
             /// </summary> 
             /// <remarks> 
             /// This endpoint allows you to delete a User Role based on the provided User Role Id.</remarks>
-            app.MapDelete("/DeleteUserRoles", async (IUserRolesService _rolesService, [FromBody] UserRolesDeleteRequestDto dto) =>
+            app.MapDelete("/DeleteUserRole", async (IUserRolesService _rolesService, [FromBody] UserRolesDeleteRequestDto dto) =>
             {
                 var validator = new UserRolesDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);

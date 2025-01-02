@@ -2,6 +2,6 @@
 {
     public class TenancyRoleDeleteRequestDto
     {
-        public int TenancyRoleID { get; set; }
+        public int TenancyRoleId { get; set; }
     }
 }

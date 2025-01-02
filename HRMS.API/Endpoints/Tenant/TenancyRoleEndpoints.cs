@@ -45,7 +45,7 @@ namespace HRMS.API.Endpoints.Tenant
             app.MapGet("/GetTenancyRoleById/{id}", async (ITenancyRoleService service, int id) =>
             {
                 var validator = new TenancyRoleReadRequestValidator();
-                var roleRequestDto = new TenancyRoleReadRequestDto { TenancyRoleID = id };
+                var roleRequestDto = new TenancyRoleReadRequestDto { TenancyRoleId = id };
 
                 var validationResult = validator.Validate(roleRequestDto);
                 if (!validationResult.IsValid)

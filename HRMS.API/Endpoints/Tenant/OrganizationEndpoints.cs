@@ -6,8 +6,8 @@ using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Helpers.LogHelpers.Interface;
 using HRMS.Utility.Validators.Tenant.Organization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Serilog;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HRMS.API.Endpoints.Tenant
 {
@@ -22,7 +22,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint returns a List of Organizations. If no Organizations are found, a 404 status code is returned. 
             /// </remarks> 
             /// <returns>A List of Organizations or a 404 status code if no Organizations are found.</returns>
-            app.MapGet("/GetOrganizations", async (IOrganizationService service) =>
+            app.MapGet("/GetOrganizations", async (IOrganizationService service, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Fetching all Organizations.");
 
@@ -48,12 +48,12 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint return Organization by Id. If no Organization are found, a 404 status code is returned. 
             /// </remarks> 
             /// <returns>A Organization or a 404 status code if no Organization are found.</returns>
-            app.MapGet("/GetOrganizationById/{id}", async (IOrganizationService service, int id) =>
+            app.MapGet("/GetOrganizationById/{id}", async (IOrganizationService service, int id, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Fetching Organization with Id {OrganizationId}.", id);
 
                 var validator = new OrganizationReadRequestValidator();
-                var organizationRequestDto = new OrganizationReadRequestDto { OrganizationID = id };
+                var organizationRequestDto = new OrganizationReadRequestDto { OrganizationId = id };
 
                 var validationResult = validator.Validate(organizationRequestDto);
                 if (!validationResult.IsValid)
@@ -106,7 +106,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Retrieve Organization by Id", description: "This endpoint return Organization by Id. If no Organization are found, a 404 status code is returned."
             ));
@@ -118,7 +117,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint allows you to create a new Organization with the provided details. 
             /// </remarks> 
             ///<returns> A success or error response based on the operation result.</returns >
-            app.MapPost("/CreateOrganization", async (OrganizationCreateRequestDto dto, IOrganizationService _organizationService) =>
+            app.MapPost("/CreateOrganization", async (OrganizationCreateRequestDto dto, IOrganizationService _organizationService, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Creating new Organization with data: {OrganizationData}", dto);
 
@@ -140,7 +139,7 @@ namespace HRMS.API.Endpoints.Tenant
                 try
                 {
                     var newOrganization = await _organizationService.CreateOrganization(dto);
-                    logger.LogInformation("Successfully created Organization with Id {OrganizationId}.", newOrganization.OrganizationID);
+                    logger.LogInformation("Successfully created Organization with Id {OrganizationId}.", newOrganization.OrganizationId);
                     return Results.Ok(
                         ResponseHelper<OrganizationCreateResponseDto>.Success(
                             message: "Organization Created Successfully",
@@ -164,7 +163,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Creates a new Organization.", description: "This endpoint allows you to create a new Organization with the provided details."
             ));
@@ -176,9 +174,9 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint allows you to update Organization details with the provided Id. 
             /// </remarks> 
             ///<returns> A success or error response based on the operation result.</returns >
-            app.MapPut("/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto) =>
+            app.MapPut("/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto, IOrganizationLogger logger) =>
             {
-                logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationID);
+                logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationId);
 
                 var validator = new OrganizationUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -186,7 +184,7 @@ namespace HRMS.API.Endpoints.Tenant
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    logger.LogWarning("Validation failed for updating Organization with Id {OrganizationId}: {Errors}", dto.OrganizationID, string.Join(", ", errorMessages));
+                    logger.LogWarning("Validation failed for updating Organization with Id {OrganizationId}: {Errors}", dto.OrganizationId, string.Join(", ", errorMessages));
                     return Results.BadRequest(
                        ResponseHelper<List<string>>.Error(
                            message: "Validation Failed",
@@ -200,7 +198,7 @@ namespace HRMS.API.Endpoints.Tenant
                     var updatedOrganization = await service.UpdateOrganization(dto);
                     if (updatedOrganization == null)
                     {
-                        logger.LogWarning("Organization with Id {OrganizationId} not found for update.", dto.OrganizationID);
+                        logger.LogWarning("Organization with Id {OrganizationId} not found for update.", dto.OrganizationId);
                         return Results.NotFound(
                            ResponseHelper<string>.Error(
                                message: "Organization Not Found",
@@ -209,7 +207,7 @@ namespace HRMS.API.Endpoints.Tenant
                        );
                     }
 
-                    logger.LogInformation("Successfully updated Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogInformation("Successfully updated Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Ok(
                         ResponseHelper<OrganizationUpdateResponseDto>.Success(
                             message: "Organization Updated Successfully",
@@ -219,7 +217,7 @@ namespace HRMS.API.Endpoints.Tenant
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An unexpected error occurred while updating the Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogError(ex, "An unexpected error occurred while updating the Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Json(
                         ResponseHelper<string>.Error(
                             message: "An Unexpected Error occurred while Updating the Organization.",
@@ -233,7 +231,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Updates existing Organization details", description: "This endpoint allows you to update Organization details with the provided Id."
             ));
@@ -243,9 +240,9 @@ namespace HRMS.API.Endpoints.Tenant
             /// </summary> 
             /// <remarks> 
             /// This endpoint allows you to delete a Organization based on the provided Organization Id.</remarks>
-            app.MapDelete("/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto) =>
+            app.MapDelete("/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto, IOrganizationLogger logger) =>
             {
-                logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationID);
+                logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationId);
 
                 var validator = new OrganizationDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -253,7 +250,7 @@ namespace HRMS.API.Endpoints.Tenant
                 if (!validationResult.IsValid)
                 {
                     var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                    logger.LogWarning("Validation failed for deleting Organization with Id {OrganizationId}: {Errors}", dto.OrganizationID, string.Join(", ", errorMessages));
+                    logger.LogWarning("Validation failed for deleting Organization with Id {OrganizationId}: {Errors}", dto.OrganizationId, string.Join(", ", errorMessages));
                     return Results.BadRequest(
                       ResponseHelper<List<string>>.Error(
                           message: "Validation Failed",
@@ -267,7 +264,7 @@ namespace HRMS.API.Endpoints.Tenant
                     var result = await service.DeleteOrganization(dto);
                     if (result == null)
                     {
-                        logger.LogWarning("Organization with ID {OrganizationId} not found for deletion.", dto.OrganizationID);
+                        logger.LogWarning("Organization with ID {OrganizationId} not found for deletion.", dto.OrganizationId);
                         return Results.NotFound(
                            ResponseHelper<string>.Error(
                                message: "Organization Not Found",
@@ -276,7 +273,7 @@ namespace HRMS.API.Endpoints.Tenant
                        );
                     }
 
-                    logger.LogInformation("Successfully deleted Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogInformation("Successfully deleted Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Ok(
                        ResponseHelper<OrganizationDeleteResponseDto>.Success(
                            message: "Organization Deleted Successfully",
@@ -286,7 +283,7 @@ namespace HRMS.API.Endpoints.Tenant
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An unexpected error occurred while deleting the Organization with Id {OrganizationId}.", dto.OrganizationID);
+                    logger.LogError(ex, "An unexpected error occurred while deleting the Organization with Id {OrganizationId}.", dto.OrganizationId);
                     return Results.Json(
                         ResponseHelper<string>.Error(
                             message: "An Unexpected Error occurred while Deleting the Organization.",
@@ -300,7 +297,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Deletes a Organization. ", description: "This endpoint allows you to delete a Organization based on the provided Organization Id."
             ));

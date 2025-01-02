@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[spSubdomainAdd]
-@SubdomainID INT OUTPUT,
-@DomainID INT = NULL,
+@SubdomainId INT OUTPUT,
+@DomainId INT = NULL,
 @SubdomainName NVARCHAR(50) = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
@@ -27,13 +27,13 @@ SET NOCOUNT ON;
         SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
         
         -- Insert the subdomain with timestamps
-        INSERT INTO Subdomains (DomainID,  SubdomainName, CreatedBy, UpdatedBy, CreatedAt, UpdatedAt, IsActive)
-        VALUES (@DomainID, @SubdomainName, @CreatedBy, @UpdatedBy, SYSDATETIME(), SYSDATETIME(),@IsActive);
+        INSERT INTO Subdomains (DomainId,  SubdomainName, CreatedBy, UpdatedBy, CreatedAt, UpdatedAt, IsActive)
+        VALUES (@DomainId, @SubdomainName, @CreatedBy, @UpdatedBy, SYSDATETIME(), SYSDATETIME(),@IsActive);
 
          -- Capture the UserId of the inserted record
-        SET @SubdomainID = SCOPE_IDENTITY();
+        SET @SubdomainId = SCOPE_IDENTITY();
         
-        SELECT * FROM [dbo].[Subdomains] WHERE SubdomainID = @SubdomainID;
+        SELECT * FROM [dbo].[Subdomains] WHERE SubdomainId = @SubdomainId;
 
         -- Commit the transaction
         COMMIT TRANSACTION;

@@ -12,9 +12,9 @@ CREATE PROCEDURE [dbo].[spUserAdd]
 @IsActive BIT = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
-@TenantID INT = NULL,
-@RoleID INT = NULL,
-@TenancyRoleID INT = NULL
+@TenantId INT = NULL,
+@RoleId INT = NULL,
+@TenancyRoleId INT = NULL
 AS
 BEGIN
 SET NOCOUNT ON;
@@ -36,8 +36,8 @@ SET NOCOUNT ON;
         SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
         -- Insert the user record into tblUser
-        INSERT INTO [dbo].[tblUser] (FirstName, MiddleName, LastName, UserName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt, TenantID, RoleID, TenancyRoleID)
-        VALUES (@FirstName, @MiddleName, @LastName, @UserName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, SYSDATETIME(), SYSDATETIME(), @TenantID, @RoleID, @TenancyRoleID);
+        INSERT INTO [dbo].[tblUser] (FirstName, MiddleName, LastName, UserName, Email, Password, Gender, DateOfBirth, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt, TenantId, RoleId, TenancyRoleId)
+        VALUES (@FirstName, @MiddleName, @LastName, @UserName, @Email, @Password, @Gender, @DateOfBirth, @CreatedBy, @UpdatedBy,  @IsActive, SYSDATETIME(), SYSDATETIME(), @TenantId, @RoleId, @TenancyRoleId);
 
         -- Capture the UserId of the inserted record
         SET @UserId = SCOPE_IDENTITY();

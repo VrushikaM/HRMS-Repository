@@ -27,7 +27,7 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<TenantReadResponseEntity?> GetTenantById(int? tenantId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@TenantID", tenantId);
+            parameters.Add("@TenantId", tenantId);
 
             var tenant = await _dbConnection.QueryFirstOrDefaultAsync<TenantReadResponseEntity>(TenantStoredProcedures.GetTenantById, parameters, commandType: CommandType.StoredProcedure);
             return tenant;
@@ -36,25 +36,25 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<TenantCreateResponseEntity> CreateTenant(TenantCreateRequestEntity tenant)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@TenantID", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            parameters.Add("@OrganizationID", tenant.OrganizationID);
+            parameters.Add("@TenantId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@OrganizationId", tenant.OrganizationId);
             parameters.Add("@TenantName", tenant.TenantName);
-            parameters.Add("@DomainID", tenant.DomainID);
-            parameters.Add("@SubdomainID", tenant.SubdomainID);
+            parameters.Add("@DomainId", tenant.DomainId);
+            parameters.Add("@SubdomainId", tenant.SubdomainId);
             parameters.Add("@IsActive", tenant.IsActive);
             parameters.Add("@CreatedBy", tenant.CreatedBy);
 
             var result = await _dbConnection.QuerySingleOrDefaultAsync<dynamic>(TenantStoredProcedures.CreateTenant, parameters, commandType: CommandType.StoredProcedure);
 
-            var tenantId = parameters.Get<int>("@TenantID");
+            var tenantId = parameters.Get<int>("@TenantId");
 
             var createdTenant = new TenantCreateResponseEntity
             {
-                TenantID = tenantId,
-                OrganizationID = tenant.OrganizationID,
+                TenantId = tenantId,
+                OrganizationId = tenant.OrganizationId,
                 TenantName = tenant.TenantName,
-                DomainID = tenant.DomainID,
-                SubdomainID = tenant.DomainID,
+                DomainId = tenant.DomainId,
+                SubdomainId = tenant.SubdomainId,
                 CreatedBy = tenant.CreatedBy,
                 CreatedAt = DateTime.Now,
                 UpdatedBy = result?.UpdatedBy,
@@ -69,33 +69,29 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<TenantUpdateResponseEntity?> UpdateTenant(TenantUpdateRequestEntity tenant)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@TenantID", tenant.TenantID);
-            parameters.Add("@OrganizationID", tenant.OrganizationID);
+            parameters.Add("@TenantId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@OrganizationId", tenant.OrganizationId);
             parameters.Add("@TenantName", tenant.TenantName);
-            parameters.Add("@DomainID", tenant.DomainID);
-            parameters.Add("@SubdomainID", tenant.SubdomainID);
+            parameters.Add("@DomainId", tenant.DomainId);
+            parameters.Add("@SubdomainId", tenant.SubdomainId);
             parameters.Add("@IsActive", tenant.IsActive);
             parameters.Add("@IsDelete", tenant.IsDelete);
             parameters.Add("@UpdatedBy", tenant.UpdatedBy);
 
             var result = await _dbConnection.QuerySingleOrDefaultAsync<TenantUpdateResponseEntity>(TenantStoredProcedures.UpdateTenant, parameters, commandType: CommandType.StoredProcedure);
 
-            if (result == null || result.TenantID == -1)
+            if (result == null || result.TenantId == -1)
             {
                 return null;
             }
 
             var updateTenant = new TenantUpdateResponseEntity
             {
-                TenantID = tenant.TenantID,
-                OrganizationID = tenant.OrganizationID,
+                TenantId = tenant.TenantId,
+                OrganizationId = tenant.OrganizationId,
                 TenantName = tenant.TenantName,
-                DomainID = tenant.DomainID,
-                SubdomainID = tenant.DomainID,
-                CreatedBy = result.CreatedBy,
-                CreatedAt = result.CreatedAt,
-                UpdatedBy = tenant.UpdatedBy,
-                UpdatedAt = DateTime.Now,
+                DomainId = tenant.DomainId,
+                SubdomainId = tenant.DomainId,
                 IsActive = tenant.IsActive,
                 IsDelete = tenant.IsDelete
             };
@@ -106,7 +102,7 @@ namespace HRMS.PersistenceLayer.Repositories
         public async Task<int> DeleteTenant(TenantDeleteRequestEntity tenant)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@TenantID", tenant.TenantID);
+            parameters.Add("@TenantId", tenant.TenantId);
 
             var result = await _dbConnection.ExecuteAsync(TenantStoredProcedures.DeleteTenant, parameters, commandType: CommandType.StoredProcedure);
             return result;

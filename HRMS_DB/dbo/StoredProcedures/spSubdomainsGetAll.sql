@@ -3,7 +3,7 @@ AS
 BEGIN
     
 
-    SELECT *FROM Subdomains;
+    SELECT *FROM tblSubdomains;
 
 END
 GO

@@ -2,8 +2,8 @@
 {
     public class SubdomainReadResponseDto
     {
-        public int SubdomainID { get; set; }
-        public int DomainID { get; set; }
+        public int SubdomainId { get; set; }
+        public int DomainId { get; set; }
         public string SubdomainName { get; set; } = string.Empty;
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

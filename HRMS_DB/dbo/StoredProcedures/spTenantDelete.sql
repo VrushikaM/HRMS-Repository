@@ -1,16 +1,16 @@
 CREATE PROCEDURE [dbo].[spTenantDelete]
-@TenantID INT = NULL
+@TenantId INT = NULL
 AS
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblTenants] WHERE TenantID = @TenantID)
+    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblTenants] WHERE TenantId = @TenantId)
     BEGIN
-        SELECT -1 AS TenantID;
+        SELECT -1 AS TenantId;
         RETURN;
     END
 
-	DELETE FROM [dbo].[tblTenants] WHERE TenantID = @TenantID;
+	DELETE FROM [dbo].[tblTenants] WHERE TenantId = @TenantId;
 
-	SELECT @TenantID AS TenantID;
+	SELECT @TenantId AS TenantId;
 END;
 GO
 

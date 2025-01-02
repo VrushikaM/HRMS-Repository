@@ -1,12 +1,12 @@
 
 CREATE PROCEDURE [dbo].[spUserRolesGet]
-@RoleId INT = NULL
+@UserRoleId  INT = NULL
 AS
 BEGIN
     -- Select a single role if RoleId is provided or all roles if RoleId is NULL
     SELECT 
-        [RoleId], 
-        [RoleName], 
+        [UserRoleId], 
+        [UserRoleName], 
         [PermissionGroupId], 
         [CreatedBy], 
         [UpdatedBy], 
@@ -17,7 +17,7 @@ BEGIN
     FROM 
         [dbo].[tblUserRoles]
     WHERE 
-        (@RoleId IS NULL OR [RoleId] = @RoleId) AND 
+        (@UserRoleId  IS NULL OR [UserRoleId] = @UserRoleId ) AND 
         [IsDelete] = 0  -- Only return records that are not deleted
     ORDER BY 
         [CreatedAt] DESC;  -- Optional: Sort by creation date (newest first)
