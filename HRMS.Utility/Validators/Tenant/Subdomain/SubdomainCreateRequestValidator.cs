@@ -11,9 +11,9 @@ namespace HRMS.Utility.Validators.Tenant.Subdomain
                 .NotEmpty().WithMessage("Subdomain Name is Required.")
                 .Length(3, 100).WithMessage("Subdomain Name must be between 3 and 100 characters.");
 
-            RuleFor(subdomain => subdomain.DomainID)
-                .NotNull().WithMessage("Domain Id is Required.")
-                .GreaterThan(0).WithMessage("Domain Id must be greater than 0.");
+            RuleFor(subdomain => subdomain.DomainId)
+                .NotNull().WithMessage("Domain ID is Required.")
+                .GreaterThan(0).WithMessage("Domain ID must be greater than 0.");
 
             RuleFor(subdomain => subdomain.CreatedBy)
                 .NotNull().WithMessage("CreatedBy is Required.")

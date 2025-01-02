@@ -1,7 +1,7 @@
 
 CREATE PROCEDURE [dbo].[spTenancyRoleAdd]
-@TenancyRoleID INT OUTPUT,
-@RoleName VARCHAR(255) = NULL,
+@TenancyRoleId INT OUTPUT,
+@TenancyRoleName VARCHAR(255) = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
 @IsActive BIT = NULL
@@ -26,12 +26,12 @@ SET NOCOUNT ON;
         -- Set UpdatedBy to CreatedBy if not provided
         SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
-        INSERT INTO [dbo].[tblTenancyRoles] (RoleName, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
-        VALUES (@RoleName, @CreatedBy, @UpdatedBy, @IsActive, SYSDATETIME(), SYSDATETIME());
+        INSERT INTO [dbo].[tblTenancyRoles] (TenancyRoleName, CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
+        VALUES (@TenancyRoleName, @CreatedBy, @UpdatedBy, @IsActive, SYSDATETIME(), SYSDATETIME());
 
-        SET @TenancyRoleID = SCOPE_IDENTITY();
+        SET @TenancyRoleId = SCOPE_IDENTITY();
 
-        SELECT * FROM [dbo].[tblTenancyRoles] WHERE TenancyRoleID = @TenancyRoleID;
+        SELECT * FROM [dbo].[tblTenancyRoles] WHERE TenancyRoleId = @TenancyRoleId;
 
         -- Commit the transaction
         COMMIT TRANSACTION;

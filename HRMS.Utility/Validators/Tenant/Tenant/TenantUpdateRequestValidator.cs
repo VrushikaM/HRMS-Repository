@@ -7,21 +7,21 @@ namespace HRMS.Utility.Validators.Tenant.Tenant
     {
         public TenantUpdateRequestValidator()
         {
-            RuleFor(tenant => tenant.TenantID)
-               .NotNull().WithMessage("Tenant Id is Required.")
-               .GreaterThan(0).WithMessage("Tenant Id must be greater than Zero.");
+            RuleFor(tenant => tenant.TenantId)
+               .NotNull().WithMessage("Tenant ID is Required.")
+               .GreaterThan(0).WithMessage("Tenant ID must be greater than Zero.");
 
-            RuleFor(tenant => tenant.OrganizationID)
-                  .NotNull().WithMessage("Organization Id is Required.")
-                  .GreaterThan(0).WithMessage("Organization Id must be greater than Zero.");
+            RuleFor(tenant => tenant.OrganizationId)
+                  .NotNull().WithMessage("Organization ID is Required.")
+                  .GreaterThan(0).WithMessage("Organization ID must be greater than Zero.");
 
-            RuleFor(tenant => tenant.DomainID)
-              .NotNull().WithMessage("Domain Id is Required.")
-              .GreaterThan(0).WithMessage("Domain Id must be greater than Zero.");
+            RuleFor(tenant => tenant.DomainId)
+              .NotNull().WithMessage("Domain ID is Required.")
+              .GreaterThan(0).WithMessage("Domain ID must be greater than Zero.");
 
-            RuleFor(tenant => tenant.SubdomainID)
-              .NotNull().WithMessage("Subdomain Id is Required.")
-              .GreaterThan(0).WithMessage("Subdomain Id must be greater than Zero.");
+            RuleFor(tenant => tenant.SubdomainId)
+              .NotNull().WithMessage("Subdomain ID is Required.")
+              .GreaterThan(0).WithMessage("Subdomain ID must be greater than Zero.");
 
             RuleFor(tenant => tenant.TenantName)
                  .NotEmpty().WithMessage("Tenant Name is Required.")

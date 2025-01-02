@@ -30,7 +30,7 @@ namespace HRMS.BusinessLayer.Services
         public async Task<TenantReadResponseDtos?> GetTenantById(int? tenantId)
         {
             var tenant = await _tenantRepository.GetTenantById(tenantId);
-            if (tenant == null || tenant.TenantID == -1)
+            if (tenant == null || tenant.TenantId == -1)
             {
                 return null;
             }
@@ -63,7 +63,7 @@ namespace HRMS.BusinessLayer.Services
             {
                 return null;
             }
-            var responseEntity = new TenantDeleteResponseEntity { TenantID = tenantEntity.TenantID };
+            var responseEntity = new TenantDeleteResponseEntity { TenantId = tenantEntity.TenantId };
             var responseDto = _mapper.Map<TenantDeleteResponseDtos>(responseEntity);
 
             return responseDto;

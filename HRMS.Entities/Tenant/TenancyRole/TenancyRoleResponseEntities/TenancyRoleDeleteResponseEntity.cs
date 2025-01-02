@@ -2,6 +2,6 @@
 {
     public class TenancyRoleDeleteResponseEntity
     {
-        public int TenancyRoleID { get; set; }
+        public int TenancyRoleId { get; set; }
     }
 }

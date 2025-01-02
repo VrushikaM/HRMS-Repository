@@ -1,11 +1,11 @@
 
 CREATE PROCEDURE [dbo].[spTenancyRoleGet]
-@TenancyRoleID INT = NULL
+@TenancyRoleId INT = NULL
 AS
 BEGIN
     SELECT TOP 1 * 
     FROM [dbo].[tblTenancyRoles] 
-    WHERE (@TenancyRoleID IS NULL OR TenancyRoleID = @TenancyRoleID);
+    WHERE (@TenancyRoleId IS NULL OR TenancyRoleId = @TenancyRoleId);
 END;
 GO
 

@@ -1,8 +1,8 @@
 CREATE PROCEDURE [dbo].[spTenantUpdate]
-@TenantID INT = NULL,
-@OrganizationID INT = NULL,
-@DomainID INT = NULL,
-@SubdomainID INT = NULL,
+@TenantId INT = NULL,
+@OrganizationId INT = NULL,
+@DomainId INT = NULL,
+@SubdomainId INT = NULL,
 @TenantName NVARCHAR(55) = NULL,
 @UpdatedBy INT = NULL,
 @IsActive BIT = NULL,
@@ -16,27 +16,28 @@ BEGIN
         BEGIN TRANSACTION;
 
         -- Check if the user exists
-	    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblTenants] WHERE TenantID = @TenantID)
-        BEGIN
-            SELECT -1 AS TenantID;
+	    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblTenants] WHERE TenantId = @TenantId)
+	BEGIN	
+            SELECT -1 AS TenantId;
             RETURN;
         END
 
-        UPDATE [dbo].[tblTenants]
-        SET OrganizationID = @OrganizationID,
-            DomainID = @DomainID,
-            SubdomainID = @SubdomainID,
-            TenantName = @TenantName,
-            IsActive = @IsActive,
-            IsDelete = @IsDelete,
+	 UPDATE [dbo].[tblTenants]
+        SET OrganizationId = @OrganizationId,
+            DomainId = @DomainId,
+            SubdomainId = @SubdomainId,
+	    TenantName = @TenantName,
+        UpdatedBy = @UpdatedBy,
+	    IsActive = @IsActive,
+		IsDelete = @IsDelete,
             UpdatedBy = @UpdatedBy,
-            UpdatedAt = SYSDATETIME()
-        WHERE TenantID = @TenantID;
+        UpdatedAt = SYSDATETIME()
+        WHERE TenantId = @TenantId;
 
         -- Commit the transaction
         COMMIT TRANSACTION;
 
-        SELECT * FROM [dbo].[tblTenants] WHERE (@TenantID IS NULL OR TenantID = @TenantID);
+        SELECT * FROM [dbo].[tblTenants] WHERE (@TenantId IS NULL OR TenantId = @TenantId);
         
         END TRY
         BEGIN CATCH
@@ -56,6 +57,6 @@ BEGIN
             RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
             
     END CATCH
-END
+	END
 GO
 

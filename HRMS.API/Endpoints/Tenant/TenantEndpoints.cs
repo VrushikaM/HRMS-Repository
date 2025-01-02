@@ -44,7 +44,7 @@ namespace HRMS.API.Endpoints.Tenant
             app.MapGet("/GetTenantById/{id}", async (ITenantService service, int id) =>
             {
                 var validator = new TenantReadRequestValidator();
-                var tenantRequestDto = new TenantReadRequestDtos { TenantID = id };
+                var tenantRequestDto = new TenantReadRequestDtos { TenantId = id };
 
                 var validationResult = validator.Validate(tenantRequestDto);
                 if (!validationResult.IsValid)

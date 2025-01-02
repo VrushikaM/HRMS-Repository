@@ -29,7 +29,7 @@ namespace HRMS.BusinessLayer.Services
         public async Task<SubdomainReadResponseDto?> GetSubdomainById(int? subdomainId)
         {
             var subdomain = await _subdomainRepository.GetSubdomainById(subdomainId);
-            if (subdomain == null || subdomain.SubdomainID == -1)
+            if (subdomain == null || subdomain.SubdomainId == -1)
             {
                 return null;
             }
@@ -58,7 +58,7 @@ namespace HRMS.BusinessLayer.Services
             {
                 return null;
             }
-            var responseEntity = new SubdomainDeleteResponseEntity { SubdomainID = subdomainEntity.SubdomainID };
+            var responseEntity = new SubdomainDeleteResponseEntity { SubdomainId = subdomainEntity.SubdomainId };
             var responseDto = _mapper.Map<SubdomainDeleteResponseDto>(responseEntity);
 
             return responseDto;

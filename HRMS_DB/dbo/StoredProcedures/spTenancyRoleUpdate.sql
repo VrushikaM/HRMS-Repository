@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[spTenancyRoleUpdate]
-@TenancyRoleID INT,
-@RoleName NVARCHAR(100),
+@TenancyRoleId INT,
+@TenancyRoleName NVARCHAR(100),
 @UpdatedBy INT = NULL,
 @IsActive BIT = NULL,
 @IsDelete BIT = NULL
@@ -15,26 +15,26 @@ SET NOCOUNT ON;
         BEGIN TRANSACTION;
 
      -- Check if the user exists
-	    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblTenancyRoles] WHERE TenancyRoleID = @TenancyRoleID)
+	    IF NOT EXISTS (SELECT 1 FROM [dbo].[tblTenancyRoles] WHERE TenancyRoleId = @TenancyRoleId)
         BEGIN
-            SELECT -1 AS TenancyRoleID;
+            SELECT -1 AS TenancyRoleId;
             RETURN;
         END
 
         UPDATE tblTenancyRoles
         SET 
-            RoleName = @RoleName,
+            TenancyRoleName = @TenancyRoleName,
             UpdatedBy = @UpdatedBy,
             UpdatedAt = SYSDATETIME(),
             IsActive = @IsActive,
             IsDelete = @IsDelete
-        WHERE TenancyRoleID = @TenancyRoleID;
+        WHERE TenancyRoleId = @TenancyRoleId;
 
         -- Commit the transaction
         COMMIT TRANSACTION;
 
         -- Return the updated tblTenancyRoles details
-	    SELECT * FROM [dbo].[tblTenancyRoles] WHERE (@TenancyRoleID IS NULL OR TenancyRoleID = @TenancyRoleID);
+	    SELECT * FROM [dbo].[tblTenancyRoles] WHERE (@TenancyRoleId IS NULL OR TenancyRoleId = @TenancyRoleId);
 
         END TRY
         BEGIN CATCH

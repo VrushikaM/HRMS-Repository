@@ -1,8 +1,8 @@
 CREATE PROCEDURE [dbo].[spTenantAdd]
-@TenantID INT OUTPUT,
-@OrganizationID INT = NULL,
-@DomainID INT = NULL,
-@SubdomainID INT = NULL,
+@TenantId INT OUTPUT,
+@OrganizationId INT = NULL,
+@DomainId INT = NULL,
+@SubdomainId INT = NULL,
 @TenantName NVARCHAR(55) = NULL,
 @CreatedBy INT = NULL,
 @UpdatedBy INT = NULL,
@@ -17,25 +17,25 @@ SET NOCOUNT ON;
         BEGIN TRANSACTION;
 
         -- Check if CreatedBy is provided
-        IF @CreatedBy IS NULL
+    IF @CreatedBy IS NULL
 
         BEGIN
             RAISERROR ('CreatedBy cannot be NULL.', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END;
-     
+    
         -- Set UpdatedBy to CreatedBy if not provided
         SET @UpdatedBy = ISNULL(@UpdatedBy, @CreatedBy);
 
         -- Insert the tenant record into tblTenant
-        INSERT INTO [dbo].[tblTenants] (OrganizationID,DomainID,SubdomainID,TenantName,CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
-        VALUES (@OrganizationID,@DomainID,@SubdomainID,@TenantName,@CreatedBy, @UpdatedBy,@IsActive, SYSDATETIME(), SYSDATETIME());
+        INSERT INTO [dbo].[tblTenants] (OrganizationId,DomainId,SubdomainId,TenantName,CreatedBy, UpdatedBy, IsActive, CreatedAt, UpdatedAt)
+        VALUES (@OrganizationId,@DomainId,@SubdomainId,@TenantName,@CreatedBy, @UpdatedBy,@IsActive, SYSDATETIME(), SYSDATETIME());
         
-        -- Capture the TenantID of the inserted record
-        SET @TenantID = SCOPE_IDENTITY();
+        -- Capture the TenantId of the inserted record
+        SET @TenantId = SCOPE_IDENTITY();
         
-        SELECT * FROM [dbo].[tblTenants] WHERE TenantID = @TenantID;
+        SELECT * FROM [dbo].[tblTenants] WHERE TenantId = @TenantId;
         
         -- Commit the transaction
         COMMIT TRANSACTION;
@@ -51,7 +51,7 @@ SET NOCOUNT ON;
             @ErrorMessage = ERROR_MESSAGE(), 
             @ErrorSeverity = ERROR_SEVERITY(), 
             @ErrorState = ERROR_STATE();
-        
+
         PRINT 'Error: ' + @ErrorMessage;
 
         RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);

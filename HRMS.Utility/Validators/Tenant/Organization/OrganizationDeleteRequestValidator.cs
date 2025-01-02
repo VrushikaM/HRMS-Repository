@@ -13,8 +13,8 @@ namespace HRMS.Utility.Validators.Tenant.Organization
         public OrganizationDeleteRequestValidator()
         {
            
-            RuleFor(org => org.OrganizationID)
-                .GreaterThan(0).WithMessage("OrganizationID must be greater than Zero.");
+            RuleFor(org => org.OrganizationId)
+                .GreaterThan(0).WithMessage("OrganizationId must be greater than Zero.");
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class OrganizationDeleteResponseEntity
     {
-        public int OrganizationID { get; set; }
+        public int OrganizationId { get; set; }
     }
 }
