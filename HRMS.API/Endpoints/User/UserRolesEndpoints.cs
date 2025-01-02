@@ -43,7 +43,7 @@ namespace HRMS.API.Endpoints.User
             /// This endpoint return User Role by Id. If no User Role are found, a 404 status code is returned. 
             /// </remarks> 
             /// <returns>A User Role or a 404 status code if no User Role are found.</returns>
-            app.MapGet("/GetUserRoleById{id}", async (IUserRolesService _rolesService, int id) =>
+            app.MapGet("/GetUserRoleById/{id}", async (IUserRolesService _rolesService, int id) =>
             {
                 var validator = new UserRolesReadRequestValidator();
                 var rolesRequestDto = new UserRolesReadRequestDto { UserRoleId = id };

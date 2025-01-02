@@ -12,7 +12,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace HRMS.API.Endpoints.User
 {
-    public static class UserRolesMapping
+    public static class UserRolesMappingEndpoints
     {
         public static void MapUserRolesMappingEndpoints(this IEndpointRouteBuilder app)
         {
