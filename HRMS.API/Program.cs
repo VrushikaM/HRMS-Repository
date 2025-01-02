@@ -1,4 +1,3 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using HRMS.API.Endpoints.Tenant;
 using HRMS.API.Endpoints.User;
@@ -13,18 +12,11 @@ using HRMS.Utility.AutoMapperProfiles.Tenant.TenancyRoleMapping;
 using HRMS.Utility.AutoMapperProfiles.Tenant.TenantMapping;
 using HRMS.Utility.AutoMapperProfiles.User.RolesMapping;
 using HRMS.Utility.AutoMapperProfiles.User.UserMapping;
-using HRMS.Utility.Validators.Tenant.Organization;
-using HRMS.Utility.Validators.Tenant.Subdomain;
-using HRMS.Utility.Validators.Tenant.TenancyRole;
-using HRMS.Utility.Validators.Tenant.Tenant;
-using HRMS.Utility.Validators.User.User;
-using HRMS.Utility.Validators.User.UserRoles;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using Serilog;
-using Serilog.Extensions.Logging;
 using HRMS.Utility.Helpers.LogHelpers.Interface;
 using HRMS.Utility.Helpers.LogHelpers.Services;
+using Microsoft.Data.SqlClient;
+using Serilog;
+using System.Data;
 
 namespace HRMS.API
 {
@@ -33,7 +25,7 @@ namespace HRMS.API
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console() // Logs to the console
+                .WriteTo.Console()
                 .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
                 //.WriteTo.ApplicationInsights("Your-Instrumentation-Key", TelemetryConverter.Traces)  // Optional: Application Insights
                 .MinimumLevel.Information()
@@ -88,36 +80,6 @@ namespace HRMS.API
             });
 
             builder.Services.AddFluentValidationAutoValidation();
-
-            builder.Services.AddValidatorsFromAssemblyContaining<UserCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
-
-            builder.Services.AddValidatorsFromAssemblyContaining<TenantCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<TenantUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<TenantReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<TenantDeleteRequestValidator>();
-
-            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<TenancyRoleDeleteRequestValidator>();
-
-            builder.Services.AddValidatorsFromAssemblyContaining<UserRolesCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserRolesUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserRolesReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<UserRolesDeleteRequestValidator>();
-
-            builder.Services.AddValidatorsFromAssemblyContaining<OrganizationCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<OrganizationReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<OrganizationUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<OrganizationDeleteRequestValidator>();
-
-            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainCreateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainReadRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainUpdateRequestValidator>();
-            builder.Services.AddValidatorsFromAssemblyContaining<SubdomainDeleteRequestValidator>();
 
             var app = builder.Build();
 

@@ -6,8 +6,8 @@ using HRMS.Utility.Helpers.Handlers;
 using HRMS.Utility.Helpers.LogHelpers.Interface;
 using HRMS.Utility.Validators.Tenant.Organization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Serilog;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HRMS.API.Endpoints.Tenant
 {
@@ -22,7 +22,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint returns a List of Organizations. If no Organizations are found, a 404 status code is returned. 
             /// </remarks> 
             /// <returns>A List of Organizations or a 404 status code if no Organizations are found.</returns>
-            app.MapGet("/GetOrganizations", async (IOrganizationService service) =>
+            app.MapGet("/GetOrganizations", async (IOrganizationService service, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Fetching all Organizations.");
 
@@ -48,7 +48,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint return Organization by Id. If no Organization are found, a 404 status code is returned. 
             /// </remarks> 
             /// <returns>A Organization or a 404 status code if no Organization are found.</returns>
-            app.MapGet("/GetOrganizationById/{id}", async (IOrganizationService service, int id) =>
+            app.MapGet("/GetOrganizationById/{id}", async (IOrganizationService service, int id, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Fetching Organization with Id {OrganizationId}.", id);
 
@@ -106,7 +106,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Retrieve Organization by Id", description: "This endpoint return Organization by Id. If no Organization are found, a 404 status code is returned."
             ));
@@ -118,7 +117,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint allows you to create a new Organization with the provided details. 
             /// </remarks> 
             ///<returns> A success or error response based on the operation result.</returns >
-            app.MapPost("/CreateOrganization", async (OrganizationCreateRequestDto dto, IOrganizationService _organizationService) =>
+            app.MapPost("/CreateOrganization", async (OrganizationCreateRequestDto dto, IOrganizationService _organizationService, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Creating new Organization with data: {OrganizationData}", dto);
 
@@ -164,7 +163,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Creates a new Organization.", description: "This endpoint allows you to create a new Organization with the provided details."
             ));
@@ -176,7 +174,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// This endpoint allows you to update Organization details with the provided Id. 
             /// </remarks> 
             ///<returns> A success or error response based on the operation result.</returns >
-            app.MapPut("/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto) =>
+            app.MapPut("/UpdateOrganization", async (IOrganizationService service, [FromBody] OrganizationUpdateRequestDto dto, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationID);
 
@@ -233,7 +231,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Updates existing Organization details", description: "This endpoint allows you to update Organization details with the provided Id."
             ));
@@ -243,7 +240,7 @@ namespace HRMS.API.Endpoints.Tenant
             /// </summary> 
             /// <remarks> 
             /// This endpoint allows you to delete a Organization based on the provided Organization Id.</remarks>
-            app.MapDelete("/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto) =>
+            app.MapDelete("/DeleteOrganization", async (IOrganizationService service, [FromBody] OrganizationDeleteRequestDto dto, IOrganizationLogger logger) =>
             {
                 logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationID);
 
@@ -300,7 +297,6 @@ namespace HRMS.API.Endpoints.Tenant
                 {
                     Log.CloseAndFlush();
                 }
-            });
             }).WithTags("Organization")
             .WithMetadata(new SwaggerOperationAttribute(summary: "Deletes a Organization. ", description: "This endpoint allows you to delete a Organization based on the provided Organization Id."
             ));
