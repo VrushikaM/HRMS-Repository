@@ -27,7 +27,7 @@ public class UserRolesService : IUserRolesService
     public async Task<UserRolesReadResponseDto?> GetUserRolesById(int? rolesId)
     {
         var role = await _rolesRepository.GetUserRolesById(rolesId);
-        if (role == null || role.RoleId == -1)
+        if (role == null || role.UserRoleId == -1)
         {
             return null;
         }
@@ -61,7 +61,7 @@ public class UserRolesService : IUserRolesService
             return null;
         }
 
-        var responseEntity = new UserRolesDeleteResponseEntity { RoleId = rolesEntity.RoleId };
+        var responseEntity = new UserRolesDeleteResponseEntity { UserRoleId = rolesEntity.UserRoleId };
         var responseDto = _mapper.Map<UserRolesDeleteResponseDto>(responseEntity);
 
         return responseDto;

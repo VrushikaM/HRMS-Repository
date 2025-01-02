@@ -3,6 +3,7 @@ namespace HRMS.Entities.Tenant.TenantRegistration.TenantRegistrationRequestEntit
 {
     public class TenantRegistrationCreateRequestEntity
     {
+       
         public string SubdomainName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

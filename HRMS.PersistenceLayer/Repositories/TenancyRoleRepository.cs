@@ -35,7 +35,7 @@ namespace HRMS.PersistenceLayer.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@TenancyRoleId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            parameters.Add("@RoleName", tenancyrole.RoleName);
+            parameters.Add("@TenancyRoleName", tenancyrole.TenancyRoleName);
             parameters.Add("@CreatedBy", tenancyrole.CreatedBy);
             parameters.Add("@IsActive", tenancyrole.IsActive);
 
@@ -46,7 +46,7 @@ namespace HRMS.PersistenceLayer.Repositories
             var createdTenancyRole = new TenancyRoleCreateResponseEntity
             {
                 TenancyRoleId = roleId,
-                RoleName = tenancyrole.RoleName,
+                TenancyRoleName = tenancyrole.TenancyRoleName,
                 CreatedBy = tenancyrole.CreatedBy,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
@@ -60,7 +60,7 @@ namespace HRMS.PersistenceLayer.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@TenancyRoleId", tenancyrole.TenancyRoleId, dbType: DbType.Int32);
-            parameters.Add("@RoleName", tenancyrole.RoleName);
+            parameters.Add("@TenancyRoleName", tenancyrole.TenancyRoleName);
             parameters.Add("@UpdatedBy", tenancyrole.UpdatedBy);
             parameters.Add("@IsActive", tenancyrole.IsActive);
             parameters.Add("@IsDelete", tenancyrole.IsDelete);
@@ -75,7 +75,7 @@ namespace HRMS.PersistenceLayer.Repositories
             var updatedTenancyRole = new TenancyRoleUpdateResponseEntity
             {
                 TenancyRoleId = tenancyrole.TenancyRoleId,
-                RoleName = tenancyrole.RoleName,
+                TenancyRoleName = tenancyrole.TenancyRoleName,
                 UpdatedBy = tenancyrole.UpdatedBy,
                 IsActive = tenancyrole.IsActive,
                 IsDelete = tenancyrole.IsDelete,

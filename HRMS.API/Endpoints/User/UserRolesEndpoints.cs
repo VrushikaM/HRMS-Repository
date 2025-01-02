@@ -30,7 +30,7 @@ namespace HRMS.API.Endpoints.User
             app.MapGet("/HRMS/GetUserRolesById{id}", async (IUserRolesService _rolesService, int id) =>
             {
                 var validator = new UserRolesReadRequestValidator();
-                var rolesRequestDto = new UserRolesReadRequestDto { RoleId = id };
+                var rolesRequestDto = new UserRolesReadRequestDto { UserRoleId = id };
 
                 var validationResult = validator.Validate(rolesRequestDto);
                 if (!validationResult.IsValid)
