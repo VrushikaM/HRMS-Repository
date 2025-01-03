@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[tblUser] (
     [TenantId]      INT            NULL,
     [MiddleName]    NVARCHAR (100) NULL,
     [IsDelete]      BIT            CONSTRAINT [DF_tblUser_IsDelete] DEFAULT ((0)) NULL,
-    [RoleId]        INT            NULL,
+    [UserRoleId]    INT            NULL,
     [TenancyRoleId] INT            NULL,
     CONSTRAINT [PK__tblUser__1788CC4C5F945034] PRIMARY KEY CLUSTERED ([UserId] ASC)
 );
@@ -23,8 +23,4 @@ GO
 
 
 
-
-ALTER TABLE [dbo].[tblUser]
-    ADD CONSTRAINT [DF_tblUser_IsDelete] DEFAULT ((0)) FOR [IsDelete];
-GO
 
