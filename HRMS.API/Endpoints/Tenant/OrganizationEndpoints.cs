@@ -189,7 +189,7 @@ namespace HRMS.API.Endpoints.Tenant
                 var requestJson = JsonConvert.SerializeObject(dto);
                 logger.LogInformation("Received request: {RequestJson}", requestJson);
 
-                logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationID);
+                logger.LogInformation("Updating Organization with ID {OrganizationId}.", dto.OrganizationId);
 
                 var validator = new OrganizationUpdateRequestValidator();
                 var validationResult = validator.Validate(dto);
@@ -258,7 +258,7 @@ namespace HRMS.API.Endpoints.Tenant
                 var requestJson = JsonConvert.SerializeObject(dto);
                 logger.LogInformation("Received request: {RequestJson}", requestJson);
 
-                logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationID);
+                logger.LogInformation("Deleting Organization with Id {OrganizationId}.", dto.OrganizationId);
 
                 var validator = new OrganizationDeleteRequestValidator();
                 var validationResult = validator.Validate(dto);
